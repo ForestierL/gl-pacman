@@ -4,14 +4,25 @@ import engine.graphics.SpriteTexture;
 
 public class Sprite
 {
+    private Orientation orientation = Orientation.NONE;
     private SpriteTexture spriteTexture;
-    private int posX;
-    private int posY;
-    private int posZ;
+    private int posX = 0;
+    private int posY = 0;
+    private int posZ = 0;
 
-    public Sprite()
+    public Sprite(SpriteTexture spriteTexture, int posX, int posY, int posZ)
     {
+        this.spriteTexture = spriteTexture;
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
+    }
 
+    public Sprite(int posX, int posY, int posZ)
+    {
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
     }
 
     public void move(Direction direction, int distance)
@@ -25,7 +36,9 @@ public class Sprite
         }
     }
 
-
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
 
     public void setSprite(SpriteTexture spriteTexture)
     {
@@ -47,6 +60,10 @@ public class Sprite
         this.posZ = posZ;
     }
 
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
     public int getPosX()
     {
         return posX;
@@ -61,4 +78,8 @@ public class Sprite
     {
         return posZ;
     }
+
+
+
+
 }

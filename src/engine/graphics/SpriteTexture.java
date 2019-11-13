@@ -1,6 +1,6 @@
 package engine.graphics;
 
-public class Sprite
+public class SpriteTexture
 {
 
 }

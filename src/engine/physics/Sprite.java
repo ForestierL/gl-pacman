@@ -6,9 +6,9 @@ public class Sprite
 {
     private Orientation orientation = Orientation.NONE;
     private SpriteTexture spriteTexture;
-    private int posX = 0;
-    private int posY = 0;
-    private int posZ = 0;
+    private int posX;
+    private int posY;
+    private int posZ;
 
     public Sprite(SpriteTexture spriteTexture, int posX, int posY, int posZ)
     {
@@ -79,7 +79,6 @@ public class Sprite
         return posZ;
     }
 
-
-
+    public SpriteTexture getSpriteTexture (){ return spriteTexture; }
 
 }

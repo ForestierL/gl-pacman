@@ -25,13 +25,16 @@ public abstract class SpriteTexture extends ImageView
     private final IntegerProperty frameCounter = new SimpleIntegerProperty(0);
 
 
-    public SpriteTexture(Image image, Orientation orientation) {
+    SpriteTexture(Image image, Orientation orientation) {
 
         this.image = image;
         this.orientation = orientation;
 
         for (int i = 0; i < numCells; i++) {
-            cellClips[i] = new Rectangle2D(i * width, 0, width, height);
+            if(orientation != Orientation.NONE)
+                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
+            else
+                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
         }
 
         this.setImage(image);

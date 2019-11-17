@@ -1,6 +1,8 @@
 package engine.physics;
 
+// /!\ do not change the order !
+// SOUTH, WEST, EAST, NORTH, NONE
 public enum Orientation
 {
-    SOUTH, NORTH, WEST, EAST, NONE;
+    SOUTH, WEST, EAST, NORTH, NONE
 }

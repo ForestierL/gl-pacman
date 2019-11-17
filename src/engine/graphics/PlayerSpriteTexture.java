@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 
 public class PlayerSpriteTexture extends SpriteTexture {
 
+    public PlayerSpriteTexture() {
+        this(Orientation.NONE);
+    }
+
     public PlayerSpriteTexture(Orientation orientation) {
         super( new Image("engine/graphics/resources/player.png"),orientation);
     }

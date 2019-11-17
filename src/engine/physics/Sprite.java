@@ -6,11 +6,9 @@ public class Sprite
 {
     private Orientation orientation = Orientation.NONE;
     private SpriteTexture spriteTexture;
-    private int posX;
-    private int posY;
-    private int posZ;
+    private int posX, posY, posZ;
 
-    public Sprite(SpriteTexture spriteTexture, int posX, int posY, int posZ)
+    Sprite(SpriteTexture spriteTexture, int posX, int posY, int posZ)
     {
         this.spriteTexture = spriteTexture;
         this.posX = posX;
@@ -20,19 +18,29 @@ public class Sprite
 
     public Sprite(int posX, int posY, int posZ)
     {
-        this.posX = posX;
+        //polymorphisme ? (Loïc)
+        /*this.posX = posX;
         this.posY = posY;
-        this.posZ = posZ;
+        this.posZ = posZ;*/
+        this(null, posX, posY, posZ);
     }
 
-    public void move(Direction direction, int distance)
+    void move(Direction direction, int distance)
     {
         switch(direction)
         {
-            case X_POSITIVE: posX += distance;
-            case X_NEGATIVE: posX -= distance;
-            case Y_POSITIVE: posY += distance;
-            case Y_NEGATIVE: posY -= distance;
+            case X_POSITIVE:
+                posX += distance;
+                break;
+            case X_NEGATIVE:
+                posX -= distance;
+                break;
+            case Y_POSITIVE:
+                posY += distance;
+                break;
+            case Y_NEGATIVE:
+                posY -= distance;
+                break;
         }
     }
 

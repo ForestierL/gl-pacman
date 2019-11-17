@@ -2,7 +2,8 @@ package engine.ui;
 
 import engine.graphics.PlayerSpriteTexture;
 import engine.physics.Orientation;
-import engine.physics.Sprite;
+import engine.physics.Input;
+import engine.physics.Player;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,7 +35,9 @@ public class GameWindow extends Application
         stage.setScene(scene);
         HBox box = new HBox( 10);
 
-        Sprite player = new Sprite(new PlayerSpriteTexture(Orientation.NORTH), 100, 100, 100);
+        //Sprite player = new Sprite(new PlayerSpriteTexture(Orientation.NORTH), 100, 100, 100);
+        Player player = new Player(new PlayerSpriteTexture(Orientation.NORTH), 100, 100, 100); //TODO : TRAVAIL DE THOMAS
+        Input input = new Input(scene, player); //TODO : TRAVAIL DE THOMAS
         box.getChildren().add(player.getSpriteTexture());
         player.getSpriteTexture().playContinuously();
         box.setAlignment(Pos.CENTER);

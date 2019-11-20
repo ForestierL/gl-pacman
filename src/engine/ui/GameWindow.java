@@ -1,6 +1,5 @@
 package engine.ui;
 
-import engine.graphics.MonsterSpriteTexture;
 import engine.graphics.PlayerSpriteTexture;
 import engine.physics.Orientation;
 import engine.physics.Input;
@@ -36,17 +35,14 @@ public class GameWindow extends Application
         stage.setScene(scene);
         HBox box = new HBox( 10);
 
-        //Sprite player = new Sprite(new PlayerSpriteTexture(Orientation.NORTH), 100, 100, 100);
-        Player player = new Player(new MonsterSpriteTexture(Orientation.NORTH, MonsterSpriteTexture.State.scary), 100, 100, 100); //TODO : TRAVAIL DE THOMAS
+        Player player = new Player(new PlayerSpriteTexture(Orientation.NORTH, PlayerSpriteTexture.State.powered), 100, 100, 100); //TODO : TRAVAIL DE THOMAS
         Input input = new Input(scene, player); //TODO : TRAVAIL DE THOMAS
 
         // Affichage de test pour les textures
-
         box.getChildren().add(player.getSpriteTexture());
         player.getSpriteTexture().playContinuously();
         box.setAlignment(Pos.CENTER);
         root.getChildren().add(box);
-
 
         stage.show();
     }

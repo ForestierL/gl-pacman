@@ -16,8 +16,6 @@ public class PlayerSpriteTexture extends SpriteTexture {
     } // constructor with state (e.g: powered player)
 
     public PlayerSpriteTexture(Orientation orientation) {
-        super( new Image("engine/graphics/resources/player.png"),orientation);
+        super( new Image("engine/graphics/resources/player_normal.png"),orientation);
     } // simple constructor
-
-
 }

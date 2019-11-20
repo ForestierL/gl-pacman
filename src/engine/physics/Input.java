@@ -20,29 +20,22 @@ public class Input {
         this.player = player;
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.DOWN) {
-                player.move(Y_POSITIVE,1);
+            switch (key.getCode()) {
+                case DOWN: //KeyCode.DOWN
+                    player.setOrientation(Orientation.SOUTH);
+                    break;
+                case UP:
+                    player.setOrientation(Orientation.NORTH);
+                    break;
+                case RIGHT:
+                    player.setOrientation(Orientation.WEST);
+                    break;
+                case LEFT:
+                    player.setOrientation(Orientation.EAST);
+                    break;
             }
         });
-
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.UP) {
-                player.move(Y_NEGATIVE,1);
-            }
-        });
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.RIGHT) {
-                player.move(X_POSITIVE,1);
-            }
-        });
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.LEFT) {
-                player.move(X_NEGATIVE,1);
-            }
-        });}
+    }
 }
 
 

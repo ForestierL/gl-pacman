@@ -31,15 +31,19 @@ public class Sprite
         {
             case X_POSITIVE:
                 posX += distance;
+                spriteTexture.setOrientation(Orientation.EAST);
                 break;
             case X_NEGATIVE:
                 posX -= distance;
+                spriteTexture.setOrientation(Orientation.WEST);
                 break;
             case Y_POSITIVE:
                 posY += distance;
+                spriteTexture.setOrientation(Orientation.SOUTH);
                 break;
             case Y_NEGATIVE:
                 posY -= distance;
+                spriteTexture.setOrientation(Orientation.NORTH);
                 break;
         }
     }

@@ -39,8 +39,8 @@ public class Input {
         });
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.RIGHT) {
-                player.move(X_POSITIVE,1);
+            if(key.getCode()== KeyCode.LEFT) {
+                player.move(X_NEGATIVE,1);
             }
         });}
 }

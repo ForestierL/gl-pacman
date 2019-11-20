@@ -61,6 +61,15 @@ public abstract class SpriteTexture extends ImageView
         timeline.stop();
     } // stop the animation
 
+    public void setOrientation(Orientation orientation) {
+        for (int i = 0; i < numCells; i++) {
+            if(orientation != Orientation.NONE)
+                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
+            else
+                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
+        }
+        setViewport(cellClips[0]);
+    }
 
     public double getWidth() { return width; }
 

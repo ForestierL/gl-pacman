@@ -20,17 +20,19 @@ public class Input {
         this.player = player;
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            System.out.println(key.getCode());
             switch (key.getCode()) {
+
                 case DOWN: //KeyCode.DOWN
                     player.setOrientation(Orientation.SOUTH);
                     break;
                 case UP:
                     player.setOrientation(Orientation.NORTH);
                     break;
-                case RIGHT:
+                case LEFT:
                     player.setOrientation(Orientation.WEST);
                     break;
-                case LEFT:
+                case RIGHT:
                     player.setOrientation(Orientation.EAST);
                     break;
             }

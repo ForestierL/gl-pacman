@@ -25,31 +25,10 @@ public class Sprite
         this(null, posX, posY, posZ);
     }
 
-    void move(Direction direction, int distance)
+    void setOrientation(Orientation orientation)
     {
-        switch(direction)
-        {
-            case X_POSITIVE:
-                posX += distance;
-                spriteTexture.setOrientation(Orientation.EAST);
-                break;
-            case X_NEGATIVE:
-                posX -= distance;
-                spriteTexture.setOrientation(Orientation.WEST);
-                break;
-            case Y_POSITIVE:
-                posY += distance;
-                spriteTexture.setOrientation(Orientation.SOUTH);
-                break;
-            case Y_NEGATIVE:
-                posY -= distance;
-                spriteTexture.setOrientation(Orientation.NORTH);
-                break;
-        }
-    }
+        spriteTexture.setOrientation(orientation);
 
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
     }
 
     public void setSprite(SpriteTexture spriteTexture)

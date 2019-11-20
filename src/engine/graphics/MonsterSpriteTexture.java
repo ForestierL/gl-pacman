@@ -11,7 +11,7 @@ public class MonsterSpriteTexture extends SpriteTexture {
     };
 
     public MonsterSpriteTexture(Orientation orientation, State state) {
-        super( new Image("engine/graphics/resources/monster_"+ state +".png"),orientation);
+        super( new Image("resources/monster_" + state +".png"),orientation);
     }
 
 }

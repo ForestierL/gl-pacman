@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public abstract class SpriteTexture extends ImageView
+public class SpriteTexture extends ImageView
 {
     private Image image;
     private Orientation orientation;
@@ -20,16 +20,17 @@ public abstract class SpriteTexture extends ImageView
     private Rectangle2D[] cellClips = new Rectangle2D[numCells];
 
     private final Duration FRAME_TIME = Duration.seconds(.5);
-    private final Timeline timeline;
+    // private final Timeline timeline;
 
     private final IntegerProperty frameCounter = new SimpleIntegerProperty(0);
 
 
-    SpriteTexture(Image image, Orientation orientation) {
+    public SpriteTexture(Image image, Orientation orientation) {
 
         this.image = image;
         this.orientation = orientation;
-
+        this.setImage(image);
+/*
         for (int i = 0; i < numCells; i++) {
             if(orientation != Orientation.NONE)
                 cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
@@ -37,17 +38,18 @@ public abstract class SpriteTexture extends ImageView
                 cellClips[i] = new Rectangle2D(i * width, 0, width, height);
         }
 
-        this.setImage(image);
+
         setViewport(cellClips[0]);
 
         this.timeline = new Timeline(
-                new KeyFrame(FRAME_TIME, event -> {
+                new Key
+    private final Timeline timeline;Frame(FRAME_TIME, event -> {
                     frameCounter.set((frameCounter.get() + 1) % numCells);
                     setViewport(cellClips[frameCounter.get()]);
                 })
-        );
+        ); */
     }
-
+/*
     public void playContinuously() {
         frameCounter.set(0);
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -59,7 +61,7 @@ public abstract class SpriteTexture extends ImageView
         frameCounter.set(0);
         setViewport(cellClips[frameCounter.get()]);
         timeline.stop();
-    } // stop the animation
+    } // stop the animation */
 
     public void setOrientation(Orientation orientation) {
         for (int i = 0; i < numCells; i++) {

@@ -1,19 +1,21 @@
 package engine.ui;
 
-import engine.graphics.PlayerSpriteTexture;
+import engine.graphics.SpriteTexture;
 import engine.physics.Orientation;
-import engine.physics.Input;
-import engine.physics.Player;
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 
 public class GameWindow extends Application
 {
+    public ArrayList<GridLayer> gridLayers;
+    Scene scene;
     private String name;
     private int width;
     private int height;
@@ -23,6 +25,7 @@ public class GameWindow extends Application
         this.name = name;
         this.width = width;
         this.height = height;
+        gridLayers = new ArrayList<>();
     }
 
     @Override
@@ -30,20 +33,35 @@ public class GameWindow extends Application
     {
         stage.setTitle(name);
 
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, width, height);
+        Group group = new Group();
+        scene = new Scene(group, width, height);
         stage.setScene(scene);
-        HBox box = new HBox( 10);
+        scene.setFill(Color.GAINSBORO);
 
-        Player player = new Player(new PlayerSpriteTexture(Orientation.NORTH, PlayerSpriteTexture.State.powered), 100, 100, 100); //TODO : TRAVAIL DE THOMAS
-        Input input = new Input(scene, player); //TODO : TRAVAIL DE THOMAS
+        gameInit(group);
 
-        // Affichage de test pour les textures
-        box.getChildren().add(player.getSpriteTexture());
-        player.getSpriteTexture().playContinuously();
-        box.setAlignment(Pos.CENTER);
-        root.getChildren().add(box);
+        gameEnd();
 
         stage.show();
+    }
+
+    private void gameInit(Group group)
+    {
+        group.getChildren().addAll(gridLayers);
+    }
+
+    private void gameEnd()
+    {
+
+    }
+
+    private void update()
+    {
+
+    }
+
+    private void render()
+    {
+
     }
 }

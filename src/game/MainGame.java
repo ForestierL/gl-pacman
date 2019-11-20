@@ -8,7 +8,6 @@ public class MainGame extends GameWindow
     {
         super("Pacman", 1280, 720);
     }
-
     public static void main(String[] args)
     {
         launch(args);

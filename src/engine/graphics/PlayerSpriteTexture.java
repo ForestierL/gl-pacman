@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 public class PlayerSpriteTexture extends SpriteTexture {
 
     public enum State{
+        normal, //normal => servira au retour à la normale après absorption du pouvoir
         powered
     }
 

@@ -82,7 +82,7 @@ public class Level
             JSONObject tileset = (JSONObject) object;
             if(tileset.get("name").equals("tileset"))
             {
-                Tileset myTileset = new Tileset(new Image((String)tileset.get("image")), tileWidth, tileHeight);
+                Tileset myTileset = new Tileset(new Image(getClass().getResource("mapTileset.png").toExternalForm()), tileWidth, tileHeight);
                 for(MapLayer mapLayer : mapLayers) mapLayer.setTileset(myTileset);
             }
         }

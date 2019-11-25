@@ -1,7 +1,10 @@
 package engine.ui;
 
+import engine.graphics.PlayerSpriteTexture;
 import engine.graphics.SpriteTexture;
+import engine.physics.Input;
 import engine.physics.Orientation;
+import engine.physics.Player;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -37,7 +40,9 @@ public class GameWindow extends Application
         scene = new Scene(group, width, height);
         stage.setScene(scene);
         scene.setFill(Color.GAINSBORO);
+        Player p = new Player(new PlayerSpriteTexture(Orientation.NORTH),1,1,1);
 
+        Input i = new Input(scene, p);
         gameInit(group);
 
         gameEnd();

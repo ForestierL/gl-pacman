@@ -1,5 +1,10 @@
 package game;
 
+import engine.graphics.PlayerSpriteTexture;
+import engine.graphics.SpriteTexture;
+import engine.physics.Input;
+import engine.physics.Orientation;
+import engine.physics.Player;
 import engine.ui.GameWindow;
 import engine.ui.GridLayer;
 import game.utils.Level;
@@ -14,10 +19,8 @@ public class MainGame extends GameWindow
     {
         super("Pacman", 720, 834);
         Level level = new Level();
-        level.loadFromJson("level1.json"); // TODO : Chemin relatif ne marche pas !
-
+        level.loadFromJson("resources/level1.json");
         ArrayList<GridLayer> layers = level.getGridLayers();
-
         gridLayers.addAll(layers);
     }
     public static void main(String[] args)

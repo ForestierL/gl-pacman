@@ -1,5 +1,6 @@
 package engine.physics;
 
+import engine.graphics.PlayerSpriteTexture;
 import engine.graphics.SpriteTexture;
 
 public class Sprite
@@ -29,6 +30,10 @@ public class Sprite
     {
         spriteTexture.setOrientation(orientation);
 
+    }
+    public void changeMode(){
+
+        this.spriteTexture = new PlayerSpriteTexture(Orientation.NORTH, PlayerSpriteTexture.State.powered);
     }
 
     public void setSprite(SpriteTexture spriteTexture)

@@ -1,34 +1,26 @@
 package engine.graphics;
 
-import engine.physics.Orientation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 
 public class SpriteTexture extends ImageView
 {
     private Image image;
-    private Orientation orientation;
-    private final double width =32, height = 32; // size of a single image or cell
+    private final int cellWidth = 32, cellHeight = 32;
 
+    /*
     private final int numCells = 4;  // number of images in an animation
     private Rectangle2D[] cellClips = new Rectangle2D[numCells];
 
     private final Duration FRAME_TIME = Duration.seconds(.5);
-    // private final Timeline timeline;
+    private final Timeline timeline;
 
-    private final IntegerProperty frameCounter = new SimpleIntegerProperty(0);
+    private final IntegerProperty frameCounter = new SimpleIntegerProperty(0); */
 
 
-    public SpriteTexture(Image image, Orientation orientation) {
-
+    public SpriteTexture(Image image)
+    {
         this.image = image;
-        this.orientation = orientation;
         this.setImage(image);
 /*
         for (int i = 0; i < numCells; i++) {
@@ -49,7 +41,27 @@ public class SpriteTexture extends ImageView
                 })
         ); */
     }
-/*
+
+
+    public int[] getSubImageCoordinates(int subImageIdentifier)
+    {
+        int[] coordinates = new int[4];
+        int srcX = (int) ((subImageIdentifier) % (image.getWidth() / cellWidth));
+        int srcY = (int) ((subImageIdentifier) / (image.getWidth() / cellHeight));
+
+        coordinates[0] = srcX  * cellWidth;
+        coordinates[1] = srcY * cellHeight;
+        coordinates[2] = cellWidth;
+        coordinates[3] = cellHeight;
+
+        return coordinates;
+    }
+
+    public int getCellWidth() { return cellWidth; }
+
+    public int getCellHeight() { return cellHeight; }
+
+    /*
     public void playContinuously() {
         frameCounter.set(0);
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -62,19 +74,5 @@ public class SpriteTexture extends ImageView
         setViewport(cellClips[frameCounter.get()]);
         timeline.stop();
     } // stop the animation */
-
-    public void setOrientation(Orientation orientation) {
-        for (int i = 0; i < numCells; i++) {
-            if(orientation != Orientation.NONE)
-                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
-            else
-                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
-        }
-        setViewport(cellClips[0]);
-    }
-
-    public double getWidth() { return width; }
-
-    public double getHeight() { return height; }
 
 }

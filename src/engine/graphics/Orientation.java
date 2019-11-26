@@ -1,4 +1,4 @@
-package engine.physics;
+package engine.graphics;
 
 // /!\ do not change the order !
 // SOUTH, WEST, EAST, NORTH, NONE

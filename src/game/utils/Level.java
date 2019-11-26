@@ -1,141 +1,119 @@
 package game.utils;
 
-import engine.ui.GridLayer;
-import javafx.scene.image.Image;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import engine.graphics.GridLayer;
+import javafx.scene.image.ImageView;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Level
 {
 
-    private ArrayList<MapLayer> mapLayers = new ArrayList<>();
     private int width, height;
-    private int tileWidth, tileHeight;
 
-    public Level() {
-    }
+    public char[][] terrain;
 
-    public void addTileset(String path, int layerType) {
-        File file = new File(path);
-        Image asset = new Image(file.toURI().toString());
-        mapLayers.get(layerType).setTileset(
-                new Tileset(asset, tileWidth, tileHeight)
-        );
-    }
+    // TILESET MANAGEMENT
+    private Tileset tileset;
 
-    private Long[][] array1Dto2D(ArrayList<Long> array, int width, int height) {
-        Long[][] map = new Long[width][height];
-        for(int i=0; i<width; i++)
-            for(int j=0; j<height; j++)
-                map[i][j] = array.get((j * width) + i)-1;
-            return map;
-    }
-
-    public void loadFromJson(String file)
+    public void setTileset(Tileset tileset)
     {
-
-        Object obj = null;
-
-        //TODO: https://stackoverflow.com/questions/16990482/java-lang-illegalargumentexception-invalid-url-or-resource-not-found
-        //TODO: https://stackoverflow.com/questions/56076000/cannot-read-json-file-in-java/56076422#56076422
-        try
-        {
-
-            obj = new JSONParser().parse(new FileReader(file));
-
-        } catch (ParseException | IOException e)
-        {
-            e.printStackTrace();
-        }
-        JSONObject mainJSON = (JSONObject) obj;
-
-        if (mainJSON == null) return;
-
-        tileHeight = (int)(long) mainJSON.get("tileheight");
-
-        tileWidth = (int)(long) mainJSON.get("tilewidth");
-
-        width = (int)(long) mainJSON.get("width");
-        height = (int)(long) mainJSON.get("height");
-
-        JSONArray layers = (JSONArray) mainJSON.get("layers");
-
-        for (Object o : layers)
-        {
-            JSONObject layer = (JSONObject) o;
-            JSONArray jsonMap = (JSONArray) layer.get("data");
-            this.mapLayers.add(new MapLayer(
-                    array1Dto2D(jsonMap, width, height),
-                    width,
-                    height));
-        }
-
-        JSONArray tilesets = (JSONArray) mainJSON.get("tilesets");
-
-        for(Object object : tilesets)
-        {
-            JSONObject tileset = (JSONObject) object;
-            if(tileset.get("name").equals("tileset"))
-            {
-                Tileset myTileset = new Tileset(new Image(getClass().getResource("mapTileset.png").toExternalForm()), tileWidth, tileHeight);
-                for(MapLayer mapLayer : mapLayers) mapLayer.setTileset(myTileset);
-            }
-        }
+        this.tileset = tileset;
     }
 
     public ArrayList<GridLayer> getGridLayers()
     {
         ArrayList<GridLayer> gridLayers = new ArrayList<>();
-        int kount = 0;
-        for(MapLayer mapLayer : mapLayers) {
-            System.out.println("LAYER KOUNT : " + kount++);
-            gridLayers.add(mapLayer.getGridLayer());
-        }
+
+        gridLayers.add(generateBackgroundLayer());
+
         return gridLayers;
     }
 
-    public ArrayList<MapLayer> getMapLayers() {
-        return mapLayers;
+    private GridLayer generateBackgroundLayer()
+    {
+        GridLayer terrainLayer = new GridLayer();
+
+        for(int y = 0; y < height; y++)
+        {
+            for(int x = 0; x < width; x++)
+            {
+                ImageView imageView = tileset.getTileImageView('0');
+                terrainLayer.add(imageView, x, y);
+            }
+        }
+
+        return terrainLayer;
     }
 
-    public void setMapLayers(ArrayList<MapLayer> mapLayers) {
-        this.mapLayers = mapLayers;
+
+    // LOADING A PLV FILE (Pacman Level)
+
+    public void loadFromPLV(File plvFile)
+    {
+        try
+        {
+            String data;
+            data = new String(Files.readAllBytes(plvFile.toPath()));
+            Scanner stringScanner = new Scanner(data);
+
+            int y = 0;
+
+            width = stringScanner.nextInt();
+            height = stringScanner.nextInt();
+
+            stringScanner.nextLine();
+
+            terrain = new char[height][width];
+
+
+            while(stringScanner.hasNextLine() && y < height)
+            {
+                terrain[y] = rowFromString(stringScanner.nextLine());
+
+                y++;
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void printTerrain()
+    {
+        for(int y = 0; y < height; y++)
+        {
+            System.out.print("• ");
+            for(int x = 0; x < width; x++)
+            {
+                System.out.print(terrain[y][x]);
+            }
+            System.out.println(" •");
+        }
+    }
+
+    private char[] rowFromString(String rowAsString)
+    {
+        char[] row = new char[width];
+        int index = 0;
+        for(char character : rowAsString.toCharArray())
+        {
+            row[index] = character;
+            index++;
+        }
+        return row;
     }
 
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getTileWidth() {
-        return tileWidth;
-    }
-
-    public void setTileWidth(int tileWidth) {
-        this.tileWidth = tileWidth;
-    }
-
-    public int getTileHeight() {
-        return tileHeight;
-    }
-
-    public void setTileHeight(int tileHeight) {
-        this.tileHeight = tileHeight;
     }
 }

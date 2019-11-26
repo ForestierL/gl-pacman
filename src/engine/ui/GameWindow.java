@@ -1,72 +1,111 @@
 package engine.ui;
 
-import engine.graphics.PlayerSpriteTexture;
-import engine.graphics.SpriteTexture;
-import engine.physics.Input;
-import engine.physics.Orientation;
-import engine.physics.Player;
+import engine.graphics.*;
+import engine.physics.GameWorld;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 
-public class GameWindow extends Application
+public class GameWindow extends Application implements ComponentListener
 {
-    public ArrayList<GridLayer> gridLayers;
-    Scene scene;
-    private String name;
-    private int width;
-    private int height;
+    private GameWorld world;
+    private GraphicsDisplay graphicsDisplay;
+    protected BackgroundDisplay backgroundDisplay;
 
-    public GameWindow(String name, int width, int height)
+    private String name;
+    private int width, height, tileWidth, tileHeight;
+
+    private Group group = new Group();
+    protected Scene scene = new Scene(group);
+
+    public GameWindow(String name, int width, int height, int tileWidth, int tileHeight)
     {
         this.name = name;
         this.width = width;
         this.height = height;
-        gridLayers = new ArrayList<>();
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+
+        world = new GameWorld();
+        backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
+        graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
     }
 
     @Override
     public void start(Stage stage)
     {
         stage.setTitle(name);
-
-        Group group = new Group();
-        scene = new Scene(group, width, height);
         stage.setScene(scene);
-        scene.setFill(Color.GAINSBORO);
-        Player p = new Player(new PlayerSpriteTexture(Orientation.NORTH),1,1,1);
+        scene.setFill(Color.PERU);
 
-        Input i = new Input(scene, p);
-        gameInit(group);
-
-        gameEnd();
+        for(GridLayer gridLayer : backgroundDisplay.getGridLayers()) group.getChildren().add(gridLayer);
+        group.getChildren().add(graphicsDisplay);
 
         stage.show();
+        startGame();
     }
 
-    private void gameInit(Group group)
+    private void startGame()
     {
-        group.getChildren().addAll(gridLayers);
+        initialize();
+        run();
+        end();
     }
 
-    private void gameEnd()
-    {
-
-    }
-
-    private void update()
+    private void initialize()
     {
 
     }
 
-    private void render()
+    private void run()
     {
+        new AnimationTimer()
+        {
+            public void handle(long currentNanoTime)
+            {
+                world.udpate();
+                graphicsDisplay.render();
+            }
+        }.start();
+    }
+
+    private void end()
+    {
+
+    }
+
+    protected void setGameWorld(GameWorld world)
+    {
+        this.world = world;
+        graphicsDisplay.setGameWorld(this.world);
+    }
+
+
+    @Override
+    public void componentResized(ComponentEvent e)
+    {
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
 
     }
 }

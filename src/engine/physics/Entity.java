@@ -8,27 +8,27 @@ public abstract class Entity
     private int collisionSignal = 0;
     private boolean hasCollision = true;
     private int x, y, z;
-    private MovementIntention movementIntention;
+    private MovementIntent movementIntent;
 
     public abstract void render(GraphicsDisplay graphicsDisplay);
 
-    public void addMovementIntention(MovementIntention movementIntention)
+    public void addMovementIntent(MovementIntent movementIntent)
     {
-        this.movementIntention = movementIntention;
+        this.movementIntent = movementIntent;
     }
 
-    MovementIntention getMovementIntention()
+    MovementIntent getMovementIntent()
     {
-        return movementIntention;
+        return movementIntent;
     }
 
-    void validateIntention()
+    void validateIntent()
     {
         try
         {
-            setX(movementIntention.dstX);
-            setY(movementIntention.dstY);
-            movementIntention = null;
+            setX(movementIntent.dstX);
+            setY(movementIntent.dstY);
+            movementIntent = null;
         }
         catch(NullPointerException e)
         {

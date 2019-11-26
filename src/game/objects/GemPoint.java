@@ -2,7 +2,7 @@ package game.objects;
 
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
-import game.utils.PacmanCollisionSignal;
+import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
 import java.util.Random;
@@ -20,7 +20,7 @@ public class GemPoint extends GameObject
     }
 
     @Override
-    void handleCollision(PacmanCollisionSignal signal)
+    void handleCollision(CollisionSignal signal)
     {
         switch(signal)
         {

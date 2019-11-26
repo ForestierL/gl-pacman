@@ -1,6 +1,6 @@
 package game.utils;
 
-public enum PacmanCollisionSignal
+public enum CollisionSignal
 {
     PACMAN, MONSTER, GEM, POWERUP, TELEPORT;
 }

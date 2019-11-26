@@ -2,7 +2,7 @@ package game.objects;
 
 import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
-import game.utils.PacmanCollisionSignal;
+import game.utils.CollisionSignal;
 
 public abstract class GameObject extends Sprite
 {
@@ -11,7 +11,7 @@ public abstract class GameObject extends Sprite
         super(spriteTexture, x, y);
     }
 
-    protected void setCollisionSignal(PacmanCollisionSignal collisionSignal)
+    protected void setCollisionSignal(CollisionSignal collisionSignal)
     {
         super.setCollisionSignal(collisionSignal.ordinal());
     }
@@ -19,9 +19,9 @@ public abstract class GameObject extends Sprite
     @Override
     public void handleCollision(int signal)
     {
-        handleCollision(PacmanCollisionSignal.values()[signal]);
+        handleCollision(CollisionSignal.values()[signal]);
     }
 
-    abstract void handleCollision(PacmanCollisionSignal signal);
+    abstract void handleCollision(CollisionSignal signal);
 
 }

@@ -1,10 +1,10 @@
 package engine.physics;
 
-public class MovementIntention
+public class MovementIntent
 {
     int srcX, srcY, dstX, dstY;
 
-    public MovementIntention(int srcX, int srcY, int dstX, int dstY)
+    public MovementIntent(int srcX, int srcY, int dstX, int dstY)
     {
         this.srcX = srcX;
         this.srcY = srcY;

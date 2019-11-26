@@ -1,7 +1,7 @@
 package game.objects;
 
 import engine.graphics.SpriteTexture;
-import game.utils.PacmanCollisionSignal;
+import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
 public class Wall extends GameObject
@@ -13,7 +13,7 @@ public class Wall extends GameObject
     }
 
     @Override
-    void handleCollision(PacmanCollisionSignal signal) {
+    void handleCollision(CollisionSignal signal) {
 
     }
 }

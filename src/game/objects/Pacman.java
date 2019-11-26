@@ -5,8 +5,8 @@ import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import engine.physics.MovementIntention;
-import game.utils.PacmanCollisionSignal;
+import engine.physics.MovementIntent;
+import game.utils.CollisionSignal;
 import javafx.scene.input.KeyCode;
 
 public class Pacman extends GameObject implements Controllable
@@ -17,14 +17,14 @@ public class Pacman extends GameObject implements Controllable
     {
         super(spriteTexture, x, y);
 
-        setCollisionSignal(PacmanCollisionSignal.PACMAN);
+        setCollisionSignal(CollisionSignal.PACMAN);
 
         InputAction moveAction = new InputAction()
         {
             @Override
             protected void execute(Object... actionParameters)
             {
-                addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
+                addMovementIntent(new MovementIntent(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
                 setOrientation((Orientation) actionParameters[2]);
             }
         };
@@ -46,7 +46,7 @@ public class Pacman extends GameObject implements Controllable
     }
 
     @Override
-    void handleCollision(PacmanCollisionSignal signal)
+    void handleCollision(CollisionSignal signal)
     {
 
     }

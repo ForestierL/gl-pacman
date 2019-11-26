@@ -1,7 +1,5 @@
 package engine.physics;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld
@@ -19,31 +17,28 @@ public class GameWorld
 
     private void manageMovementIntentions(Entity entity)
     {
-        MovementIntention currentIntention = entity.getMovementIntention();
-        if(currentIntention != null && isValidMovement(entity, currentIntention))
+        MovementIntent currentIntention = entity.getMovementIntent();
+
+        if(currentIntention != null)
         {
-            entity.validateIntention();
+            for (Entity otherEntity : entities)
+            {
+                if (otherEntity.getX() == currentIntention.dstX && otherEntity.getY() == currentIntention.dstY)
+                {
+                    if(!otherEntity.hasCollision())
+                    {
+                        entity.validateIntent();
+                        entity.handleCollision(otherEntity.getCollisionSignal());
+                        otherEntity.handleCollision(entity.getCollisionSignal());
+                    }
+                    return;
+                }
+            }
+            entity.validateIntent();
+
         }
     }
 
-    private boolean isValidMovement(Entity movedEntity, MovementIntention movementIntention)
-    {
-        for(int i = 0; i < entities.size(); i++)
-        {
-            Entity entity = entities.get(i);
-            if(entity.getX() == movementIntention.dstX && entity.getY() == movementIntention.dstY)
-            {
-                if(entity.hasCollision())
-                    return false;
-                else
-                {
-                    entity.handleCollision(movedEntity.getCollisionSignal());
-                    movedEntity.handleCollision(entity.getCollisionSignal());
-                }
-            }
-        }
-        return true;
-    }
 
     public void add(Entity entity)
     {

@@ -4,6 +4,7 @@ import engine.physics.Entity;
 import engine.physics.GameWorld;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class GraphicsDisplay extends Canvas
 {
@@ -19,6 +20,7 @@ public class GraphicsDisplay extends Canvas
         setTileResolution(1.0, 1.0);
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
+        graphicsContext.setFill(Color.GREEN);
     }
 
     public void setGameWorld(GameWorld gameWorld)
@@ -29,6 +31,7 @@ public class GraphicsDisplay extends Canvas
     public void render()
     {
         graphicsContext.clearRect(0, 0, getWidth(), getHeight());
+
         for(Entity entity : gameWorld.getEntities())
         {
             entity.render(this);

@@ -13,32 +13,12 @@ import java.util.Scanner;
 public class Level
 {
 
-    private int width;
-    private int height;
+    private int width, height;
 
-    private char[][] terrain;
+    public char[][] terrain;
 
     // TILESET MANAGEMENT
     private Tileset tileset;
-
-    private ArrayList<Character> terrainTilesIdentifiers = new ArrayList<>();
-    private ArrayList<Character> entitiesTilesIdentifiers = new ArrayList<>();
-    private Character emptyTileIdentifier;
-
-    public void addTerrainTilesIdentifiers(Character ... identifier)
-    {
-        terrainTilesIdentifiers.addAll(Arrays.asList(identifier));
-    }
-
-    public void addEntityTilesIdentifiers(Character ... identifier)
-    {
-        entitiesTilesIdentifiers.addAll(Arrays.asList(identifier));
-    }
-
-    public void setEmptyTileIdentifier(Character emptyTileIdentifier)
-    {
-        this.emptyTileIdentifier = emptyTileIdentifier;
-    }
 
     public void setTileset(Tileset tileset)
     {
@@ -49,13 +29,12 @@ public class Level
     {
         ArrayList<GridLayer> gridLayers = new ArrayList<>();
 
-        gridLayers.add(generateTerrain());
-        gridLayers.add(generateEntitiesLayer());
+        gridLayers.add(generateBackgroundLayer());
 
         return gridLayers;
     }
 
-    private GridLayer generateTerrain()
+    private GridLayer generateBackgroundLayer()
     {
         GridLayer terrainLayer = new GridLayer();
 
@@ -63,15 +42,7 @@ public class Level
         {
             for(int x = 0; x < width; x++)
             {
-                ImageView imageView;
-                if(terrainTilesIdentifiers.contains(terrain[y][x]))
-                {
-                    imageView = tileset.getTileImageView(terrain[y][x]);
-                }
-                else
-                {
-                    imageView = tileset.getTileImageView(emptyTileIdentifier);
-                }
+                ImageView imageView = tileset.getTileImageView('0');
                 terrainLayer.add(imageView, x, y);
             }
         }
@@ -79,55 +50,36 @@ public class Level
         return terrainLayer;
     }
 
-    private GridLayer generateEntitiesLayer()
-    {
-        GridLayer entitiesLayer = new GridLayer();
-
-        for(int y = 0; y < height; y++)
-        {
-            for(int x = 0; x < width; x++)
-            {
-                ImageView imageView;
-                if(entitiesTilesIdentifiers.contains(terrain[y][x]))
-                {
-                    imageView = tileset.getTileImageView(terrain[y][x]);
-                }
-                else
-                {
-                    imageView = tileset.getTileImageView(emptyTileIdentifier);
-                }
-                entitiesLayer.add(imageView, x, y);
-            }
-        }
-
-        return entitiesLayer;
-    }
-
 
     // LOADING A PLV FILE (Pacman Level)
 
-    public void loadFromPLV(File plvFile) throws IOException
+    public void loadFromPLV(File plvFile)
     {
-        String data;
-        data = new String(Files.readAllBytes(plvFile.toPath()));
-
-        Scanner stringScanner = new Scanner(data);
-
-        int y = 0;
-
-        width = stringScanner.nextInt();
-        height = stringScanner.nextInt();
-
-        stringScanner.nextLine();
-
-        terrain = new char[height][width];
-
-
-        while(stringScanner.hasNextLine() && y < height)
+        try
         {
-            terrain[y] = rowFromString(stringScanner.nextLine());
+            String data;
+            data = new String(Files.readAllBytes(plvFile.toPath()));
+            Scanner stringScanner = new Scanner(data);
 
-            y++;
+            int y = 0;
+
+            width = stringScanner.nextInt();
+            height = stringScanner.nextInt();
+
+            stringScanner.nextLine();
+
+            terrain = new char[height][width];
+
+
+            while(stringScanner.hasNextLine() && y < height)
+            {
+                terrain[y] = rowFromString(stringScanner.nextLine());
+
+                y++;
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
 
     }
@@ -155,5 +107,13 @@ public class Level
             index++;
         }
         return row;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

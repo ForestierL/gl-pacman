@@ -14,22 +14,28 @@ public class SpriteTexture extends ImageView
 {
     private Image image;
     private Orientation orientation;
-    private final double width =32, height = 32; // size of a single image or cell
+    private final int cellWidth = 32, cellHeight = 32;
+    private int currentSubImage; // Image used to display the entity ingame
+    private int subImageX, subImageY;
 
+    /*
     private final int numCells = 4;  // number of images in an animation
     private Rectangle2D[] cellClips = new Rectangle2D[numCells];
 
     private final Duration FRAME_TIME = Duration.seconds(.5);
-    // private final Timeline timeline;
+    private final Timeline timeline;
 
-    private final IntegerProperty frameCounter = new SimpleIntegerProperty(0);
+    private final IntegerProperty frameCounter = new SimpleIntegerProperty(0); */
 
 
-    public SpriteTexture(Image image, Orientation orientation) {
+    public SpriteTexture(Image image, Orientation orientation)
+    {
 
         this.image = image;
         this.orientation = orientation;
         this.setImage(image);
+
+        setCurrentSubImage(0);
 /*
         for (int i = 0; i < numCells; i++) {
             if(orientation != Orientation.NONE)
@@ -49,7 +55,49 @@ public class SpriteTexture extends ImageView
                 })
         ); */
     }
-/*
+
+
+    public void setOrientation(Orientation orientation)
+    {
+        this.orientation = orientation;
+        /*
+        for (int i = 0; i < numCells; i++) {
+            if(orientation != Orientation.NONE)
+                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
+            else
+                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
+        }
+        setViewport(cellClips[0]); */
+    }
+
+    public void setCurrentSubImage(int currentSubImage)
+    {
+        this.currentSubImage = currentSubImage;
+
+        subImageX = (int) ((currentSubImage) % (image.getWidth() / cellWidth));
+        subImageY = (int) ((currentSubImage) / (image.getWidth() / cellHeight));
+    }
+
+    public int getCurrentSubImage()
+    {
+        return currentSubImage;
+    }
+
+    public int getCellWidth() { return cellWidth; }
+
+    public int getCellHeight() { return cellHeight; }
+
+    public int getSubImageX()
+    {
+        return subImageX;
+    }
+
+    public int getSubImageY()
+    {
+        return subImageY;
+    }
+
+    /*
     public void playContinuously() {
         frameCounter.set(0);
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -62,19 +110,5 @@ public class SpriteTexture extends ImageView
         setViewport(cellClips[frameCounter.get()]);
         timeline.stop();
     } // stop the animation */
-
-    public void setOrientation(Orientation orientation) {
-        for (int i = 0; i < numCells; i++) {
-            if(orientation != Orientation.NONE)
-                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
-            else
-                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
-        }
-        setViewport(cellClips[0]);
-    }
-
-    public double getWidth() { return width; }
-
-    public double getHeight() { return height; }
 
 }

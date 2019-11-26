@@ -1,12 +1,9 @@
 package game;
 
-import engine.graphics.PlayerSpriteTexture;
-import engine.graphics.SpriteTexture;
-import engine.physics.Input;
-import engine.physics.Orientation;
-import engine.physics.Player;
-import engine.ui.GameWindow;
 import engine.graphics.GridLayer;
+import engine.graphics.SpriteTexture;
+import engine.physics.Orientation;
+import engine.ui.GameWindow;
 import game.utils.Level;
 import game.utils.Tileset;
 import javafx.scene.image.Image;
@@ -19,7 +16,7 @@ public class MainGame extends GameWindow
 {
     public MainGame() throws IOException
     {
-        super("Pacman", 600, 500);
+        super("Pacman", 600, 500, 32, 32);
 
         /*
 
@@ -30,7 +27,23 @@ public class MainGame extends GameWindow
 
          */
 
-        File levelFile = new File("resources/levels/customlevel.plv");
+        Level customLevel = initLevel("resources/levels/customlevel.plv");
+
+        SpriteTexture pacmanTexture = new SpriteTexture(new Image("player_normal.png"), Orientation.NONE);
+
+        Pacman player = new Pacman(pacmanTexture, 1, 1);
+        scene.setOnKeyPressed(player.getInputScheme());
+
+        PacmanWorld world = new PacmanWorld();
+        world.setLevel(customLevel);
+        world.add(player);
+
+        setGameWorld(world);
+    }
+
+    private Level initLevel(String levelPath)
+    {
+        File levelFile = new File(levelPath);
 
         Level level = new Level();
         level.loadFromPLV(levelFile);
@@ -45,15 +58,13 @@ public class MainGame extends GameWindow
         standardTileset.setTileMapping('e', 45);
 
         level.setTileset(standardTileset);
-        level.addTerrainTilesIdentifiers('0', '1');
-        level.addEntityTilesIdentifiers('G', 'P');
-        level.setEmptyTileIdentifier('e');
+
 
         ArrayList<GridLayer> layers = level.getGridLayers();
 
-        for(GridLayer layer : layers) layer.resizeImageGrid(32, 32);
-
         backgroundDisplay.addAll(layers);
+
+        return level;
     }
 
     public static void main(String[] args)

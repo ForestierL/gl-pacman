@@ -5,47 +5,53 @@ import engine.physics.GameWorld;
 import engine.physics.Orientation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 
-public class GameWindow extends Application
+public class GameWindow extends Application implements ComponentListener
 {
-    private GameWorld world = new GameWorld();
+    private GameWorld world;
     private GraphicsDisplay graphicsDisplay;
-    protected BackgroundDisplay backgroundDisplay = new BackgroundDisplay();
+    protected BackgroundDisplay backgroundDisplay;
 
     private String name;
-    private int width;
-    private int height;
+    private int width, height, tileWidth, tileHeight;
 
     private Group group = new Group();
+    protected Scene scene = new Scene(group);
 
-    public GameWindow(String name, int width, int height)
+    public GameWindow(String name, int width, int height, int tileWidth, int tileHeight)
     {
         this.name = name;
         this.width = width;
         this.height = height;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+
+        world = new GameWorld();
+        backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
+        graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
     }
 
     @Override
     public void start(Stage stage)
     {
         stage.setTitle(name);
-        Scene scene = new Scene(group);
         stage.setScene(scene);
         scene.setFill(Color.PERU);
 
-        graphicsDisplay = new GraphicsDisplay(world, width, height);
         for(GridLayer gridLayer : backgroundDisplay.getGridLayers()) group.getChildren().add(gridLayer);
         group.getChildren().add(graphicsDisplay);
-
-        world.add(new Sprite(new SpriteTexture(new Image("player_normal.png"), Orientation.NONE), 50, 50));
 
         stage.show();
         startGame();
@@ -80,5 +86,31 @@ public class GameWindow extends Application
 
     }
 
+    protected void setGameWorld(GameWorld world)
+    {
+        this.world = world;
+        graphicsDisplay.setGameWorld(this.world);
+    }
 
+
+    @Override
+    public void componentResized(ComponentEvent e)
+    {
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
 }

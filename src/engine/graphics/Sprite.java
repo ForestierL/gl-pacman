@@ -2,14 +2,11 @@ package engine.graphics;
 
 import engine.physics.Entity;
 import engine.physics.Orientation;
-import javafx.scene.image.Image;
-
-import java.awt.image.BufferedImage;
 
 public class Sprite extends Entity
 {
     private Orientation orientation = Orientation.NONE;
-    private SpriteTexture spriteTexture;
+    protected SpriteTexture spriteTexture;
 
     Sprite(SpriteTexture spriteTexture, int x, int y, int z)
     {
@@ -25,7 +22,7 @@ public class Sprite extends Entity
     }
 
 
-    void setOrientation(Orientation orientation)
+    public void setOrientation(Orientation orientation)
     {
         spriteTexture.setOrientation(orientation);
         this.orientation = orientation;
@@ -46,6 +43,15 @@ public class Sprite extends Entity
     @Override
     public void render(GraphicsDisplay graphicsDisplay)
     {
-        graphicsDisplay.graphicsContext.drawImage(spriteTexture.getImage(), 0, 0, 32, 32, getX(), getY(), 32, 32);
+        int subImageX = spriteTexture.getSubImageX() * spriteTexture.getCellWidth();
+        int subImageY = spriteTexture.getSubImageY() * spriteTexture.getCellHeight();
+
+        graphicsDisplay.graphicsContext.drawImage
+                (
+                spriteTexture.getImage(), subImageX, subImageY,
+                spriteTexture.getCellWidth(), spriteTexture.getCellHeight(),
+                getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
+                spriteTexture.getCellWidth() * graphicsDisplay.getResolutionX(), spriteTexture.getCellHeight() * graphicsDisplay.getResolutionY()
+        );
     }
 }

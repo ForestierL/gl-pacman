@@ -8,7 +8,30 @@ public class GameWorld
 
     public void udpate()
     {
-        for(Entity entity : entities) { entity.setX(entity.getX()+1); }
+
+        for(Entity entity : entities)
+        {
+            manageMovementIntentions(entity);
+        }
+    }
+
+    private void manageMovementIntentions(Entity entity)
+    {
+        MovementIntention currentIntention = entity.getMovementIntention();
+        if(currentIntention != null && isValidMovement(currentIntention))
+        {
+            entity.validateIntention();
+        }
+    }
+
+    private boolean isValidMovement(MovementIntention movementIntention)
+    {
+        for(Entity entity : entities)
+        {
+            if(entity.getX() == movementIntention.dstX && entity.getY() == movementIntention.dstY)
+                return false;
+        }
+        return true;
     }
 
     public void add(Entity entity)

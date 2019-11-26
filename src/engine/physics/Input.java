@@ -13,7 +13,7 @@ public class Input {
     private Scene scene;
 
     private Player player;
-
+/*
     public Input(Scene scene, Player player){
 
         this.scene = scene;
@@ -37,7 +37,7 @@ public class Input {
                     break;
             }
         });
-    }
+    }*/
 }
 
 

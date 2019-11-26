@@ -1,10 +1,9 @@
 package engine.ui;
 
-import engine.graphics.PlayerSpriteTexture;
-import engine.graphics.SpriteTexture;
-import engine.physics.Input;
+import engine.graphics.*;
+import engine.physics.GameWorld;
 import engine.physics.Orientation;
-import engine.physics.Player;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,56 +16,69 @@ import java.util.ArrayList;
 
 public class GameWindow extends Application
 {
-    public ArrayList<GridLayer> gridLayers;
-    Scene scene;
+    private GameWorld world = new GameWorld();
+    private GraphicsDisplay graphicsDisplay;
+    protected BackgroundDisplay backgroundDisplay = new BackgroundDisplay();
+
     private String name;
     private int width;
     private int height;
+
+    private Group group = new Group();
 
     public GameWindow(String name, int width, int height)
     {
         this.name = name;
         this.width = width;
         this.height = height;
-        gridLayers = new ArrayList<>();
     }
 
     @Override
     public void start(Stage stage)
     {
         stage.setTitle(name);
-
-        Group group = new Group();
-        scene = new Scene(group, width, height);
+        Scene scene = new Scene(group);
         stage.setScene(scene);
-        scene.setFill(Color.GAINSBORO);
-        Player p = new Player(new PlayerSpriteTexture(Orientation.NORTH),1,1,1);
+        scene.setFill(Color.PERU);
 
-        Input i = new Input(scene, p);
-        gameInit(group);
+        graphicsDisplay = new GraphicsDisplay(world, width, height);
+        for(GridLayer gridLayer : backgroundDisplay.getGridLayers()) group.getChildren().add(gridLayer);
+        group.getChildren().add(graphicsDisplay);
 
-        gameEnd();
+        world.add(new Sprite(new SpriteTexture(new Image("player_normal.png"), Orientation.NONE), 50, 50));
 
         stage.show();
+        startGame();
     }
 
-    private void gameInit(Group group)
+    private void startGame()
     {
-        group.getChildren().addAll(gridLayers);
+        initialize();
+        run();
+        end();
     }
 
-    private void gameEnd()
-    {
-
-    }
-
-    private void update()
+    private void initialize()
     {
 
     }
 
-    private void render()
+    private void run()
+    {
+        new AnimationTimer()
+        {
+            public void handle(long currentNanoTime)
+            {
+                world.udpate();
+                graphicsDisplay.render();
+            }
+        }.start();
+    }
+
+    private void end()
     {
 
     }
+
+
 }

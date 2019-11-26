@@ -2,16 +2,15 @@
 package engine.physics;
 
 import engine.graphics.SpriteTexture;
-import engine.physics.Sprite;
+import engine.graphics.Sprite;
 
-public class Monster extends Sprite {
+public class Monster  {
 
     private boolean isFleeing;
 
 
     public Monster(SpriteTexture spriteTexture, int posX, int posY, int posZ){
 
-        super(spriteTexture, posX, posY, posZ);
 
         this.isFleeing = false;
     }

@@ -4,9 +4,9 @@
 package engine.physics;
 
 import engine.graphics.SpriteTexture;
-import engine.physics.Sprite;
+import engine.graphics.Sprite;
 
-public class Player extends Sprite {
+public class Player{
 
     private int lives;
     private boolean power;
@@ -14,15 +14,13 @@ public class Player extends Sprite {
     public Player(int posX, int posY, int posZ){
 
         //polymorphisme ? (Loïc)
-        /*super(posX, posY, posZ);
         this.lives = 3;
-        this.power = false;*/
+        this.power = false;
 
-        this(null, posX, posY, posZ);
     }
+
     public Player(SpriteTexture spriteTexture, int posX, int posY, int posZ){
 
-        super(spriteTexture, posX, posY, posZ);
 
         this.lives = 3;
         this.power = false;

@@ -1,10 +1,12 @@
 package engine.physics;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld
 {
-    private ArrayList<Entity> entities = new ArrayList<>();
+    private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
 
     public void udpate()
     {
@@ -18,18 +20,27 @@ public class GameWorld
     private void manageMovementIntentions(Entity entity)
     {
         MovementIntention currentIntention = entity.getMovementIntention();
-        if(currentIntention != null && isValidMovement(currentIntention))
+        if(currentIntention != null && isValidMovement(entity, currentIntention))
         {
             entity.validateIntention();
         }
     }
 
-    private boolean isValidMovement(MovementIntention movementIntention)
+    private boolean isValidMovement(Entity movedEntity, MovementIntention movementIntention)
     {
-        for(Entity entity : entities)
+        for(int i = 0; i < entities.size(); i++)
         {
+            Entity entity = entities.get(i);
             if(entity.getX() == movementIntention.dstX && entity.getY() == movementIntention.dstY)
-                return false;
+            {
+                if(entity.hasCollision())
+                    return false;
+                else
+                {
+                    entity.handleCollision(movedEntity.getCollisionSignal());
+                    movedEntity.handleCollision(entity.getCollisionSignal());
+                }
+            }
         }
         return true;
     }
@@ -37,6 +48,7 @@ public class GameWorld
     public void add(Entity entity)
     {
         entities.add(entity);
+        entity.setWorld(this);
     }
 
     public void remove(Entity entity)
@@ -49,7 +61,7 @@ public class GameWorld
         entities.clear();
     }
 
-    public ArrayList<Entity> getEntities()
+    public CopyOnWriteArrayList<Entity> getEntities()
     {
         return entities;
     }

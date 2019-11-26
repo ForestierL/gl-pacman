@@ -56,16 +56,16 @@ public class GameWindow extends Application implements ComponentListener
     {
         initialize();
         run();
-        end();
     }
 
     private void initialize()
     {
-
+        System.out.println("GameWindow : initialize.");
     }
 
     private void run()
     {
+        System.out.println("GameWindow : run loop.");
         new AnimationTimer()
         {
             public void handle(long currentNanoTime)
@@ -76,10 +76,6 @@ public class GameWindow extends Application implements ComponentListener
         }.start();
     }
 
-    private void end()
-    {
-
-    }
 
     protected void setGameWorld(GameWorld world)
     {

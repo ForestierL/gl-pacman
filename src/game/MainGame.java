@@ -3,6 +3,7 @@ package game;
 import engine.graphics.GridLayer;
 import engine.graphics.SpriteTexture;
 import engine.ui.GameWindow;
+import game.objects.Pacman;
 import game.utils.Level;
 import game.utils.Tileset;
 import javafx.scene.image.Image;

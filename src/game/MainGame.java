@@ -2,7 +2,6 @@ package game;
 
 import engine.graphics.GridLayer;
 import engine.graphics.SpriteTexture;
-import engine.physics.Orientation;
 import engine.ui.GameWindow;
 import game.utils.Level;
 import game.utils.Tileset;
@@ -29,7 +28,7 @@ public class MainGame extends GameWindow
 
         Level customLevel = initLevel("resources/levels/customlevel.plv");
 
-        SpriteTexture pacmanTexture = new SpriteTexture(new Image("player_normal.png"), Orientation.NONE);
+        SpriteTexture pacmanTexture = new SpriteTexture(new Image("player_normal.png"));
 
         Pacman player = new Pacman(pacmanTexture, 1, 1);
         scene.setOnKeyPressed(player.getInputScheme());
@@ -52,10 +51,6 @@ public class MainGame extends GameWindow
 
         Tileset standardTileset = new Tileset(new Image("mapTileset.png"), 32, 32);
         standardTileset.setTileMapping('0', 48);
-        standardTileset.setTileMapping('1', 7);
-        standardTileset.setTileMapping('G', 58);
-        standardTileset.setTileMapping('P', 56);
-        standardTileset.setTileMapping('e', 45);
 
         level.setTileset(standardTileset);
 

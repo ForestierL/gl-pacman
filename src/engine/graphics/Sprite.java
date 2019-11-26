@@ -1,19 +1,26 @@
 package engine.graphics;
 
 import engine.physics.Entity;
-import engine.physics.Orientation;
+
+import java.util.Hashtable;
 
 public class Sprite extends Entity
 {
+    private boolean orientationDependantDisplay;
     private Orientation orientation = Orientation.NONE;
-    protected SpriteTexture spriteTexture;
+    private SpriteTexture spriteTexture;
+    private int defaultSubImage;
 
-    Sprite(SpriteTexture spriteTexture, int x, int y, int z)
+    private Hashtable<Orientation, Integer> orientationMap = new Hashtable<>();
+
+    private Sprite(SpriteTexture spriteTexture, int x, int y, int z)
     {
         this.spriteTexture = spriteTexture;
         setX(x);
         setY(y);
         setZ(z);
+        orientationDependantDisplay = false;
+        defaultSubImage = 0;
     }
 
     public Sprite(SpriteTexture spriteTexture, int x, int y)
@@ -22,10 +29,50 @@ public class Sprite extends Entity
     }
 
 
+    private int getSubImage()
+    {
+        if(orientationDependantDisplay)
+            return orientationMap.getOrDefault(orientation, 0);
+        else
+            return defaultSubImage;
+    }
+
+    protected void addOrientationKey(Orientation orientation, Integer subImageIdentifier)
+    {
+        orientationMap.put(orientation, subImageIdentifier);
+    }
+
+    SpriteTexture getSpriteTexture(){ return spriteTexture; }
+
+    @Override
+    public void render(GraphicsDisplay graphicsDisplay)
+    {
+        int[] coordinates = spriteTexture.getSubImageCoordinates(getSubImage());
+
+        graphicsDisplay.graphicsContext.drawImage
+                (
+                spriteTexture.getImage(), coordinates[0], coordinates[1],
+                coordinates[2], coordinates[3],
+                getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
+                        coordinates[2] * graphicsDisplay.getResolutionX(), coordinates[3] * graphicsDisplay.getResolutionY()
+        );
+    }
+
+    // GETTERS & SETTERS
+
     public void setOrientation(Orientation orientation)
     {
-        spriteTexture.setOrientation(orientation);
         this.orientation = orientation;
+    }
+
+    public boolean isOrientationDependantDisplay()
+    {
+        return orientationDependantDisplay;
+    }
+
+    public void setOrientationDependantDisplay(boolean orientationDependantDisplay)
+    {
+        this.orientationDependantDisplay = orientationDependantDisplay;
     }
 
     public void setSpriteTexture(SpriteTexture spriteTexture)
@@ -37,21 +84,13 @@ public class Sprite extends Entity
         return orientation;
     }
 
-
-    SpriteTexture getSpriteTexture(){ return spriteTexture; }
-
-    @Override
-    public void render(GraphicsDisplay graphicsDisplay)
+    public int getDefaultSubImage()
     {
-        int subImageX = spriteTexture.getSubImageX() * spriteTexture.getCellWidth();
-        int subImageY = spriteTexture.getSubImageY() * spriteTexture.getCellHeight();
+        return defaultSubImage;
+    }
 
-        graphicsDisplay.graphicsContext.drawImage
-                (
-                spriteTexture.getImage(), subImageX, subImageY,
-                spriteTexture.getCellWidth(), spriteTexture.getCellHeight(),
-                getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
-                spriteTexture.getCellWidth() * graphicsDisplay.getResolutionX(), spriteTexture.getCellHeight() * graphicsDisplay.getResolutionY()
-        );
+    public void setDefaultSubImage(int defaultSubImage)
+    {
+        this.defaultSubImage = defaultSubImage;
     }
 }

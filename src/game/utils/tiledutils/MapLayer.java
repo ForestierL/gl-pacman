@@ -1,7 +1,6 @@
 package game.utils.tiledutils;
 
 import engine.graphics.SpriteTexture;
-import engine.physics.Orientation;
 import engine.graphics.GridLayer;
 import javafx.geometry.Rectangle2D;
 
@@ -47,7 +46,7 @@ public class MapLayer {
                 {
                     map[w][h] = 59L;
                 }
-                SpriteTexture spriteTexture = new SpriteTexture(tileset.asset, Orientation.NONE);
+                SpriteTexture spriteTexture = new SpriteTexture(tileset.asset);
 
                 spriteTexture.setViewport(cellClips[Math.toIntExact((map[w][h]))]);
 

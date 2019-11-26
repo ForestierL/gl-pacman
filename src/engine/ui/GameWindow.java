@@ -2,20 +2,15 @@ package engine.ui;
 
 import engine.graphics.*;
 import engine.physics.GameWorld;
-import engine.physics.Orientation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.ArrayList;
 
 
 public class GameWindow extends Application implements ComponentListener

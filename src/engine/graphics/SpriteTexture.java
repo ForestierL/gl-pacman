@@ -1,22 +1,12 @@
 package engine.graphics;
 
-import engine.physics.Orientation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 
 public class SpriteTexture extends ImageView
 {
     private Image image;
-    private Orientation orientation;
     private final int cellWidth = 32, cellHeight = 32;
-    private int currentSubImage; // Image used to display the entity ingame
-    private int subImageX, subImageY;
 
     /*
     private final int numCells = 4;  // number of images in an animation
@@ -28,14 +18,10 @@ public class SpriteTexture extends ImageView
     private final IntegerProperty frameCounter = new SimpleIntegerProperty(0); */
 
 
-    public SpriteTexture(Image image, Orientation orientation)
+    public SpriteTexture(Image image)
     {
-
         this.image = image;
-        this.orientation = orientation;
         this.setImage(image);
-
-        setCurrentSubImage(0);
 /*
         for (int i = 0; i < numCells; i++) {
             if(orientation != Orientation.NONE)
@@ -57,45 +43,23 @@ public class SpriteTexture extends ImageView
     }
 
 
-    public void setOrientation(Orientation orientation)
+    public int[] getSubImageCoordinates(int subImageIdentifier)
     {
-        this.orientation = orientation;
-        /*
-        for (int i = 0; i < numCells; i++) {
-            if(orientation != Orientation.NONE)
-                cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
-            else
-                cellClips[i] = new Rectangle2D(i * width, 0, width, height);
-        }
-        setViewport(cellClips[0]); */
-    }
+        int[] coordinates = new int[4];
+        int srcX = (int) ((subImageIdentifier) % (image.getWidth() / cellWidth));
+        int srcY = (int) ((subImageIdentifier) / (image.getWidth() / cellHeight));
 
-    public void setCurrentSubImage(int currentSubImage)
-    {
-        this.currentSubImage = currentSubImage;
+        coordinates[0] = srcX  * cellWidth;
+        coordinates[1] = srcY * cellHeight;
+        coordinates[2] = cellWidth;
+        coordinates[3] = cellHeight;
 
-        subImageX = (int) ((currentSubImage) % (image.getWidth() / cellWidth));
-        subImageY = (int) ((currentSubImage) / (image.getWidth() / cellHeight));
-    }
-
-    public int getCurrentSubImage()
-    {
-        return currentSubImage;
+        return coordinates;
     }
 
     public int getCellWidth() { return cellWidth; }
 
     public int getCellHeight() { return cellHeight; }
-
-    public int getSubImageX()
-    {
-        return subImageX;
-    }
-
-    public int getSubImageY()
-    {
-        return subImageY;
-    }
 
     /*
     public void playContinuously() {

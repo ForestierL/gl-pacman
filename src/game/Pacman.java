@@ -6,7 +6,7 @@ import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import engine.physics.MovementIntention;
-import engine.physics.Orientation;
+import engine.graphics.Orientation;
 import javafx.scene.input.KeyCode;
 
 public class Pacman extends Sprite implements Controllable
@@ -33,6 +33,14 @@ public class Pacman extends Sprite implements Controllable
         inputScheme.setKeyAction(KeyCode.DOWN, moveAction, 0, 1, Orientation.SOUTH);
         inputScheme.setKeyAction(KeyCode.LEFT, moveAction, -1, 0, Orientation.WEST);
         inputScheme.setKeyAction(KeyCode.RIGHT, moveAction, 1, 0, Orientation.EAST);
+
+        setOrientationDependantDisplay(true);
+
+        addOrientationKey(Orientation.NORTH, 12);
+        addOrientationKey(Orientation.NONE, 12);
+        addOrientationKey(Orientation.SOUTH, 0);
+        addOrientationKey(Orientation.WEST, 4);
+        addOrientationKey(Orientation.EAST, 8);
     }
 
     @Override

@@ -40,7 +40,10 @@ public class GameWorld
                     boolean valid = entity.handleCollision(otherEntity.getCollisionSignal()) && otherEntity.handleCollision(entity.getCollisionSignal());
 
                     if(valid)
+                    {
                         entity.validateIntent();
+                        return;
+                    }
                     else
                         return;
                 }

@@ -5,6 +5,7 @@ import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
+import engine.physics.MovementIntent;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
 import game.utils.DisplacementSmoother;
@@ -32,7 +33,7 @@ public class Pacman extends GameObject implements Controllable
             }
         };
 
-        setSpeed(7.2);
+        setSpeed(80);
         inputScheme = new InputScheme();
 
         inputScheme.setKeyAction(KeyCode.UP, moveAction, Orientation.NORTH, Direction.Y_NEGATIVE);
@@ -61,7 +62,31 @@ public class Pacman extends GameObject implements Controllable
     @Override
     public void update()
     {
-        addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        // addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        int distanceX = 0;
+        int distanceY = 0;
+        switch(direction)
+        {
+            case NONE:
+                return;
+            case X_NEGATIVE:
+                distanceX = -1;
+                break;
+            case X_POSITIVE:
+                distanceX = 1;
+                break;
+            case Y_NEGATIVE:
+                distanceY = -1;
+                break;
+            case Y_POSITIVE:
+                distanceY = 1;
+                break;
+            default:
+                return;
+
+        }
+        addMovementIntent(new MovementIntent(getX(), getY(), getX() + distanceX, getY() + distanceY));
+
     }
 
     @Override

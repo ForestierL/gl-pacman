@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 
 public class GraphicsDisplay extends Canvas
 {
+    boolean displayHitbox = true;
     private int tileWidth, tileHeight;
     private double resolutionX, resolutionY; // Tile resolutions on screen.
     private GameWorld gameWorld;
@@ -35,8 +36,12 @@ public class GraphicsDisplay extends Canvas
 
         for(Entity entity : gameWorld.getEntities())
         {
-            Hitbox h = entity.getHitbox();
-            graphicsContext.fillRect(h.getX(), h.getY(), h.getWidth(), h.getHeight());
+            if(displayHitbox)
+            {
+                Hitbox h = entity.getHitbox();
+                graphicsContext.fillRect(h.getX(), h.getY(), h.getWidth(), h.getHeight());
+            }
+
             entity.render(this);
 
         }
@@ -73,5 +78,9 @@ public class GraphicsDisplay extends Canvas
 
     public void setTileHeight(int tileHeight) {
         this.tileHeight = tileHeight;
+    }
+
+    public void setDisplayHitbox(boolean displayHitbox) {
+        this.displayHitbox = displayHitbox;
     }
 }

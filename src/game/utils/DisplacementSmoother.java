@@ -19,6 +19,7 @@ public class DisplacementSmoother {
         int distanceX = 0;
         int distanceY = 0;
 
+
         /*/ le radar
         System.out.println(scatmanWorld.level.terrain[gameObject.getY()-1][gameObject.getX()-1]+"|"
                           + scatmanWorld.level.terrain[gameObject.getY()-1][gameObject.getX()]+"|"
@@ -33,8 +34,7 @@ public class DisplacementSmoother {
         switch(direction)
         {
             case X_NEGATIVE:
-                System.out.println("X_NEGTIVE");
-                if(scatmanWorld.level.terrain[gameObject.getY()][gameObject.getX()-1] == '1'){
+                if(scatmanWorld.level.terrain[gameObject.getY()/32][(gameObject.getX()-1)/32] == '1'){
                     return new MovementIntent(gameObject.getX(), gameObject.getY(), gameObject.getX() + currentDistanceX, gameObject.getY() + currentDistanceY);
                 } else {
                     distanceX = -1;
@@ -42,8 +42,7 @@ public class DisplacementSmoother {
                 break;
 
             case X_POSITIVE:
-                System.out.println("X_POSITIVE");
-                if(scatmanWorld.level.terrain[gameObject.getY()][gameObject.getX()+1]== '1'){
+                if(scatmanWorld.level.terrain[gameObject.getY()/32][(gameObject.getX()+1)/32]== '1'){
                     return new MovementIntent(gameObject.getX(), gameObject.getY(), gameObject.getX() + currentDistanceX, gameObject.getY() + currentDistanceY);
                 } else {
                     distanceX = 1;
@@ -51,8 +50,7 @@ public class DisplacementSmoother {
                 break;
 
             case Y_NEGATIVE:
-                System.out.println("Y_NEGTIVE");
-                if(scatmanWorld.level.terrain[gameObject.getY()-1][gameObject.getX()]== '1'){
+                if(scatmanWorld.level.terrain[(gameObject.getY()-1)/32][gameObject.getX()/32]== '1'){
                     return new MovementIntent(gameObject.getX(), gameObject.getY(), gameObject.getX() + currentDistanceX, gameObject.getY() + currentDistanceY);
                 } else {
                     distanceY = -1;
@@ -60,8 +58,7 @@ public class DisplacementSmoother {
                 break;
 
             case Y_POSITIVE:
-                System.out.println("Y_POSITIVE");
-                if(scatmanWorld.level.terrain[gameObject.getY()+1][gameObject.getX()]== '1'){
+                if(scatmanWorld.level.terrain[(gameObject.getY()+1)/32][gameObject.getX()/32]== '1'){
                     return new MovementIntent(gameObject.getX(), gameObject.getY(), gameObject.getX() + currentDistanceX, gameObject.getY() + currentDistanceY);
                 } else {
                     distanceY = 1;

@@ -15,7 +15,7 @@ public abstract class Entity
 
     public Entity(int x, int y, int width, int height)
     {
-        hitbox = new Hitbox(x * 32, y * 32, width, height);
+        hitbox = new Hitbox(x, y, width, height);
     }
 
     public abstract void render(GraphicsDisplay graphicsDisplay);
@@ -51,7 +51,7 @@ public abstract class Entity
 
     public void setX(int x)
     {
-        hitbox.setX(x * 32);
+        hitbox.setX(x);
         this.x = x;
     }
 
@@ -62,7 +62,7 @@ public abstract class Entity
 
     public void setY(int y)
     {
-        hitbox.setY(y * 32);
+        hitbox.setY(y);
         this.y = y;
     }
 

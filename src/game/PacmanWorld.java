@@ -34,34 +34,37 @@ public class PacmanWorld extends GameWorld
             {
                 char currentChar = level.terrain[y][x];
 
+                int posX = x * tileWidth;
+                int posY = y * tileHeight;
+
                 if(currentChar == '1') // TODO  : Charger une texture différente selon l'emplacement du mur (esthétique, pas prioritaire).
                 {
-                    Wall newWall = new Wall(x, y, tileWidth, tileHeight);
+                    Wall newWall = new Wall(posX, posY, tileWidth, tileHeight);
 
                     add(newWall);
                 }
                 else if(currentChar == '0')
                 {
-                    Gem gem = new Gem(x, y, tileWidth, tileHeight);
+                    Gem gem = new Gem(posX, posY, tileWidth, tileHeight);
 
                     add(gem);
                 }
                 else if(currentChar == 'P')
                 {
-                    Pacman player = new Pacman(x, y, tileWidth, tileHeight);
+                    Pacman player = new Pacman(posX, posY, tileWidth, tileHeight);
                     usedInputs = player.getInputScheme();
 
                     add(player);
                 }
                 else if(currentChar == 'G')
                 {
-                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), x, y, tileWidth, tileHeight);
+                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
 
                     add(monster);
                 }
                 else if(currentChar == 'u')
                 {
-                    Powerup powerup = new Powerup(x, y, tileWidth, tileHeight);
+                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight);
 
                     add(powerup);
                 }

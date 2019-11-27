@@ -4,7 +4,7 @@ import engine.physics.Entity;
 
 import java.util.Hashtable;
 
-public abstract class Sprite extends Entity
+public class Sprite extends Entity
 {
     private boolean orientationDependantDisplay;
     private Orientation orientation = Orientation.NONE;
@@ -47,21 +47,29 @@ public abstract class Sprite extends Entity
     @Override
     public void render(GraphicsDisplay graphicsDisplay)
     {
-        int[] coordinates = spriteTexture.getSubImageCoordinates(getSubImage());
+        if(isVisible())
+        {
+            int[] coordinates = spriteTexture.getSubImageCoordinates(getSubImage());
 
-        graphicsDisplay.graphicsContext.drawImage
-                (
-                spriteTexture.getImage(), coordinates[0], coordinates[1],
-                coordinates[2], coordinates[3],
-                getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
-                        coordinates[2] * graphicsDisplay.getResolutionX(), coordinates[3] * graphicsDisplay.getResolutionY()
-        );
+            graphicsDisplay.graphicsContext.drawImage
+                    (
+                            spriteTexture.getImage(), coordinates[0], coordinates[1],
+                            coordinates[2], coordinates[3],
+                            getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
+                            coordinates[2] * graphicsDisplay.getResolutionX(), coordinates[3] * graphicsDisplay.getResolutionY()
+                    );
+        }
     }
 
     @Override
     public void handleCollision(int signal)
     {
-        System.out.println("Collision - " + signal);
+
+    }
+
+    @Override
+    public void update() {
+
     }
 
     // GETTERS & SETTERS

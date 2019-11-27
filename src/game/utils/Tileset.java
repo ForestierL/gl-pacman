@@ -21,7 +21,7 @@ public class Tileset
         tileMap = new HashMap<>();
     }
 
-    ImageView getTileImageView(Character identifier)
+    public ImageView getTileImageView(Character identifier)
     {
         try
         {

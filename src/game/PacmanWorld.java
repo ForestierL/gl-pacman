@@ -1,12 +1,15 @@
 package game;
 
 import engine.physics.GameWorld;
+import game.objects.GemPoint;
+import game.objects.Wall;
 import game.utils.Level;
 
 public class PacmanWorld extends GameWorld
 {
-    Level level;
 
+    public int playerScore = 0;
+    Level level;
 
     public void setLevel(Level level)
     {
@@ -22,13 +25,27 @@ public class PacmanWorld extends GameWorld
             {
                 char currentChar = level.terrain[y][x];
 
-                if(currentChar == '1')
+                if(currentChar == '1') // TODO  : Charger une texture différente selon l'emplacement du mur (esthétique, pas prioritaire).
                 {
                     Wall newWall = new Wall(x, y);
+
                     add(newWall);
+                }
+                else if(currentChar == '0')
+                {
+                    GemPoint gemPoint = new GemPoint(x, y);
+
+                    add(gemPoint);
                 }
             }
         }
     }
 
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
 }

@@ -2,12 +2,41 @@ package engine.physics;
 
 import engine.graphics.GraphicsDisplay;
 
-import java.util.ArrayList;
-
 public abstract class Entity
 {
+    private GameWorld world;
+    private int collisionSignal = 0;
+    private boolean hasCollision = true;
     private int x, y, z;
-    private MovementIntention movementIntention;
+    private double speed = 1.0;
+    double timeSinceLastUpdate = 0;
+    private MovementIntent movementIntent;
+
+    public abstract void render(GraphicsDisplay graphicsDisplay);
+
+    public void addMovementIntent(MovementIntent movementIntent)
+    {
+        this.movementIntent = movementIntent;
+    }
+
+    MovementIntent getMovementIntent()
+    {
+        return movementIntent;
+    }
+
+    void validateIntent()
+    {
+        try
+        {
+            setX(movementIntent.dstX);
+            setY(movementIntent.dstY);
+            movementIntent = null;
+        }
+        catch(NullPointerException e)
+        {
+            System.out.println("ERROR : Given intention is null.");
+        }
+    }
 
     public int getX()
     {
@@ -39,30 +68,41 @@ public abstract class Entity
         this.z = z;
     }
 
-    public void addMovementIntention(MovementIntention movementIntention)
+    public boolean hasCollision()
     {
-        this.movementIntention = movementIntention;
+        return hasCollision;
     }
 
-    public abstract void render(GraphicsDisplay graphicsDisplay);
-
-    MovementIntention getMovementIntention()
+    public void setCollisionState(boolean hasCollision)
     {
-        return movementIntention;
+        this.hasCollision = hasCollision;
     }
 
-    void validateIntention()
-    {
-        try
-        {
-            setX(movementIntention.dstX);
-            setY(movementIntention.dstY);
-            movementIntention = null;
-        }
-        catch(NullPointerException e)
-        {
-            System.out.println("ERROR : Given intention is null.");
-        }
+    public abstract void handleCollision(int signal);
 
+    public int getCollisionSignal()
+    {
+        return collisionSignal;
+    }
+
+    public void setCollisionSignal(int collisionSignal)
+    {
+        this.collisionSignal = collisionSignal;
+    }
+
+    public GameWorld getWorld() {
+        return world;
+    }
+
+    public void setWorld(GameWorld world) {
+        this.world = world;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 }

@@ -1,32 +1,35 @@
-package game;
+package game.objects;
 
-import engine.graphics.Sprite;
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import engine.physics.MovementIntention;
-import engine.graphics.Orientation;
+import engine.physics.MovementIntent;
+import game.utils.CollisionSignal;
 import javafx.scene.input.KeyCode;
 
-public class Pacman extends Sprite implements Controllable
+public class Pacman extends GameObject implements Controllable
 {
-    InputScheme inputScheme;
+    private InputScheme inputScheme;
 
     public Pacman(SpriteTexture spriteTexture, int x, int y)
     {
         super(spriteTexture, x, y);
+
+        setCollisionSignal(CollisionSignal.PACMAN);
 
         InputAction moveAction = new InputAction()
         {
             @Override
             protected void execute(Object... actionParameters)
             {
-                addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
+                addMovementIntent(new MovementIntent(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
                 setOrientation((Orientation) actionParameters[2]);
             }
         };
 
+        setSpeed(15);
         inputScheme = new InputScheme();
 
         inputScheme.setKeyAction(KeyCode.UP, moveAction, 0, -1, Orientation.NORTH);
@@ -44,8 +47,16 @@ public class Pacman extends Sprite implements Controllable
     }
 
     @Override
+    void handleCollision(CollisionSignal signal)
+    {
+
+    }
+
+    @Override
     public InputScheme getInputScheme()
     {
         return inputScheme;
     }
+
+
 }

@@ -3,6 +3,7 @@ package game;
 import engine.graphics.GridLayer;
 import engine.graphics.SpriteTexture;
 import engine.ui.GameWindow;
+import game.objects.Pacman;
 import game.utils.Level;
 import game.utils.Tileset;
 import javafx.scene.image.Image;
@@ -15,7 +16,7 @@ public class MainGame extends GameWindow
 {
     public MainGame() throws IOException
     {
-        super("Pacman", 600, 500, 32, 32);
+        super("Pacman", 500, 500, 32, 32);
 
         /*
 
@@ -26,18 +27,35 @@ public class MainGame extends GameWindow
 
          */
 
+
+
         Level customLevel = initLevel("resources/levels/customlevel.plv");
 
+        PacmanWorld world = initWorld(customLevel);
+
+        initGraphics(world, 100);
+
+        setGameWorld(world);
+    }
+
+    private PacmanWorld initWorld(Level level)
+    {
         SpriteTexture pacmanTexture = new SpriteTexture(new Image("player_normal.png"));
 
         Pacman player = new Pacman(pacmanTexture, 1, 1);
         scene.setOnKeyPressed(player.getInputScheme());
 
         PacmanWorld world = new PacmanWorld();
-        world.setLevel(customLevel);
+        world.setLevel(level);
         world.add(player);
 
-        setGameWorld(world);
+        return world;
+    }
+
+    private void initGraphics(PacmanWorld world, int uiMargin)
+    {
+        getGraphicsDisplay().setWidth(world.level.getWidth() * 32);
+        getGraphicsDisplay().setHeight(world.level.getHeight() * 32 + uiMargin);
     }
 
     private Level initLevel(String levelPath)
@@ -57,7 +75,7 @@ public class MainGame extends GameWindow
 
         ArrayList<GridLayer> layers = level.getGridLayers();
 
-        backgroundDisplay.addAll(layers);
+        addToBackground(layers);
 
         return level;
     }

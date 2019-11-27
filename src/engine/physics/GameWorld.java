@@ -1,42 +1,56 @@
 package engine.physics;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld
 {
-    private ArrayList<Entity> entities = new ArrayList<>();
+    private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
 
-    public void udpate()
+    public void udpate(long elapsedTime)
     {
-
+        double elapsedSeconds = elapsedTime / 1_000_000_000.0;
         for(Entity entity : entities)
         {
-            manageMovementIntentions(entity);
+            entity.timeSinceLastUpdate += elapsedSeconds;
+
+            if(entity.timeSinceLastUpdate > 1.0 / entity.getSpeed())
+            {
+                entity.timeSinceLastUpdate = 0;
+                manageMovementIntentions(entity);
+            }
+
         }
     }
 
     private void manageMovementIntentions(Entity entity)
     {
-        MovementIntention currentIntention = entity.getMovementIntention();
-        if(currentIntention != null && isValidMovement(currentIntention))
+        MovementIntent currentIntention = entity.getMovementIntent();
+
+        if(currentIntention != null)
         {
-            entity.validateIntention();
+            for (Entity otherEntity : entities)
+            {
+                if (otherEntity.getX() == currentIntention.dstX && otherEntity.getY() == currentIntention.dstY)
+                {
+                    if(!otherEntity.hasCollision())
+                    {
+                        entity.validateIntent();
+                        entity.handleCollision(otherEntity.getCollisionSignal());
+                        otherEntity.handleCollision(entity.getCollisionSignal());
+                    }
+                    return;
+                }
+            }
+            entity.validateIntent();
+
         }
     }
 
-    private boolean isValidMovement(MovementIntention movementIntention)
-    {
-        for(Entity entity : entities)
-        {
-            if(entity.getX() == movementIntention.dstX && entity.getY() == movementIntention.dstY)
-                return false;
-        }
-        return true;
-    }
 
     public void add(Entity entity)
     {
         entities.add(entity);
+        entity.setWorld(this);
     }
 
     public void remove(Entity entity)
@@ -49,7 +63,7 @@ public class GameWorld
         entities.clear();
     }
 
-    public ArrayList<Entity> getEntities()
+    public CopyOnWriteArrayList<Entity> getEntities()
     {
         return entities;
     }

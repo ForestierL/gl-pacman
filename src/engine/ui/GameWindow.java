@@ -11,13 +11,14 @@ import javafx.stage.Stage;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 
 
-public class GameWindow extends Application implements ComponentListener
+public class GameWindow extends Application
 {
     private GameWorld world;
     private GraphicsDisplay graphicsDisplay;
-    protected BackgroundDisplay backgroundDisplay;
+    private BackgroundDisplay backgroundDisplay;
 
     private String name;
     private int width, height, tileWidth, tileHeight;
@@ -43,9 +44,8 @@ public class GameWindow extends Application implements ComponentListener
     {
         stage.setTitle(name);
         stage.setScene(scene);
-        scene.setFill(Color.PERU);
 
-        for(GridLayer gridLayer : backgroundDisplay.getGridLayers()) group.getChildren().add(gridLayer);
+        group.getChildren().addAll(backgroundDisplay.getGridLayers());
         group.getChildren().add(graphicsDisplay);
 
         stage.show();
@@ -56,30 +56,40 @@ public class GameWindow extends Application implements ComponentListener
     {
         initialize();
         run();
-        end();
     }
 
     private void initialize()
     {
-
+        System.out.println("GameWindow : initialize.");
     }
 
     private void run()
     {
+        System.out.println("GameWindow : run loop.");
         new AnimationTimer()
         {
+            private long lastHandle;
+
+            @Override
+            public void start()
+            {
+                super.start();
+                lastHandle = System.nanoTime();
+            }
+
+            @Override
             public void handle(long currentNanoTime)
             {
-                world.udpate();
+                long elapsed = currentNanoTime - lastHandle;
+
+                world.udpate(elapsed);
                 graphicsDisplay.render();
+
+                lastHandle = currentNanoTime;
             }
         }.start();
     }
 
-    private void end()
-    {
-
-    }
 
     protected void setGameWorld(GameWorld world)
     {
@@ -87,25 +97,24 @@ public class GameWindow extends Application implements ComponentListener
         graphicsDisplay.setGameWorld(this.world);
     }
 
-
-    @Override
-    public void componentResized(ComponentEvent e)
+    protected void addToBackground(ArrayList<GridLayer> gridLayers)
     {
-
+        backgroundDisplay.addAll(gridLayers);
     }
 
-    @Override
-    public void componentMoved(ComponentEvent e) {
-
+    public GraphicsDisplay getGraphicsDisplay() {
+        return graphicsDisplay;
     }
 
-    @Override
-    public void componentShown(ComponentEvent e) {
-
+    public void setGraphicsDisplay(GraphicsDisplay graphicsDisplay) {
+        this.graphicsDisplay = graphicsDisplay;
     }
 
-    @Override
-    public void componentHidden(ComponentEvent e) {
+    public BackgroundDisplay getBackgroundDisplay() {
+        return backgroundDisplay;
+    }
 
+    public void setBackgroundDisplay(BackgroundDisplay backgroundDisplay) {
+        this.backgroundDisplay = backgroundDisplay;
     }
 }

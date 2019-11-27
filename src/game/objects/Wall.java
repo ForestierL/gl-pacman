@@ -1,10 +1,10 @@
-package game;
+package game.objects;
 
-import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
+import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
-public class Wall extends Sprite
+public class Wall extends GameObject
 {
     public Wall(int x, int y)
     {
@@ -12,4 +12,8 @@ public class Wall extends Sprite
         setDefaultSubImage(7);
     }
 
+    @Override
+    void handleCollision(CollisionSignal signal) {
+
+    }
 }

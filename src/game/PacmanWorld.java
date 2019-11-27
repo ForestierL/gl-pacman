@@ -16,7 +16,7 @@ public class PacmanWorld extends GameWorld
     InputScheme usedInputs = new InputScheme();
 
     public int playerScore = 0;
-    Level level;
+    public Level level;
 
     public void setLevel(Level level)
     {

@@ -12,8 +12,10 @@ public class InputScheme implements EventHandler<KeyEvent>
     @Override
     public void handle(KeyEvent event)
     {
-        Pair<InputAction, Object[]> actionIdentifier = keyMap.get(event.getCode());
-        actionIdentifier.getKey().execute(actionIdentifier.getValue());
+        if(keyMap.keySet().contains(event.getCode())) {
+            Pair<InputAction, Object[]> actionIdentifier = keyMap.get(event.getCode());
+            actionIdentifier.getKey().execute(actionIdentifier.getValue());
+        }
     }
 
     private HashMap<KeyCode, Pair<InputAction, Object[]>> keyMap;

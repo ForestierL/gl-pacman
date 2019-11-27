@@ -7,10 +7,10 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
-public class GemPoint extends GameObject
+public class Gem extends GameObject
 {
 
-    public GemPoint(int x, int y)
+    public Gem(int x, int y)
     {
         super(new SpriteTexture(new Image("points.png")), x, y);
         Random randomGenerator = new Random();
@@ -20,7 +20,7 @@ public class GemPoint extends GameObject
     }
 
     @Override
-    void handleCollision(CollisionSignal signal)
+    public void handleCollision(CollisionSignal signal)
     {
         switch(signal)
         {

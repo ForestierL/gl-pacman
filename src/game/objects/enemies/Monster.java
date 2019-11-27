@@ -6,15 +6,13 @@ import engine.graphics.SpriteTexture;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import engine.physics.Direction;
-import game.objects.GameObject;
-import game.utils.CollisionSignal;
 import game.utils.tiledutils.Point;
 import game.utils.tiledutils.Terrain;
 import javafx.scene.input.KeyCode;
 
 import static engine.graphics.Orientation.*;
 
-public abstract class Monster extends GameObject {
+public abstract class Monster extends Sprite {
 
     private Orientation orientation;
 
@@ -26,9 +24,16 @@ public abstract class Monster extends GameObject {
     {
         super(spriteTexture, x, y);
 
-        this.orientation = NORTH;
-        this.scared = false;
-        this.dead = false;
+        InputAction moveAction = new InputAction()
+        {
+            @Override
+            protected void execute(Object... actionParameters)
+            {
+                //addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
+                setOrientation((Orientation) actionParameters[2]);
+            }
+        };
+
 
         setOrientationDependantDisplay(true);
 
@@ -39,8 +44,8 @@ public abstract class Monster extends GameObject {
         addOrientationKey(EAST, 8);
     }
 
-    public Orientation getDir(char[][] terrain, int x, int y){
-        if(this.atIntersection(terrain, x, y)){
+    public Orientation move(char[][] terrain, int x, int y){
+        if(this.checkDir(terrain, x, y)){
             if(this.scared)
                 return this.chase(terrain, x, y);
             else
@@ -49,27 +54,8 @@ public abstract class Monster extends GameObject {
         return this.orientation;
     }
 
-    public Orientation recalculateDir(char[][] terrain, int x, int y){
-
-        if(this.scared)
-            return this.chase(terrain, x, y);
-        else
-           return this.flight(terrain, x , y);
-
-    }
-
-    private boolean hasSideRoads(char[][]terrain, int x, int y){
-        if((this.orientation == Orientation.NORTH || this.orientation == Orientation.SOUTH) && (y>0 && terrain[x][y-1] != 1) || (y<=terrain[x].length && terrain[x][y+1] != 1))
-            return true;
-        if((this.orientation == Orientation.WEST || this.orientation == Orientation.EAST) && (x>0 && terrain[x-1][y] != 1) || (x<=terrain.length && terrain[x+1][y] != 1))
-            return true;
-        return false;
-    }
-
-    public boolean atIntersection(char[][] terrain, int x, int y){
+    public boolean checkDir(char[][] terrain, int x, int y){
         Point p = Terrain.getPlayer(terrain);
-        if(hasSideRoads(terrain, x, y))
-                return true;
         if(this.orientation == Orientation.NORTH && x>0 && terrain[x-1][y] != 1){
             return true;
         }
@@ -92,42 +78,29 @@ public abstract class Monster extends GameObject {
         Orientation o = Terrain.getShortestOrientation(terrain, x, y);
 
         if(o != NORTH && x>0 && terrain[x-1][y] != 1){
-            this.orientation = Orientation.NORTH;
             return NORTH;
         }
         if(o != SOUTH && x<terrain.length && terrain[x+1][y] != 1){
-            this.orientation = Orientation.SOUTH;
             return SOUTH;
         }
         if(o != WEST && y>0 && terrain[x][y-1] != 1){
-            this.orientation = Orientation.WEST;
             return WEST;
         }
         if(o != EAST && y<terrain[0].length && terrain[x][y+1] != 1){
-            this.orientation = Orientation.EAST;
             return EAST;
         }
-        this.orientation = o;
         return o;
     }
 
     public Orientation dig(int x, int y, int origX, int origY){
-        if(x < origX) {
-            this.orientation = Orientation.SOUTH;
+        if(x < origX)
             return Orientation.SOUTH;
-        }
-        if(y > origY) {
-            this.orientation = Orientation.WEST;
+        if(y > origY)
             return Orientation.WEST;
-        }
-        if(y < origY) {
-            this.orientation = Orientation.EAST;
+        if(y < origY)
             return EAST;
-        }
-        this.orientation = Orientation.NORTH;
         return Orientation.NORTH;
     }
-
 
     public void blocked(){}
 

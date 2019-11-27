@@ -1,4 +1,4 @@
-package game.utils.tiledutils;
+package game.utils;
 
 import engine.graphics.Orientation;
 

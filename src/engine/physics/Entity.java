@@ -6,7 +6,7 @@ public abstract class Entity
 {
     private GameWorld world;
     private int collisionSignal = 0;
-    private boolean hasCollision = true;
+    private boolean hasCollision = true, visible = true;
     private int x, y, z;
     private double speed = 1.0;
     double timeSinceLastUpdate = 0;
@@ -80,6 +80,8 @@ public abstract class Entity
 
     public abstract void handleCollision(int signal);
 
+    public abstract void update();
+
     public int getCollisionSignal()
     {
         return collisionSignal;
@@ -104,5 +106,13 @@ public abstract class Entity
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

@@ -16,21 +16,22 @@ public class GameWorld
             if(entity.timeSinceLastUpdate > 1.0 / entity.getSpeed())
             {
                 entity.timeSinceLastUpdate = 0;
-                manageMovementIntentions(entity);
+                entity.update();
+                manageMovementIntents(entity);
             }
 
         }
     }
 
-    private void manageMovementIntentions(Entity entity)
+    private void manageMovementIntents(Entity entity)
     {
-        MovementIntent currentIntention = entity.getMovementIntent();
+        MovementIntent currentIntent = entity.getMovementIntent();
 
-        if(currentIntention != null)
+        if(currentIntent != null)
         {
             for (Entity otherEntity : entities)
             {
-                if (otherEntity.getX() == currentIntention.dstX && otherEntity.getY() == currentIntention.dstY)
+                if (otherEntity.getX() == currentIntent.dstX && otherEntity.getY() == currentIntent.dstY)
                 {
                     if(!otherEntity.hasCollision())
                     {

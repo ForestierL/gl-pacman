@@ -1,12 +1,18 @@
 package game;
 
+import engine.graphics.SpriteTexture;
+import engine.input.InputScheme;
 import engine.physics.GameWorld;
-import game.objects.GemPoint;
+import game.objects.Gem;
+import game.objects.Pacman;
 import game.objects.Wall;
+import game.objects.enemies.Crazy;
 import game.utils.Level;
+import javafx.scene.image.Image;
 
 public class PacmanWorld extends GameWorld
 {
+    InputScheme usedInputs = new InputScheme();
 
     public int playerScore = 0;
     Level level;
@@ -33,9 +39,22 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == '0')
                 {
-                    GemPoint gemPoint = new GemPoint(x, y);
+                    Gem gem = new Gem(x, y);
 
-                    add(gemPoint);
+                    add(gem);
+                }
+                else if(currentChar == 'P')
+                {
+                    Pacman player = new Pacman(x, y);
+                    usedInputs = player.getInputScheme();
+
+                    add(player);
+                }
+                else if(currentChar == 'G')
+                {
+                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), x, y);
+
+                    add(monster);
                 }
             }
         }

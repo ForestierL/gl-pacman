@@ -2,7 +2,6 @@ package game;
 
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
-import game.utils.CollisionSignal;
 import game.utils.tiledutils.Point;
 import game.utils.tiledutils.Terrain;
 
@@ -25,6 +24,4 @@ public class Blocker extends Monster{
         return o;
 
     }
-
-
 }

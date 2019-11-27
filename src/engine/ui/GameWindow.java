@@ -42,6 +42,7 @@ public class GameWindow extends Application
     @Override
     public void start(Stage stage)
     {
+        stage.setResizable(false);
         stage.setTitle(name);
         stage.setScene(scene);
 

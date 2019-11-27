@@ -3,15 +3,18 @@ package game.objects;
 import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
 import game.utils.CollisionSignal;
+import game.utils.Direction;
 
 public abstract class GameObject extends Sprite
 {
+    public Direction direction = Direction.NONE;
+
     public GameObject(SpriteTexture spriteTexture, int x, int y)
     {
         super(spriteTexture, x, y);
     }
 
-    protected void setCollisionSignal(CollisionSignal collisionSignal)
+    void setCollisionSignal(CollisionSignal collisionSignal)
     {
         super.setCollisionSignal(collisionSignal.ordinal());
     }
@@ -22,6 +25,6 @@ public abstract class GameObject extends Sprite
         handleCollision(CollisionSignal.values()[signal]);
     }
 
-    abstract void handleCollision(CollisionSignal signal);
+    public abstract void handleCollision(CollisionSignal signal);
 
 }

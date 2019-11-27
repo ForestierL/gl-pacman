@@ -20,20 +20,9 @@ public abstract class Monster extends Sprite {
 
     private boolean dead;
 
-    public Monster(SpriteTexture spriteTexture, int x, int y)
+    public Monster(SpriteTexture spriteTexture, int x, int y, int width, int height)
     {
-        super(spriteTexture, x, y);
-
-        InputAction moveAction = new InputAction()
-        {
-            @Override
-            protected void execute(Object... actionParameters)
-            {
-                //addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
-                setOrientation((Orientation) actionParameters[2]);
-            }
-        };
-
+        super(spriteTexture, x, y, width, height);
 
         setOrientationDependantDisplay(true);
 

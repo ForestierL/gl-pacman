@@ -29,21 +29,26 @@ public class GameWorld
 
         if(currentIntent != null)
         {
+            Hitbox transformedHitbox = entity.getHitbox().transformHitbox(currentIntent);
             for (Entity otherEntity : entities)
             {
-                if (otherEntity.getX() == currentIntent.dstX && otherEntity.getY() == currentIntent.dstY)
+                Hitbox otherHitbox = otherEntity.getHitbox();
+                if (transformedHitbox.intersects(otherHitbox) && (transformedHitbox != otherHitbox))
                 {
-                    if(!otherEntity.hasCollision())
+                    System.out.println("other entity : " + otherEntity.toString());
+
+                    boolean valid = entity.handleCollision(otherEntity.getCollisionSignal()) && otherEntity.handleCollision(entity.getCollisionSignal());
+
+                    if(valid)
                     {
                         entity.validateIntent();
-                        entity.handleCollision(otherEntity.getCollisionSignal());
-                        otherEntity.handleCollision(entity.getCollisionSignal());
+                        return;
                     }
-                    return;
+                    else
+                        return;
                 }
             }
             entity.validateIntent();
-
         }
     }
 

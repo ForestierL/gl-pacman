@@ -5,19 +5,20 @@ import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import engine.physics.MovementIntent;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
+import game.utils.DisplacementSmoother;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public class Pacman extends GameObject implements Controllable
 {
     private InputScheme inputScheme;
+    private DisplacementSmoother displacementSmoother;
 
-    public Pacman(int x, int y)
+    public Pacman(int x, int y, int width, int height)
     {
-        super(new SpriteTexture(new Image("player_normal.png")), x, y);
+        super(new SpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
         setCollisionSignal(CollisionSignal.PACMAN);
 
@@ -46,40 +47,21 @@ public class Pacman extends GameObject implements Controllable
         addOrientationKey(Orientation.SOUTH, 0);
         addOrientationKey(Orientation.WEST, 4);
         addOrientationKey(Orientation.EAST, 8);
+
+        displacementSmoother = new DisplacementSmoother(this);
     }
 
     @Override
-    public void handleCollision(CollisionSignal signal) {
-
+    public boolean handleCollision(CollisionSignal signal)
+    {
+        return true;
     }
 
 
     @Override
     public void update()
     {
-        int distanceX = 0;
-        int distanceY = 0;
-        switch(direction)
-        {
-            case NONE:
-                return;
-            case X_NEGATIVE:
-                distanceX = -1;
-                break;
-            case X_POSITIVE:
-                distanceX = 1;
-                break;
-            case Y_NEGATIVE:
-                distanceY = -1;
-                break;
-            case Y_POSITIVE:
-                distanceY = 1;
-                break;
-            default:
-                return;
-
-        }
-        addMovementIntent(new MovementIntent(getX(), getY(), getX() + distanceX, getY() + distanceY));
+        addMovementIntent(displacementSmoother.getMovementIntent(direction));
     }
 
     @Override

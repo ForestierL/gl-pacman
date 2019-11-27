@@ -6,14 +6,15 @@ import javafx.scene.image.Image;
 
 public class Wall extends GameObject
 {
-    public Wall(int x, int y)
+    public Wall(int x, int y, int width, int height)
     {
-        super(new SpriteTexture(new Image("mapTileset.png")), x, y);
+        super(new SpriteTexture(new Image("mapTileset.png")), x, y, width, height);
         setDefaultSubImage(7);
     }
 
     @Override
-    public void handleCollision(CollisionSignal signal) {
-
+    public boolean handleCollision(CollisionSignal signal)
+    {
+        return false;
     }
 }

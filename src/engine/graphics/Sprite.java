@@ -13,21 +13,15 @@ public class Sprite extends Entity
 
     private Hashtable<Orientation, Integer> orientationMap = new Hashtable<>();
 
-    private Sprite(SpriteTexture spriteTexture, int x, int y, int z)
+    public Sprite(SpriteTexture spriteTexture, int x, int y, int width, int height)
     {
+        super(x, y, width ,height);
         this.spriteTexture = spriteTexture;
         setX(x);
         setY(y);
-        setZ(z);
         orientationDependantDisplay = false;
         defaultSubImage = 0;
     }
-
-    public Sprite(SpriteTexture spriteTexture, int x, int y)
-    {
-        this(spriteTexture, x, y, 0);
-    }
-
 
     private int getSubImage()
     {
@@ -62,9 +56,9 @@ public class Sprite extends Entity
     }
 
     @Override
-    public void handleCollision(int signal)
+    public boolean handleCollision(int signal)
     {
-
+        return true;
     }
 
     @Override

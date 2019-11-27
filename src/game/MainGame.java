@@ -20,6 +20,8 @@ public class MainGame extends GameWindow
         gridLayers.addAll(layers); */
 
         Level customLevel = initLevel("resources/levels/customlevel.plv");
+        customLevel.tileHeight = 32;
+        customLevel.tileWidth = 32;
 
         PacmanWorld world = initWorld(customLevel);
 

@@ -14,6 +14,7 @@ public class Powerup extends GameObject
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         setDefaultSubImage(4);
         setCollisionState(false);
+        resizeHitbox(12, 12);
     }
 
     @Override

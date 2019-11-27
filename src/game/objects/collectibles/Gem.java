@@ -18,6 +18,7 @@ public class Gem extends GameObject
         int randomSubImage =  randomGenerator.nextInt(3);
         setDefaultSubImage(randomSubImage);
         setCollisionState(false);
+        resizeHitbox(8, 8);
     }
 
     @Override

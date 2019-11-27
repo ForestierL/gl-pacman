@@ -8,13 +8,15 @@ public abstract class Entity
     private GameWorld world;
     private int collisionSignal = 0;
     private boolean hasCollision = true, visible = true;
-    private int x, y, width, height;
+    private int x, y, width, height, priority = 0;
     private double speed = 1.0;
     double timeSinceLastUpdate = 0;
     private MovementIntent movementIntent;
 
     public Entity(int x, int y, int width, int height)
     {
+        this.width = width;
+        this.height = height;
         hitbox = new Hitbox(x, y, width, height);
     }
 
@@ -138,5 +140,13 @@ public abstract class Entity
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

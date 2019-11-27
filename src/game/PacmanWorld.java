@@ -2,7 +2,9 @@ package game;
 
 import engine.graphics.SpriteTexture;
 import engine.input.InputScheme;
+import engine.physics.Entity;
 import engine.physics.GameWorld;
+import game.objects.GameObject;
 import game.objects.collectibles.Gem;
 import game.objects.Pacman;
 import game.objects.Wall;
@@ -10,6 +12,8 @@ import game.objects.collectibles.Powerup;
 import game.objects.enemies.Crazy;
 import game.utils.Level;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 public class PacmanWorld extends GameWorld
 {
@@ -28,6 +32,11 @@ public class PacmanWorld extends GameWorld
     {
         int tileWidth = level.tileWidth;
         int tileHeight = level.tileHeight;
+
+        ArrayList<Entity> walls = new ArrayList<>();
+        ArrayList<Entity> collectibles = new ArrayList<>();
+        ArrayList<Entity> movers = new ArrayList<>();
+
         for(int y = 0; y < level.getHeight(); y++)
         {
             for(int x = 0; x < level.getWidth(); x++)
@@ -41,35 +50,39 @@ public class PacmanWorld extends GameWorld
                 {
                     Wall newWall = new Wall(posX, posY, tileWidth, tileHeight);
 
-                    add(newWall);
+                    walls.add(newWall);
                 }
                 else if(currentChar == '0')
                 {
                     Gem gem = new Gem(posX, posY, tileWidth, tileHeight);
 
-                    add(gem);
+                    collectibles.add(gem);
                 }
                 else if(currentChar == 'P')
                 {
                     Pacman player = new Pacman(posX, posY, tileWidth, tileHeight);
                     usedInputs = player.getInputScheme();
 
-                    add(player);
+                    movers.add(player);
                 }
                 else if(currentChar == 'G')
                 {
                     Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
 
-                    add(monster);
+                    movers.add(monster);
                 }
                 else if(currentChar == 'u')
                 {
                     Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight);
 
-                    add(powerup);
+                    collectibles.add(powerup);
                 }
             }
         }
+
+        addAll(walls);
+        addAll(collectibles);
+        addAll(movers);
     }
 
     public int getPlayerScore() {

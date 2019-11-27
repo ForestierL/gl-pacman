@@ -33,7 +33,8 @@ public class Pacman extends GameObject implements Controllable
             }
         };
 
-        setSpeed(80);
+        setSpeed(500);
+        setPriority(5);
         inputScheme = new InputScheme();
 
         inputScheme.setKeyAction(KeyCode.UP, moveAction, Orientation.NORTH, Direction.Y_NEGATIVE);

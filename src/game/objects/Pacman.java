@@ -8,15 +8,16 @@ import engine.input.InputScheme;
 import engine.physics.MovementIntent;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public class Pacman extends GameObject implements Controllable
 {
     private InputScheme inputScheme;
 
-    public Pacman(SpriteTexture spriteTexture, int x, int y)
+    public Pacman(int x, int y)
     {
-        super(spriteTexture, x, y);
+        super(new SpriteTexture(new Image("player_normal.png")), x, y);
 
         setCollisionSignal(CollisionSignal.PACMAN);
 

@@ -40,14 +40,10 @@ public class MainGame extends GameWindow
 
     private PacmanWorld initWorld(Level level)
     {
-        SpriteTexture pacmanTexture = new SpriteTexture(new Image("player_normal.png"));
-
-        Pacman player = new Pacman(pacmanTexture, 1, 1);
-        scene.setOnKeyPressed(player.getInputScheme());
-
         PacmanWorld world = new PacmanWorld();
         world.setLevel(level);
-        world.add(player);
+
+        scene.setOnKeyPressed(world.usedInputs);
 
         return world;
     }

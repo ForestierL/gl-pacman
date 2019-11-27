@@ -31,7 +31,7 @@ public class Pacman extends GameObject implements Controllable
             }
         };
 
-        setSpeed(6);
+        setSpeed(7.2);
         inputScheme = new InputScheme();
 
         inputScheme.setKeyAction(KeyCode.UP, moveAction, Orientation.NORTH, Direction.Y_NEGATIVE);
@@ -49,7 +49,7 @@ public class Pacman extends GameObject implements Controllable
     }
 
     @Override
-    void handleCollision(CollisionSignal signal) {
+    public void handleCollision(CollisionSignal signal) {
 
     }
 

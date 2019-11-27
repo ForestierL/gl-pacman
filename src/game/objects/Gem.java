@@ -20,7 +20,7 @@ public class Gem extends GameObject
     }
 
     @Override
-    void handleCollision(CollisionSignal signal)
+    public void handleCollision(CollisionSignal signal)
     {
         switch(signal)
         {

@@ -13,7 +13,7 @@ public class Wall extends GameObject
     }
 
     @Override
-    void handleCollision(CollisionSignal signal) {
+    public void handleCollision(CollisionSignal signal) {
 
     }
 }

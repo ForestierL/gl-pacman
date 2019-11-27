@@ -44,12 +44,6 @@ public class Hitbox extends Rectangle
     public void setPosY(int y) {
         setY(y);
     }
-    public void setWidth(int width) {
-        setWidth(width);
-    }
-    public void setHeight(int height) {
-        setHeight(height);
-    }
 
     public void resize(float percent) {
         resize(getWidth()*percent, getHeight()*percent);

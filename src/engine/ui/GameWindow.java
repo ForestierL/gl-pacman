@@ -68,10 +68,24 @@ public class GameWindow extends Application
         System.out.println("GameWindow : run loop.");
         new AnimationTimer()
         {
+            private long lastHandle;
+
+            @Override
+            public void start()
+            {
+                super.start();
+                lastHandle = System.nanoTime();
+            }
+
+            @Override
             public void handle(long currentNanoTime)
             {
-                world.udpate();
+                long elapsed = currentNanoTime - lastHandle;
+
+                world.udpate(elapsed);
                 graphicsDisplay.render();
+
+                lastHandle = currentNanoTime;
             }
         }.start();
     }

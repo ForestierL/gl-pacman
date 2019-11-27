@@ -6,12 +6,19 @@ public class GameWorld
 {
     private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
 
-    public void udpate()
+    public void udpate(long elapsedTime)
     {
-
+        double elapsedSeconds = elapsedTime / 1_000_000_000.0;
         for(Entity entity : entities)
         {
-            manageMovementIntentions(entity);
+            entity.timeSinceLastUpdate += elapsedSeconds;
+
+            if(entity.timeSinceLastUpdate > 1.0 / entity.getSpeed())
+            {
+                entity.timeSinceLastUpdate = 0;
+                manageMovementIntentions(entity);
+            }
+
         }
     }
 

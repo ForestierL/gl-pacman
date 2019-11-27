@@ -8,6 +8,8 @@ public abstract class Entity
     private int collisionSignal = 0;
     private boolean hasCollision = true;
     private int x, y, z;
+    private double speed = 1.0;
+    double timeSinceLastUpdate = 0;
     private MovementIntent movementIntent;
 
     public abstract void render(GraphicsDisplay graphicsDisplay);
@@ -94,5 +96,13 @@ public abstract class Entity
 
     public void setWorld(GameWorld world) {
         this.world = world;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 }

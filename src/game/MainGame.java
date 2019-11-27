@@ -54,7 +54,8 @@ public class MainGame extends GameWindow
 
     private void initGraphics(PacmanWorld world, int uiMargin)
     {
-
+        getGraphicsDisplay().setWidth(world.level.getWidth() * 32);
+        getGraphicsDisplay().setHeight(world.level.getHeight() * 32 + uiMargin);
     }
 
     private Level initLevel(String levelPath)

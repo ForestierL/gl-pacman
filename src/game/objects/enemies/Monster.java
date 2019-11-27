@@ -1,14 +1,11 @@
-package game;
+package game.objects.enemies;
 
 import engine.graphics.Orientation;
 import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
 import engine.input.InputAction;
-import engine.input.InputScheme;
-import engine.physics.Direction;
-import game.utils.tiledutils.Point;
-import game.utils.tiledutils.Terrain;
-import javafx.scene.input.KeyCode;
+import game.utils.Point;
+import game.utils.Terrain;
 
 import static engine.graphics.Orientation.*;
 

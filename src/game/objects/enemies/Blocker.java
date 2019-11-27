@@ -1,12 +1,9 @@
-package game;
+package game.objects.enemies;
 
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
-import game.utils.tiledutils.Point;
-import game.utils.tiledutils.Terrain;
-
-import static engine.graphics.Orientation.*;
-import static engine.graphics.Orientation.EAST;
+import game.utils.Point;
+import game.utils.Terrain;
 
 public class Blocker extends Monster{
 

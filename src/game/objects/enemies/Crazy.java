@@ -1,4 +1,4 @@
-package game;
+package game.objects.enemies;
 
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;

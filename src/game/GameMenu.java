@@ -1,4 +1,4 @@
-package engine.ui;
+package game;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -50,9 +50,8 @@ public class GameMenu extends Application {
         menuBox.getChildren().add(itemExit);
         getMenuItem(options.length).setActive(false);
         menuBox.setAlignment(Pos.TOP_CENTER);
-        menuBox.setTranslateX(220);
+        menuBox.setTranslateX(200);
         menuBox.setTranslateY(150);
-
         Text about = new Text("Test");
         about.setFill(Color.BLACK);
         about.setFont(FONT);
@@ -78,6 +77,7 @@ public class GameMenu extends Application {
             setAlignment(Pos.CENTER);
 
             text = new Text(name);
+            text.setFont(FONT);
 
             getChildren().add(text);
         }
@@ -91,7 +91,9 @@ public class GameMenu extends Application {
         }
 
         public void activate() {
-//            System.out.println(this.text);
+            if (this.text.getText() == "PLAY"){
+                MainGame game = new MainGame();
+            }
             script.run();
         }
     }

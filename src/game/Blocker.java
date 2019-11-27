@@ -18,10 +18,10 @@ public class Blocker extends Monster{
     @Override
     public Orientation chase(char[][] terrain, int x, int y) {
         Point p = Terrain.getPlayer(terrain);
-        if
+
         terrain = Terrain.copy(terrain, p.getX(), p.getY());
         Orientation o = Terrain.getShortestOrientation(terrain, x, y);
-        return o
+        return o;
 
     }
 }

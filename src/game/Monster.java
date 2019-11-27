@@ -6,7 +6,6 @@ import engine.graphics.SpriteTexture;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import engine.physics.Direction;
-import engine.physics.MovementIntention;
 import game.utils.tiledutils.Point;
 import game.utils.tiledutils.Terrain;
 import javafx.scene.input.KeyCode;
@@ -30,7 +29,7 @@ public abstract class Monster extends Sprite {
             @Override
             protected void execute(Object... actionParameters)
             {
-                addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
+                //addMovementIntention(new MovementIntention(getX(), getY(), getX() + (int)actionParameters[0], getY() + (int)actionParameters[1]));
                 setOrientation((Orientation) actionParameters[2]);
             }
         };

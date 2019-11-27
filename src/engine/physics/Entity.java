@@ -149,4 +149,8 @@ public abstract class Entity
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    public void resizeHitbox(int x, int y){
+        hitbox.resizeCenter(x,y);
+    }
 }

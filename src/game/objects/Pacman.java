@@ -5,7 +5,6 @@ import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import game.PacmanWorld;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
 import game.utils.DisplacementSmoother;
@@ -16,16 +15,12 @@ public class Pacman extends GameObject implements Controllable
 {
     private InputScheme inputScheme;
     private DisplacementSmoother displacementSmoother;
-    private int oldX;
-    private int oldY;
 
     public Pacman(int x, int y, int width, int height)
     {
         super(new SpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
         setCollisionSignal(CollisionSignal.PACMAN);
-        oldX= x;
-        oldY = y;
 
         InputAction moveAction = new InputAction()
         {
@@ -63,20 +58,10 @@ public class Pacman extends GameObject implements Controllable
     }
 
 
-
-
     @Override
     public void update()
     {
-        PacmanWorld pc = (PacmanWorld)this.getWorld();
-
-        pc.level.terrain[oldY][oldX] = '0';
-        pc.level.terrain[getY()][getX()] = 'P';
-        oldX = getX();
-        oldY = getY();
-
         addMovementIntent(displacementSmoother.getMovementIntent(direction));
-
     }
 
     @Override

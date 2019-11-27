@@ -18,7 +18,7 @@ public class Hitbox extends Rectangle
 
     public Hitbox transformHitbox(MovementIntent movementIntent)
     {
-        return new Hitbox(movementIntent.dstX * 32, movementIntent.dstY * 32, getWidth(), getHeight());
+        return new Hitbox(movementIntent.dstX, movementIntent.dstY, getWidth(), getHeight());
     }
 
     public boolean intersects(Hitbox other)
@@ -33,4 +33,39 @@ public class Hitbox extends Rectangle
         }
         return true;
     }
+
+    public void setPos(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+    public void setPosX(int x) {
+        setX(x);
+    }
+    public void setPosY(int y) {
+        setY(y);
+    }
+    public void setWidth(int width) {
+        setWidth(width);
+    }
+    public void setHeight(int height) {
+        setHeight(height);
+    }
+
+    public void resize(float percent) {
+        resize(getWidth()*percent, getHeight()*percent);
+    }
+    public void resize(int width, int height) {
+        setWidth(width);
+        setHeight(height);
+    }
+
+    public void resizeCenter(int width, int height)
+    {
+        double tempX = (getWidth()-width)/2;
+        double tempY = (getHeight()-height)/2;
+        resize(width, height);
+        setPosX((int) (getX()+tempX));
+        setPosY((int) (getY()+tempY));
+    }
+
 }

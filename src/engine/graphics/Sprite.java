@@ -49,7 +49,7 @@ public class Sprite extends Entity
                     (
                             spriteTexture.getImage(), coordinates[0], coordinates[1],
                             coordinates[2], coordinates[3],
-                            getX() * graphicsDisplay.getTileWidth(), getY() * graphicsDisplay.getTileHeight(),
+                            getX(), getY(),
                             coordinates[2] * graphicsDisplay.getResolutionX(), coordinates[3] * graphicsDisplay.getResolutionY()
                     );
         }

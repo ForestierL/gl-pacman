@@ -1,5 +1,6 @@
 package engine.physics;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld
@@ -35,7 +36,7 @@ public class GameWorld
                 Hitbox otherHitbox = otherEntity.getHitbox();
                 if (transformedHitbox.intersects(otherHitbox) && (transformedHitbox != otherHitbox))
                 {
-                    System.out.println("other entity : " + otherEntity.toString());
+                    // System.out.println("other entity : " + otherEntity.toString());
 
                     boolean valid = entity.handleCollision(otherEntity.getCollisionSignal()) && otherEntity.handleCollision(entity.getCollisionSignal());
 
@@ -57,6 +58,12 @@ public class GameWorld
     {
         entities.add(entity);
         entity.setWorld(this);
+    }
+
+    public void addAll(ArrayList<Entity> entities)
+    {
+        for(Entity entity : entities)
+            add(entity);
     }
 
     public void remove(Entity entity)

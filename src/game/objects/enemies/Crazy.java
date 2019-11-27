@@ -6,17 +6,18 @@ import game.utils.CollisionSignal;
 
 public class Crazy extends Monster{
 
-    public Crazy(SpriteTexture spriteTexture, int x, int y){
-        super(spriteTexture, x, y);
+    public Crazy(SpriteTexture spriteTexture, int x, int y, int width, int height){
+        super(spriteTexture, x, y, width, height);
     }
 
     @Override
-    public void handleCollision(CollisionSignal signal) {
-
+    public boolean handleCollision(CollisionSignal signal) {
+        return true;
     }
 
     @Override
-    public Orientation chase(char[][] terrain, int x, int y) {
+    public Orientation chase(char[][] terrain, int x, int y)
+    {
         return null;
     }
 }

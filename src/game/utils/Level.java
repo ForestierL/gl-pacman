@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class Level
 {
     private int width, height;
+    public int tileWidth, tileHeight;
 
     public char[][] terrain;
 

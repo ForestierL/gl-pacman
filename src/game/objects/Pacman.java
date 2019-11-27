@@ -15,9 +15,9 @@ public class Pacman extends GameObject implements Controllable
 {
     private InputScheme inputScheme;
 
-    public Pacman(int x, int y)
+    public Pacman(int x, int y, int width, int height)
     {
-        super(new SpriteTexture(new Image("player_normal.png")), x, y);
+        super(new SpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
         setCollisionSignal(CollisionSignal.PACMAN);
 
@@ -49,8 +49,9 @@ public class Pacman extends GameObject implements Controllable
     }
 
     @Override
-    public void handleCollision(CollisionSignal signal) {
-
+    public boolean handleCollision(CollisionSignal signal)
+    {
+        return true;
     }
 
 

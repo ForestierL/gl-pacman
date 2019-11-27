@@ -4,13 +4,19 @@ import engine.graphics.GraphicsDisplay;
 
 public abstract class Entity
 {
+    private Hitbox hitbox;
     private GameWorld world;
     private int collisionSignal = 0;
     private boolean hasCollision = true, visible = true;
-    private int x, y, z;
+    private int x, y, width, height;
     private double speed = 1.0;
     double timeSinceLastUpdate = 0;
     private MovementIntent movementIntent;
+
+    public Entity(int x, int y, int width, int height)
+    {
+        hitbox = new Hitbox(x * 32, y * 32, width, height);
+    }
 
     public abstract void render(GraphicsDisplay graphicsDisplay);
 
@@ -45,6 +51,7 @@ public abstract class Entity
 
     public void setX(int x)
     {
+        hitbox.setX(x * 32);
         this.x = x;
     }
 
@@ -55,17 +62,34 @@ public abstract class Entity
 
     public void setY(int y)
     {
+        hitbox.setY(y * 32);
         this.y = y;
     }
 
-    public int getZ()
-    {
-        return z;
+    public int getWidth() {
+        return width;
     }
 
-    public void setZ(int z)
-    {
-        this.z = z;
+    public void setWidth(int width) {
+        hitbox.setWidth(width);
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        hitbox.setHeight(height);
+        this.height = height;
+    }
+
+    public Hitbox getHitbox() {
+        return hitbox;
+    }
+
+    public void setHitbox(Hitbox hitbox) {
+        this.hitbox = hitbox;
     }
 
     public boolean hasCollision()
@@ -78,7 +102,7 @@ public abstract class Entity
         this.hasCollision = hasCollision;
     }
 
-    public abstract void handleCollision(int signal);
+    public abstract boolean handleCollision(int signal);
 
     public abstract void update();
 

@@ -8,14 +8,14 @@ import game.utils.Terrain;
 
 public class Blocker extends Monster{
 
-    public Blocker(SpriteTexture spriteTexture, int x, int y){
+    public Blocker(SpriteTexture spriteTexture, int x, int y, int width, int height){
 
-        super(spriteTexture, x, y);
+        super(spriteTexture, x, y, width, height);
     }
 
     @Override
-    public void handleCollision(CollisionSignal signal) {
-
+    public boolean handleCollision(CollisionSignal signal) {
+        return true;
     }
 
     @Override

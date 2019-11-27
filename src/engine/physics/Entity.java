@@ -1,6 +1,7 @@
 package engine.physics;
 
 import engine.graphics.GraphicsDisplay;
+import game.PacmanWorld;
 
 public abstract class Entity
 {
@@ -37,6 +38,8 @@ public abstract class Entity
             setX(movementIntent.dstX);
             setY(movementIntent.dstY);
             movementIntent = null;
+
+
         }
         catch(NullPointerException e)
         {

@@ -3,6 +3,7 @@ package game.objects.enemies;
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import game.utils.CollisionSignal;
+import game.utils.Direction;
 
 public class Crazy extends Monster{
 
@@ -10,14 +11,12 @@ public class Crazy extends Monster{
         super(spriteTexture, x, y, width, height);
     }
 
-    @Override
-    public boolean handleCollision(CollisionSignal signal) {
-        return true;
-    }
+
 
     @Override
-    public Orientation chase(char[][] terrain, int x, int y)
-    {
-        return null;
+    public Direction chase(char[][] terrain, int x, int y) {
+        double r = 1.+ Math.random() * (4);
+        this.direction = Direction.values()[(int)r];
+        return this.direction;
     }
 }

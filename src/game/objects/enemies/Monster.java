@@ -1,18 +1,20 @@
-package game;
+package game.objects.enemies;
 
 import engine.graphics.Orientation;
 import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import engine.physics.Direction;
-import game.utils.tiledutils.Point;
-import game.utils.tiledutils.Terrain;
+import engine.physics.MovementIntent;
+import game.PacmanWorld;
+import game.objects.GameObject;
+import game.objects.Pacman;
+import game.utils.*;
 import javafx.scene.input.KeyCode;
 
 import static engine.graphics.Orientation.*;
 
-public abstract class Monster extends Sprite {
+public abstract class Monster extends GameObject {
 
     private Orientation orientation;
 
@@ -20,77 +22,159 @@ public abstract class Monster extends Sprite {
 
     private boolean dead;
 
+    private DisplacementSmoother displacementSmoother;
+
     public Monster(SpriteTexture spriteTexture, int x, int y, int width, int height)
     {
         super(spriteTexture, x, y, width, height);
 
         setOrientationDependantDisplay(true);
+        this.direction = Direction.Y_NEGATIVE;
+        this.scared=false;
+        this.dead=false;
 
         addOrientationKey(Orientation.NORTH, 12);
         addOrientationKey(Orientation.NONE, 12);
         addOrientationKey(Orientation.SOUTH, 0);
         addOrientationKey(Orientation.WEST, 4);
         addOrientationKey(EAST, 8);
-    }
 
-    public Orientation move(char[][] terrain, int x, int y){
-        if(this.checkDir(terrain, x, y)){
-            if(this.scared)
+        displacementSmoother = new DisplacementSmoother(this);
+    }
+    private char[][] getTerrain(){
+        PacmanWorld tmp = (PacmanWorld) this.getWorld();
+        return tmp.level.terrain;}
+
+    public Direction move(){
+
+        int x = this.getX();
+        int y = this.getY();
+        char[][] terrain = getTerrain();
+
+        if(this.atIntersection(terrain, x, y)){
+            if(!this.scared)
                 return this.chase(terrain, x, y);
             else
                 return this.flight(terrain, x , y);
         }
-        return this.orientation;
+        return this.direction;
     }
 
-    public boolean checkDir(char[][] terrain, int x, int y){
-        Point p = Terrain.getPlayer(terrain);
-        if(this.orientation == Orientation.NORTH && x>0 && terrain[x-1][y] != 1){
+    public Direction forceComputeDir(){
+
+        int x = this.getX();
+        int y = this.getY();
+        char[][] terrain = getTerrain();
+
+        if(!this.scared)
+            return this.chase(terrain, x, y);
+        else
+            return this.flight(terrain, x , y);
+
+    }
+
+    private boolean hasSidePath(){
+
+        int x = this.getX();
+        int y = this.getY();
+        char[][] terrain = getTerrain();
+
+        if((this.direction == Direction.Y_NEGATIVE || this.direction == Direction.Y_POSITIVE) && (y>0 && terrain[y-1][x] != 1)||(y<terrain.length && terrain[y+1][x] != 1))
             return true;
-        }
-        if(this.orientation == Orientation.SOUTH && x<=terrain.length && terrain[x-1][y] != 1){
+        if((this.direction == Direction.X_NEGATIVE || this.direction == Direction.X_POSITIVE) && (x>0 && terrain[y][x-1] != 1)||(x<terrain[0].length && terrain[y][x+1] != 1))
             return true;
-        }
-        if(this.orientation == Orientation.WEST && y>0 && terrain[x-1][y] != 1){
-            return true;
-        }
-        if(this.orientation == EAST && y<terrain[0].length && terrain[x-1][y] != 1){
-            return true;
-        }
         return false;
+
+
     }
 
-    public abstract Orientation chase(char[][] terrain, int x, int y);
+    private boolean atIntersection(char[][] terrain, int x, int y){
 
-    public Orientation flight(char[][] terrain, int x, int y){
-
-        Orientation o = Terrain.getShortestOrientation(terrain, x, y);
-
-        if(o != NORTH && x>0 && terrain[x-1][y] != 1){
-            return NORTH;
+        Point p = Terrain.getPlayer(terrain);
+        if(hasSidePath()){
+            return true;
         }
-        if(o != SOUTH && x<terrain.length && terrain[x+1][y] != 1){
-            return SOUTH;
+        if((this.direction == Direction.X_NEGATIVE || this.direction == Direction.X_POSITIVE) && x>0 && terrain[y][x-1] != '1'){
+            return false;
         }
-        if(o != WEST && y>0 && terrain[x][y-1] != 1){
-            return WEST;
+        if((this.direction == Direction.X_NEGATIVE || this.direction == Direction.X_POSITIVE) && x<=terrain[0].length && terrain[y][x+1] != '1'){
+            return false;
         }
-        if(o != EAST && y<terrain[0].length && terrain[x][y+1] != 1){
-            return EAST;
+        if((this.direction == Direction.Y_NEGATIVE || this.direction == Direction.Y_POSITIVE) && y>0 && terrain[y-1][x] != '1'){
+            return false;
         }
-        return o;
+        if((this.direction == Direction.Y_NEGATIVE || this.direction == Direction.Y_POSITIVE) && y<terrain.length && terrain[y+1][x] != '1'){
+            return false;
+        }
+        return true;
     }
 
-    public Orientation dig(int x, int y, int origX, int origY){
+    public abstract Direction chase(char[][] terrain, int x, int y);
+
+    private Direction flight(char[][] terrain, int x, int y){
+
+        Direction d = Terrain.getShortestDirection(terrain, x, y);
+
+        if(d != Direction.X_NEGATIVE && x>0 && terrain[y][x-1] != '1'){
+            return Direction.X_NEGATIVE;
+        }
+        if(d != Direction.X_POSITIVE && x<terrain[0].length && terrain[y][x+1] != '1'){
+            return Direction.X_POSITIVE;
+        }
+        if(d != Direction.Y_NEGATIVE && y>0 && terrain[y-1][x] != '1'){
+            return Direction.Y_NEGATIVE;
+        }
+        if(d != Direction.Y_POSITIVE && y<terrain.length && terrain[y+1][x] != '1'){
+            return Direction.Y_POSITIVE;
+        }
+        return d;
+    }
+
+    private Direction dig(int x, int y, int origX, int origY){
         if(x < origX)
-            return Orientation.SOUTH;
+            return Direction.X_POSITIVE;
         if(y > origY)
-            return Orientation.WEST;
+            return Direction.Y_NEGATIVE;
         if(y < origY)
-            return EAST;
-        return Orientation.NORTH;
+            return Direction.Y_POSITIVE;
+        return Direction.X_NEGATIVE;
     }
 
-    public void blocked(){}
+    @Override
+    public boolean handleCollision(CollisionSignal signal) {
+
+        return true;
+    }
+
+    public void setDead(boolean b){
+
+        int x = this.getX();
+        int y = this.getY();
+        char[][] terrain = getTerrain();
+
+        if(b)
+            this.move();
+        else
+            this.move();
+        this.dead = b;
+    }
+
+    public void setScared(boolean b){
+
+        int x = this.getX();
+        int y = this.getY();
+        char[][] terrain = getTerrain();
+
+        this.move();
+
+        this.scared = b;
+    }
+
+    @Override
+    public void update()
+    {
+        this.direction = this.move();
+        addMovementIntent(displacementSmoother.getMovementIntent(direction));
+    }
 
 }

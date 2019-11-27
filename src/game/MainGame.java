@@ -1,33 +1,23 @@
 package game;
 
 import engine.graphics.GridLayer;
-import engine.graphics.SpriteTexture;
 import engine.ui.GameWindow;
-import game.objects.Pacman;
 import game.utils.Level;
 import game.utils.Tileset;
 import javafx.scene.image.Image;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainGame extends GameWindow
 {
-    public MainGame() throws IOException
-    {
+    public MainGame() {
         super("Pacman", 500, 500, 32, 32);
-
-        /*
-
+/*
         Level level = new Level();
         level.loadFromJson("resources/level1.json");
         ArrayList<GridLayer> layers = level.getGridLayers();
-        gridLayers.addAll(layers);
-
-         */
-
-
+        gridLayers.addAll(layers); */
 
         Level customLevel = initLevel("resources/levels/customlevel.plv");
 

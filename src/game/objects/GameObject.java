@@ -9,7 +9,7 @@ public abstract class GameObject extends Sprite
 {
     public Direction direction = Direction.NONE;
 
-    GameObject(SpriteTexture spriteTexture, int x, int y)
+    public GameObject(SpriteTexture spriteTexture, int x, int y)
     {
         super(spriteTexture, x, y);
     }
@@ -25,6 +25,6 @@ public abstract class GameObject extends Sprite
         handleCollision(CollisionSignal.values()[signal]);
     }
 
-    abstract void handleCollision(CollisionSignal signal);
+    public abstract void handleCollision(CollisionSignal signal);
 
 }

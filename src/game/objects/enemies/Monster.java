@@ -4,12 +4,13 @@ import engine.graphics.Orientation;
 import engine.graphics.Sprite;
 import engine.graphics.SpriteTexture;
 import engine.input.InputAction;
+import game.objects.GameObject;
 import game.utils.Point;
 import game.utils.Terrain;
 
 import static engine.graphics.Orientation.*;
 
-public abstract class Monster extends Sprite {
+public abstract class Monster extends GameObject {
 
     private Orientation orientation;
 

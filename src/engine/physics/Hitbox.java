@@ -18,7 +18,7 @@ public class Hitbox extends Rectangle
 
     public Hitbox transformHitbox(MovementIntent movementIntent)
     {
-        return new Hitbox(movementIntent.dstX * 32, movementIntent.dstY * 32, getWidth(), getHeight());
+        return new Hitbox(movementIntent.dstX, movementIntent.dstY, getWidth(), getHeight());
     }
 
     public boolean intersects(Hitbox other)

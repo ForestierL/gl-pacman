@@ -62,7 +62,8 @@ public class Pacman extends GameObject implements Controllable
     @Override
     public void update()
     {
-        // addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        /*
         int distanceX = 0;
         int distanceY = 0;
         switch(direction)
@@ -85,7 +86,7 @@ public class Pacman extends GameObject implements Controllable
                 return;
 
         }
-        addMovementIntent(new MovementIntent(getX(), getY(), getX() + distanceX, getY() + distanceY));
+        addMovementIntent(new MovementIntent(getX(), getY(), getX() + distanceX, getY() + distanceY)); */
 
     }
 

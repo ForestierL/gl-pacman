@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PacmanWorld extends GameWorld
 {
     InputScheme usedInputs = new InputScheme();
-
+    public Pacman pacman;
     public int playerScore = 0;
     public Level level;
 
@@ -64,7 +64,7 @@ public class PacmanWorld extends GameWorld
                 {
                     Pacman player = new Pacman(posX, posY, tileWidth, tileHeight);
                     usedInputs = player.getInputScheme();
-
+                    this.pacman = player;
                     movers.add(player);
                 }
                 else if(currentChar == 'G')

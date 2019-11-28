@@ -10,7 +10,7 @@ public class Terrain {
             for (int x = 0; x < terrain[y].length; x++) {
 
                 if (terrain[y][x] == 'P')
-                    p = new Point(y, x);
+                    p = new Point(x, y);
             }
         }
         return p;
@@ -49,6 +49,7 @@ public class Terrain {
                 System.out.println(res);
             }
         }
+
 
         return res;
     }
@@ -117,6 +118,25 @@ public class Terrain {
             res[y][i] = terrain[y][i];
 
         res[y][x]='1';
+        //char[][] copyTerrain = terrain.clone();
+        //copyTerrain[x][y] = '1';
+        return res;
+
+    }
+    public static char[][] fullCopy(char[][] terrain) {
+
+
+        /*char[][] copyTerrain = terrain;
+        copyTerrain[x] = new char[terrain[x].length];
+
+        for(int i = 0; i < terrain[x].length;i++){
+            copyTerrain[x][i] = terrain[x][i];
+        }*/
+        char[][] res = new char[terrain.length][terrain[0].length];
+        for(int i=0; i< terrain.length; i++)
+            for(int h = 0;h<terrain[0].length; h++){
+                res[i][h] = terrain[i][h];
+            }
         //char[][] copyTerrain = terrain.clone();
         //copyTerrain[x][y] = '1';
         return res;

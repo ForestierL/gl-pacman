@@ -55,9 +55,7 @@ public abstract class Monster extends GameObject {
         int x = this.getX()/32;
         int y = this.getY()/32;
         char[][] terrain = getTerrain();
-
         if(this.atIntersection(terrain, x, y)){
-
             if(!this.scared) {
                 return this.chase(terrain, x, y);
 
@@ -104,16 +102,16 @@ public abstract class Monster extends GameObject {
         if(hasSidePath()){
             return true;
         }
-        if((this.direction == Direction.X_NEGATIVE || this.direction == Direction.X_POSITIVE) && x>0 && terrain[y][x-1] != '1'){
+        if((this.direction == Direction.X_NEGATIVE) && x>0 && terrain[y][x-1] != '1'){
             return false;
         }
-        if((this.direction == Direction.X_NEGATIVE || this.direction == Direction.X_POSITIVE) && x<=terrain[0].length && terrain[y][x+1] != '1'){
+        if((this.direction == Direction.X_POSITIVE) && x<=terrain[0].length && terrain[y][x+1] != '1'){
             return false;
         }
-        if((this.direction == Direction.Y_NEGATIVE || this.direction == Direction.Y_POSITIVE) && y>0 && terrain[y-1][x] != '1'){
+        if((this.direction == Direction.Y_NEGATIVE) && y>0 && terrain[y-1][x] != '1'){
             return false;
         }
-        if((this.direction == Direction.Y_NEGATIVE || this.direction == Direction.Y_POSITIVE) && y<=terrain.length && terrain[y+1][x] != '1'){
+        if((this.direction == Direction.Y_POSITIVE) && y<=terrain.length && terrain[y+1][x] != '1'){
             return false;
         }
         return true;

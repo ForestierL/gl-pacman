@@ -2,11 +2,15 @@ package game.objects.enemies;
 
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
-import game.utils.CollisionSignal;
+import game.objects.enemies.Monster;
+import game.utils.Direction;
 import game.utils.Point;
 import game.utils.Terrain;
 
-public class Blocker extends Monster{
+import static engine.graphics.Orientation.*;
+import static engine.graphics.Orientation.EAST;
+
+public class Blocker extends Monster {
 
     public Blocker(SpriteTexture spriteTexture, int x, int y, int width, int height){
 
@@ -14,16 +18,11 @@ public class Blocker extends Monster{
     }
 
     @Override
-    public boolean handleCollision(CollisionSignal signal) {
-        return true;
-    }
-
-    @Override
-    public Orientation chase(char[][] terrain, int x, int y) {
+    public Direction chase(char[][] terrain, int x, int y) {
         Point p = Terrain.getPlayer(terrain);
 
         terrain = Terrain.copy(terrain, p.getX(), p.getY());
-        Orientation o = Terrain.getShortestOrientation(terrain, x, y);
+        Direction o = Terrain.getShortestDirection(terrain, x, y);
         return o;
 
     }

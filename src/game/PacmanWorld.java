@@ -9,6 +9,8 @@ import game.objects.collectibles.Gem;
 import game.objects.Pacman;
 import game.objects.Wall;
 import game.objects.collectibles.Powerup;
+import game.objects.enemies.Blocker;
+import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
 import game.utils.Level;
 import javafx.scene.image.Image;
@@ -67,7 +69,19 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'G')
                 {
+                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
+
+                    movers.add(monster);
+                }
+                else if(currentChar == 'C')
+                {
                     Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
+
+                    movers.add(monster);
+                }
+                else if(currentChar == 'B')
+                {
+                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
 
                     movers.add(monster);
                 }

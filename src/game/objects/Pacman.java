@@ -6,6 +6,7 @@ import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import engine.physics.MovementIntent;
+import game.PacmanWorld;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
 import game.utils.DisplacementSmoother;
@@ -16,13 +17,16 @@ public class Pacman extends GameObject implements Controllable
 {
     private InputScheme inputScheme;
     private DisplacementSmoother displacementSmoother;
+    private int oldX;
+    private int oldY;
 
     public Pacman(int x, int y, int width, int height)
     {
         super(new SpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
         setCollisionSignal(CollisionSignal.PACMAN);
-
+        this.oldX = getX()/32;
+        this.oldY = getY()/32;
         InputAction moveAction = new InputAction()
         {
             @Override
@@ -63,31 +67,14 @@ public class Pacman extends GameObject implements Controllable
     @Override
     public void update()
     {
-        addMovementIntent(displacementSmoother.getMovementIntent(direction));
-        /*
-        int distanceX = 0;
-        int distanceY = 0;
-        switch(direction)
-        {
-            case NONE:
-                return;
-            case X_NEGATIVE:
-                distanceX = -1;
-                break;
-            case X_POSITIVE:
-                distanceX = 1;
-                break;
-            case Y_NEGATIVE:
-                distanceY = -1;
-                break;
-            case Y_POSITIVE:
-                distanceY = 1;
-                break;
-            default:
-                return;
+        PacmanWorld pc = (PacmanWorld) this.getWorld();
+        pc.level.terrain[oldY][oldX] = '0';
+        oldX = getX()/32;
+        oldY = getY()/32;
 
-        }
-        addMovementIntent(new MovementIntent(getX(), getY(), getX() + distanceX, getY() + distanceY)); */
+        pc.level.terrain[getY()/32][getX()/32] = 'P';
+
+        addMovementIntent(displacementSmoother.getMovementIntent(direction));
 
     }
 

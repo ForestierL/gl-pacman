@@ -75,6 +75,7 @@ public abstract class Entity
     public void setWidth(int width) {
         hitbox.setWidth(width);
         this.width = width;
+
     }
 
     public int getHeight() {

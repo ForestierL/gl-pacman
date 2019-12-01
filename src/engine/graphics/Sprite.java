@@ -103,7 +103,7 @@ public class Sprite extends Entity
         this.defaultSubImage = defaultSubImage;
     }
 
-    public void resizeEntity(float percent) {
+    public void resizeEntity(double percent) {
         resizeEntity((int) (getWidth()*percent), (int) (getHeight()*percent));
     }
     public void resizeEntity(int width, int height) {

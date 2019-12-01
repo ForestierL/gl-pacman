@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PacmanWorld extends GameWorld
 {
-    InputScheme usedInputs = new InputScheme();
+    public InputScheme usedInputs = new InputScheme();
     public Pacman pacman;
     public int playerScore = 0;
     public Level level;

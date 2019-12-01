@@ -1,71 +1,23 @@
 package game;
 
-import engine.graphics.GridLayer;
-import engine.ui.GameWindow;
-import game.utils.Level;
-import game.utils.Tileset;
-import javafx.scene.image.Image;
+import engine.ui.MenuScene;
+import engine.ui.TestWindow;
 
-import java.io.File;
-import java.util.ArrayList;
-
-public class MainGame extends GameWindow
+public class MainGame extends TestWindow
 {
-    public MainGame() {
-        super("Pacman", 500, 500, 32, 32);
-/*
-        Level level = new Level();
-        level.loadFromJson("resources/level1.json");
-        ArrayList<GridLayer> layers = level.getGridLayers();
-        gridLayers.addAll(layers); */
-
-        Level customLevel = initLevel("resources/levels/customlevel.plv");
-        customLevel.tileHeight = 32;
-        customLevel.tileWidth = 32;
-
-        PacmanWorld world = initWorld(customLevel);
-
-        initGraphics(world, 100);
-
-        setGameWorld(world);
-    }
-
-    private PacmanWorld initWorld(Level level)
+    public MainGame()
     {
-        PacmanWorld world = new PacmanWorld();
-        world.setLevel(level);
+        super("Pacman", 500, 500);
 
-        scene.setOnKeyPressed(world.usedInputs);
+        PacmanGameScene gameScene = new PacmanGameScene(gameGroup);
 
-        return world;
-    }
+        String[] menuObjects = {"Play", "Settings"};
 
-    private void initGraphics(PacmanWorld world, int uiMargin)
-    {
-        getGraphicsDisplay().setWidth(world.level.getWidth() * 32);
-        getGraphicsDisplay().setHeight(world.level.getHeight() * 32 + uiMargin);
-    }
+        MenuScene menuScene = new MenuScene(menuGroup, this);
 
-    private Level initLevel(String levelPath)
-    {
-        File levelFile = new File(levelPath);
+        setGameScene(gameScene);
+        setMenuScene(menuScene, menuObjects);
 
-        Level level = new Level();
-        level.loadFromPLV(levelFile);
-
-        // level.printTerrain();
-
-        Tileset standardTileset = new Tileset(new Image("mapTileset.png"), 32, 32);
-        standardTileset.setTileMapping('0', 48);
-
-        level.setTileset(standardTileset);
-
-
-        ArrayList<GridLayer> layers = level.getGridLayers();
-
-        addToBackground(layers);
-
-        return level;
     }
 
     public static void main(String[] args)

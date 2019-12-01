@@ -61,12 +61,12 @@ public class GameWindow extends Application
 
     private void initialize()
     {
-        System.out.println("GameWindow : initialize.");
+        System.out.println("TestWindow : initialize.");
     }
 
     private void run()
     {
-        System.out.println("GameWindow : run loop.");
+        System.out.println("TestWindow : run loop.");
         new AnimationTimer()
         {
             private long lastHandle;

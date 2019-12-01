@@ -9,7 +9,7 @@ public class MainGame extends TestWindow
     {
         super("Pacman", 500, 500);
 
-        PacmanGameScene gameScene = new PacmanGameScene(gameGroup);
+        PacmanGameScene gameScene = new PacmanGameScene(gameGroup, this);
 
         String[] menuObjects = {"Play", "Settings"};
 

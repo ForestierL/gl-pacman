@@ -2,6 +2,7 @@ package game;
 
 import engine.graphics.GridLayer;
 import engine.ui.GameScene;
+import engine.ui.TestWindow;
 import game.utils.Level;
 import game.utils.Tileset;
 import javafx.scene.Parent;
@@ -12,9 +13,9 @@ import java.util.ArrayList;
 
 public class PacmanGameScene extends GameScene
 {
-    public PacmanGameScene(Parent root)
+    public PacmanGameScene(Parent root, TestWindow testWindow)
     {
-        super(root, "Pacman", 500, 500, 32, 32);
+        super(root, testWindow, 500, 500, 32, 32);
     }
 
     private PacmanWorld initWorld(Level level)

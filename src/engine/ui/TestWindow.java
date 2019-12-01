@@ -11,6 +11,10 @@ public class TestWindow extends Application
     private String name;
     private int width, height;
 
+    private boolean currentGame = false;
+    private boolean pause = false;
+    AnimationTimer animationTimer;
+
     private Stage stage;
 
     private MenuScene menuScene;
@@ -42,8 +46,20 @@ public class TestWindow extends Application
     public void startGame()
     {
         stage.setScene(gameScene);
-        initialize();
-        run();
+        if (!currentGame){
+            currentGame = true;
+            initialize();
+            run();
+        }else {
+            pause = false;
+            animationTimer.start();
+        }
+    }
+
+    public void pauseGame(){
+        pause = true;
+        animationTimer.stop();
+        stage.setScene(menuScene);
     }
 
     public void setMenuScene(MenuScene menuScene, String[] options)
@@ -72,7 +88,7 @@ public class TestWindow extends Application
     private void run()
     {
         System.out.println("TestWindow : run loop.");
-        new AnimationTimer()
+        animationTimer = new AnimationTimer()
         {
             private long lastHandle;
 
@@ -92,6 +108,7 @@ public class TestWindow extends Application
 
                 lastHandle = currentNanoTime;
             }
-        }.start();
+        };
+        animationTimer.start();
     }
 }

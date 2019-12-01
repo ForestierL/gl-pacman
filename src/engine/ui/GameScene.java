@@ -12,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
@@ -22,18 +24,23 @@ public abstract class GameScene extends Scene
     private GameWorld world;
     private GraphicsDisplay graphicsDisplay;
     private BackgroundDisplay backgroundDisplay;
-
+    private TestWindow testWindow;
 
     private int width;
     private int height;
 
-    public GameScene(Parent root, String name, int width, int height, int tileWidth, int tileHeight)
+    public GameScene(Parent root, TestWindow testWindow, int width, int height, int tileWidth, int tileHeight)
     {
         super(root);
 
         this.width = width;
         this.height = height;
 
+        addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+            if (event.getCode() == KeyCode.ESCAPE) pushEscape();
+        });
+
+        this.testWindow = testWindow;
         world = new GameWorld();
         backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
         graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
@@ -70,5 +77,10 @@ public abstract class GameScene extends Scene
 
     public void setBackgroundDisplay(BackgroundDisplay backgroundDisplay) {
         this.backgroundDisplay = backgroundDisplay;
+    }
+
+    void pushEscape(){
+        System.out.println("Pause");
+        testWindow.pauseGame();
     }
 }

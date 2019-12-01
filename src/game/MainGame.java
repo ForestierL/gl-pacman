@@ -1,9 +1,9 @@
 package game;
 
+import engine.ui.GameWindow;
 import engine.ui.MenuScene;
-import engine.ui.TestWindow;
 
-public class MainGame extends TestWindow
+public class MainGame extends GameWindow
 {
     public MainGame()
     {

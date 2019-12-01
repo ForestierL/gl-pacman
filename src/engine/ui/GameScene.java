@@ -4,19 +4,11 @@ import engine.graphics.BackgroundDisplay;
 import engine.graphics.GraphicsDisplay;
 import engine.graphics.GridLayer;
 import engine.physics.GameWorld;
-import game.PacmanWorld;
-import game.utils.Level;
-import game.utils.Tileset;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public abstract class GameScene extends Scene
@@ -24,12 +16,12 @@ public abstract class GameScene extends Scene
     private GameWorld world;
     private GraphicsDisplay graphicsDisplay;
     private BackgroundDisplay backgroundDisplay;
-    private TestWindow testWindow;
+    private GameWindow gameWindow;
 
     private int width;
     private int height;
 
-    public GameScene(Parent root, TestWindow testWindow, int width, int height, int tileWidth, int tileHeight)
+    public GameScene(Parent root, GameWindow gameWindow, int width, int height, int tileWidth, int tileHeight)
     {
         super(root);
 
@@ -40,7 +32,7 @@ public abstract class GameScene extends Scene
             if (event.getCode() == KeyCode.ESCAPE) pushEscape();
         });
 
-        this.testWindow = testWindow;
+        this.gameWindow = gameWindow;
         world = new GameWorld();
         backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
         graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
@@ -81,6 +73,6 @@ public abstract class GameScene extends Scene
 
     void pushEscape(){
         System.out.println("Pause");
-        testWindow.pauseGame();
+        gameWindow.pauseGame();
     }
 }

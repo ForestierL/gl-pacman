@@ -5,7 +5,6 @@ import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
-import engine.physics.MovementIntent;
 import game.PacmanWorld;
 import game.utils.CollisionSignal;
 import game.utils.Direction;
@@ -37,7 +36,7 @@ public class Pacman extends GameObject implements Controllable
             }
         };
 
-        setSpeed(100);
+        setSpeed(0.007);
         setPriority(5);
         inputScheme = new InputScheme();
 
@@ -65,8 +64,9 @@ public class Pacman extends GameObject implements Controllable
 
 
     @Override
-    public void update()
+    public void update(double elapsedTime)
     {
+        super.update(elapsedTime);
         PacmanWorld pc = (PacmanWorld) this.getWorld();
         pc.level.terrain[oldY][oldX] = '0';
         oldX = getX()/32;

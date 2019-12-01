@@ -1,6 +1,5 @@
 package engine.graphics;
 
-import engine.ui.GameWindow;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

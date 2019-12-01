@@ -3,11 +3,16 @@ package game.objects.collectibles;
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
 import game.objects.GameObject;
+import game.objects.modifiers.AppliableEffect;
+import game.objects.modifiers.InvincibleEffect;
+import game.objects.modifiers.SimpleEffect;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
 public class Powerup extends GameObject
 {
+
+    private static AppliableEffect powerupEffect = new InvincibleEffect(new SimpleEffect());
 
     public Powerup(int x, int y, int width, int height)
     {
@@ -22,10 +27,10 @@ public class Powerup extends GameObject
     {
         switch(signal)
         {
-            case PACMAN:
+            case PACMAN: case PACMAN_INVINCIBLE:
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
-                pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 5000);
-                System.out.println("POWERUP");
+                pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 700);
+                pacmanWorld.pacman.addEffect(powerupEffect, 7);
 
                 pacmanWorld.remove(this);
                 return true;

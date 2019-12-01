@@ -38,8 +38,8 @@ public abstract class Monster extends GameObject {
         this.scared=false;
         this.dead=false;
         this.difficulty = difficulty;
-        setSpeed(10+18*difficulty);
-        setCollisionSignal(CollisionSignal.MONSTER.ordinal());
+        setSpeed(0.02-0.002*difficulty);
+        setCollisionSignal(CollisionSignal.MONSTER);
 
         oldX = getX()/32;
         oldY = getY()/32;
@@ -192,7 +192,9 @@ public abstract class Monster extends GameObject {
     }
 
     @Override
-    public void update(){
+    public void update(double elapsedTime)
+    {
+        super.update(elapsedTime);
         this.direction = this.move();
         oldX = (getX())/32;
         oldY = (getY())/32;

@@ -2,5 +2,5 @@ package game.utils;
 
 public enum CollisionSignal
 {
-    PACMAN, MONSTER, GEM, POWERUP, TELEPORT, WALL
+    PACMAN, PACMAN_INVINCIBLE, MONSTER, GEM, POWERUP, TELEPORT, WALL
 }

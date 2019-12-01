@@ -63,7 +63,7 @@ public class Sprite extends Entity
     }
 
     @Override
-    public void update() {
+    public void update(double elapsedTime) {
 
     }
 

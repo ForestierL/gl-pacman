@@ -26,7 +26,7 @@ public class Gem extends GameObject
     {
         switch(signal)
         {
-            case PACMAN:
+            case PACMAN : case PACMAN_INVINCIBLE:
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
                 pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 100);
                 System.out.println(pacmanWorld.getPlayerScore());

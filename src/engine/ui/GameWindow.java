@@ -1,73 +1,94 @@
 package engine.ui;
 
-import engine.graphics.*;
-import engine.physics.GameWorld;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.util.ArrayList;
 
 
 public class GameWindow extends Application
 {
-    private GameWorld world;
-    private GraphicsDisplay graphicsDisplay;
-    private BackgroundDisplay backgroundDisplay;
-
     private String name;
-    private int width, height, tileWidth, tileHeight;
+    private int width, height;
 
-    private Group group = new Group();
-    protected Scene scene = new Scene(group);
+    private boolean currentGame = false;
+    private boolean pause = false;
+    AnimationTimer animationTimer;
 
-    public GameWindow(String name, int width, int height, int tileWidth, int tileHeight)
+    private Stage stage;
+
+    private MenuScene menuScene;
+    private GameScene gameScene;
+
+    protected Group menuGroup = new Group();
+    protected Group gameGroup = new Group();
+
+
+    public GameWindow(String name, int width, int height)
     {
         this.name = name;
         this.width = width;
         this.height = height;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-
-        world = new GameWorld();
-        backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
-        graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
     }
 
     @Override
     public void start(Stage stage)
     {
+        this.stage = stage;
+
         stage.setResizable(false);
         stage.setTitle(name);
-        stage.setScene(scene);
 
-        group.getChildren().addAll(backgroundDisplay.getGridLayers());
-        group.getChildren().add(graphicsDisplay);
-
+        stage.setScene(menuScene);
         stage.show();
-        startGame();
     }
 
-    private void startGame()
+    public void startGame()
     {
-        initialize();
-        run();
+        stage.setScene(gameScene);
+        if (!currentGame){
+            currentGame = true;
+            initialize();
+            run();
+        }else {
+            pause = false;
+            animationTimer.start();
+        }
+    }
+
+    public void pauseGame(){
+        pause = true;
+        animationTimer.stop();
+        stage.setScene(menuScene);
+    }
+
+    public void setMenuScene(MenuScene menuScene, String[] options)
+    {
+        this.menuScene = menuScene;
+        menuScene.setRoot(menuGroup);
+        menuGroup.getChildren().add(menuScene.createContent(width, height, options));
+        menuScene.addEvents();
+    }
+
+    public void setGameScene(GameScene gameScene)
+    {
+        this.gameScene = gameScene;
+        gameScene.setRoot(gameGroup);
+        gameScene.createGame();
+
+        gameGroup.getChildren().addAll(gameScene.getBackgroundDisplay().getGridLayers());
+        gameGroup.getChildren().add(gameScene.getGraphicsDisplay());
     }
 
     private void initialize()
     {
-        System.out.println("TestWindow : initialize.");
+        System.out.println("GameWindow : initialize.");
     }
 
     private void run()
     {
-        System.out.println("TestWindow : run loop.");
-        new AnimationTimer()
+        System.out.println("GameWindow : run loop.");
+        animationTimer = new AnimationTimer()
         {
             private long lastHandle;
 
@@ -82,40 +103,12 @@ public class GameWindow extends Application
             public void handle(long currentNanoTime)
             {
                 long elapsed = currentNanoTime - lastHandle;
-
-                world.udpate(elapsed);
-                graphicsDisplay.render();
+                gameScene.getWorld().udpate(elapsed);
+                gameScene.getGraphicsDisplay().render();
 
                 lastHandle = currentNanoTime;
             }
-        }.start();
-    }
-
-
-    protected void setGameWorld(GameWorld world)
-    {
-        this.world = world;
-        graphicsDisplay.setGameWorld(this.world);
-    }
-
-    protected void addToBackground(ArrayList<GridLayer> gridLayers)
-    {
-        backgroundDisplay.addAll(gridLayers);
-    }
-
-    public GraphicsDisplay getGraphicsDisplay() {
-        return graphicsDisplay;
-    }
-
-    public void setGraphicsDisplay(GraphicsDisplay graphicsDisplay) {
-        this.graphicsDisplay = graphicsDisplay;
-    }
-
-    public BackgroundDisplay getBackgroundDisplay() {
-        return backgroundDisplay;
-    }
-
-    public void setBackgroundDisplay(BackgroundDisplay backgroundDisplay) {
-        this.backgroundDisplay = backgroundDisplay;
+        };
+        animationTimer.start();
     }
 }

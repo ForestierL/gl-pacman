@@ -22,7 +22,7 @@ public abstract class Entity
 
     public abstract void render(GraphicsDisplay graphicsDisplay);
 
-    public void addMovementIntent(MovementIntent movementIntent)
+    protected void addMovementIntent(MovementIntent movementIntent)
     {
         this.movementIntent = movementIntent;
     }
@@ -107,7 +107,7 @@ public abstract class Entity
 
     public abstract boolean handleCollision(int signal);
 
-    public abstract void update();
+    public abstract void update(double elapsedTime);
 
     public int getCollisionSignal()
     {
@@ -131,8 +131,12 @@ public abstract class Entity
         return speed;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
+    public void setSpeed(double speed)
+    {
+        if(speed < 0)
+            this.speed = 0;
+        else
+            this.speed = speed;
     }
 
     public boolean isVisible() {

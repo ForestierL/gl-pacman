@@ -15,11 +15,11 @@ import javafx.scene.text.Text;
 public class MenuScene extends Scene
 {
 
-    private TestWindow testWindow;
+    private GameWindow gameWindow;
 
-    public MenuScene(Parent root, TestWindow testWindow){
+    public MenuScene(Parent root, GameWindow gameWindow){
         super(root);
-        this.testWindow = testWindow;
+        this.gameWindow = gameWindow;
     }
 
     private VBox menuBox;
@@ -51,7 +51,7 @@ public class MenuScene extends Scene
             if(options[i].equals("Play"))
             {
                 menuItem.setOnActivate(() -> {
-                    testWindow.startGame();
+                    gameWindow.startGame();
                 });
             }
             menuBox.getChildren().add(menuItem);

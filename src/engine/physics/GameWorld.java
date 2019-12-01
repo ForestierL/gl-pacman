@@ -14,10 +14,10 @@ public class GameWorld
         {
             entity.timeSinceLastUpdate += elapsedSeconds;
 
-            if(entity.timeSinceLastUpdate > 1.0 / entity.getSpeed())
+            if(entity.timeSinceLastUpdate > entity.getSpeed())
             {
                 entity.timeSinceLastUpdate = 0;
-                entity.update();
+                entity.update(elapsedSeconds);
                 manageMovementIntents(entity);
             }
 

@@ -37,7 +37,7 @@ public class Pacman extends GameObject implements Controllable
             }
         };
 
-        setSpeed(500);
+        setSpeed(100);
         setPriority(5);
         inputScheme = new InputScheme();
 

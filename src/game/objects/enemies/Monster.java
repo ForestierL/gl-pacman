@@ -38,7 +38,8 @@ public abstract class Monster extends GameObject {
         this.scared=false;
         this.dead=false;
         this.difficulty = difficulty;
-        setSpeed(300+50*difficulty);
+        setSpeed(10+18*difficulty);
+        setCollisionSignal(CollisionSignal.MONSTER.ordinal());
 
         oldX = getX()/32;
         oldY = getY()/32;

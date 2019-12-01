@@ -69,19 +69,19 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'G')
                 {
-                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
+                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'C')
                 {
-                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
+                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'B')
                 {
-                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight);
+                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }

@@ -23,10 +23,13 @@ public abstract class Monster extends GameObject {
     private boolean dead;
     public int oldX;
     public int oldY;
+    private int origX;
+    private int origY;
+    public int difficulty;
 
     private DisplacementSmoother displacementSmoother;
 
-    public Monster(SpriteTexture spriteTexture, int x, int y, int width, int height)
+    public Monster(SpriteTexture spriteTexture, int x, int y, int width, int height, int difficulty)
     {
         super(spriteTexture, x, y, width, height);
 
@@ -34,9 +37,13 @@ public abstract class Monster extends GameObject {
         this.direction = Direction.Y_NEGATIVE;
         this.scared=false;
         this.dead=false;
-        setSpeed(300);
+        this.difficulty = difficulty;
+        setSpeed(300+50*difficulty);
+
         oldX = getX()/32;
         oldY = getY()/32;
+        this.origX = x;
+        this.origY = y;
         addOrientationKey(Orientation.NORTH, 12);
         addOrientationKey(Orientation.NONE, 12);
         addOrientationKey(Orientation.SOUTH, 0);
@@ -51,34 +58,38 @@ public abstract class Monster extends GameObject {
 
     public Direction move(){
 
-
         int x = this.getX()/32;
         int y = this.getY()/32;
         char[][] terrain = getTerrain();
+        int [][] ter = Terrain.transformMatrix(terrain);
         if(this.atIntersection(terrain, x, y)){
             if(!this.scared) {
-                return this.chase(terrain, x, y);
+                return this.chase(ter, x, y);
 
             }
             else {
-                return this.flight(terrain, x, y);
+                return this.flight(ter, x, y);
             }
         }
         return this.direction;
     }
 
-    public Direction forceComputeDir(){
+    public Direction forceMove(){
 
         int x = this.getX()/32;
         int y = this.getY()/32;
         char[][] terrain = getTerrain();
-
-        if(!this.scared)
-            return this.chase(terrain, x, y);
-        else
-            return this.flight(terrain, x , y);
+        int [][] ter = Terrain.transformMatrix(terrain);
+        if(!this.scared) {
+            return this.chase(ter, x, y);
+        }
+        else {
+            return this.flight(ter, x, y);
+        }
 
     }
+
+
 
     private boolean hasSidePath(){
 
@@ -97,8 +108,13 @@ public abstract class Monster extends GameObject {
     }
 
     private boolean atIntersection(char[][] terrain, int x, int y){
+        if((getX()/32 == this.oldX && getY()/32 == this.oldY &&
+                ((this.direction == Direction.X_POSITIVE && x<=terrain[0].length && terrain[y][x+1] != '1') ||
+                        (this.direction == Direction.X_NEGATIVE && x>0 && terrain[y][x-1] != '1') ||
+                        (this.direction == Direction.Y_POSITIVE && y<=terrain.length && terrain[y+1][x] != '1') ||
+                        (this.direction == Direction.Y_NEGATIVE && y>0 && terrain[y-1][x] != '1') )))
+            return false;
 
-        Point p = Terrain.getPlayer(terrain);
         if(hasSidePath()){
             return true;
         }
@@ -117,22 +133,22 @@ public abstract class Monster extends GameObject {
         return true;
     }
 
-    public abstract Direction chase(char[][] terrain, int x, int y);
+    public abstract Direction chase(int[][] terrain, int x, int y);
 
-    private Direction flight(char[][] terrain, int x, int y){
+    private Direction flight(int[][] terrain, int x, int y){
 
-        Direction d = Terrain.getShortestDirection(terrain, x, y);
+        Direction d = Terrain.getShortestDirection2(terrain, x, y);
 
-        if(d != Direction.X_NEGATIVE && x>0 && terrain[y][x-1] != '1'){
+        if(d != Direction.X_NEGATIVE && x>0 && terrain[y][x-1] != 1){
             return Direction.X_NEGATIVE;
         }
-        if(d != Direction.X_POSITIVE && x<=terrain[0].length && terrain[y][x+1] != '1'){
+        if(d != Direction.X_POSITIVE && x<=terrain[0].length && terrain[y][x+1] != 1){
             return Direction.X_POSITIVE;
         }
-        if(d != Direction.Y_NEGATIVE && y>0 && terrain[y-1][x] != '1'){
+        if(d != Direction.Y_NEGATIVE && y>0 && terrain[y-1][x] != 1){
             return Direction.Y_NEGATIVE;
         }
-        if(d != Direction.Y_POSITIVE && y<=terrain.length && terrain[y+1][x] != '1'){
+        if(d != Direction.Y_POSITIVE && y<=terrain.length && terrain[y+1][x] != 1){
             return Direction.Y_POSITIVE;
         }
         return d;
@@ -158,33 +174,30 @@ public abstract class Monster extends GameObject {
 
         int x = this.getX()/32;
         int y = this.getY()/32;
-        char[][] terrain = getTerrain();
+
+        this.dead = b;
 
         if(b)
-            this.move();
+            this.dig(x,y,this.origX, this.origY);
         else
             this.move();
-        this.dead = b;
+
     }
 
     public void setScared(boolean b){
 
-        int x = this.getX()/32;
-        int y = this.getY()/32;
-        char[][] terrain = getTerrain();
-
-        this.move();
-
         this.scared = b;
+        this.forceMove();
+
     }
 
     @Override
     public void update(){
-
         this.direction = this.move();
-        oldX = getX()/32;
-        oldY = getY()/32;
+        oldX = (getX())/32;
+        oldY = (getY())/32;
         addMovementIntent(displacementSmoother.getMovementIntent(direction));
+
     }
 
 }

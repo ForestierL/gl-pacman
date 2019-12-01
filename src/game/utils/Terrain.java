@@ -2,143 +2,188 @@ package game.utils;
 
 import engine.graphics.Orientation;
 
+import java.util.Arrays;
+
 public class Terrain {
 
-    public static Point getPlayer(char[][] terrain) {
+
+    public static Point getPlayer(int[][] terrain) {
         Point p = null;
         for (int y = 0; y < terrain.length; y++) {
             for (int x = 0; x < terrain[y].length; x++) {
 
-                if (terrain[y][x] == 'P')
+                if (terrain[y][x] == -1)
                     p = new Point(x, y);
             }
         }
         return p;
     }
 
-    public static Direction getShortestDirection(char[][] terrain, int x, int y){
+    public static Direction getShortestDirection2(int[][] terrain1, int x, int y) {
 
-        Direction res = Direction.Y_NEGATIVE;
 
-        int min = terrain.length*terrain[0].length;
-        terrain = copy(terrain, x, y);
+        Direction res = Direction.NONE;
 
-        if(x>0 && terrain[y][x-1] != '1') {
-            int north = explorePath(terrain, x - 1, y);
-            if (north != -1 && min > north)
-                res =  Direction.X_NEGATIVE;
-            min = Math.min(north, min);
-        }
-        if(x<=terrain[0].length && terrain[y][x+1] != '1') {
-            int south = explorePath(terrain, x + 1, y);
-            if (south != -1 && min > south)
-                res =  Direction.X_POSITIVE;
-            min = Math.min(south, min);
-        }
-        if(y>0 && terrain[y-1][x] != '1') {
-            int west = explorePath(terrain, x, y-1);
+        int[][] terrain = copy(terrain1);
+
+        if (terrain[y][x] == -1)
+            return res;
+
+        int min = terrain.length * terrain[0].length;
+
+
+        if (x > 0 && terrain[y][x - 1] != 1) {
+            int[][] terrainW = copy(terrain);
+            if (terrainW[y][x - 1] != -1)
+                terrainW[y][x - 1] = 1;
+            int west = explorePath2(terrainW, x - 1, y, 2);
             if (west != -1 && min > west)
-                res =  Direction.Y_NEGATIVE;
+                res = Direction.X_NEGATIVE;
             min = Math.min(west, min);
+        }
+        if (x <= terrain[0].length && terrain[y][x + 1] != 1) {
+            int[][] terrainE = copy(terrain);
+            if (terrainE[y][x + 1] != -1)
+                terrainE[y][x + 1] = 1;
+            int east = explorePath2(terrainE, x + 1, y, 2);
+            if (east != -1 && min > east)
+                res = Direction.X_POSITIVE;
+            min = Math.min(east, min);
+        }
+        if (y > 0 && terrain[y - 1][x] != 1) {
+            int[][] terrainN = copy(terrain);
+            if (terrainN[y - 1][x] != -1)
+                terrainN[y - 1][x] = 1;
+            int north = explorePath2(terrainN, x, y - 1, 2);
+            if (north != -1 && min > north)
+                res = Direction.Y_NEGATIVE;
+            min = Math.min(north, min);
 
         }
-        if(y<=terrain.length && terrain[y+1][x] != '1') {
-            int east = explorePath(terrain, x, y+1);
-            if (east != -1 && min > east) {
+        if (y <= terrain.length && terrain[y + 1][x] != 1) {
+            int[][] terrainS = copy(terrain);
+            if (terrainS[y + 1][x] != -1)
+                terrainS[y + 1][x] = 1;
+            int south = explorePath2(terrainS, x, y + 1, 2);
+            if (south != -1 && min > south) {
                 res = Direction.Y_POSITIVE;
-                System.out.println(res);
             }
         }
 
-
         return res;
     }
-    private static int explorePath(char[][] terrain, int x, int y){
 
-        if(terrain[y][x] == 'P')
+    public static int[][] transformMatrix(char[][] terrain) {
+        int[][] res = new int[terrain.length][terrain[0].length];
+        for (int y = 0; y < terrain.length; y++) {
+            for (int x = 0; x < terrain[0].length; x++) {
+                if (terrain[y][x] == '1')
+                    res[y][x] = 1;
+                if (terrain[y][x] == 'P')
+                    res[y][x] = -1;
+                if (terrain[y][x] != 'P' && terrain[y][x] != '1')
+                    res[y][x] = 0;
+            }
+
+        }
+        return res;
+    }
+
+    public static Direction randomDir(int[][] terrain, int x, int y) {
+        double r;
+        Direction d;
+        do {
+            r = 1. + Math.random() * (4);
+            d = Direction.values()[(int) r];
+        } while ((d == Direction.Y_NEGATIVE && y > 0 && terrain[y - 1][x] == 1) ||
+                (d == Direction.Y_POSITIVE && y < terrain.length && terrain[y + 1][x] == 1) ||
+                (d == Direction.X_NEGATIVE && x > 0 && terrain[y][x - 1] == 1) ||
+                (d == Direction.X_POSITIVE && x < terrain[0].length && terrain[y][x + 1] == 1));
+        return d;
+    }
+
+    private static int explorePath2(int[][] terrain, int x, int y, int cpt) {
+
+        if (terrain[y][x] == -1)
             return 1;
+        terrain[y][x] = cpt;
 
-        int min = terrain.length*terrain[0].length;
-        terrain = copy(terrain, x, y);
+        int noPath = 0;
+        int box;
+        box = terrain[y][x - 1];
+        if (x > 0 && box != 1 && (box >= cpt || box == 0)) {
 
+            int r = explorePath2(terrain, x - 1, y, cpt + 1);
+            if (r == -1)
+                noPath += 1;
 
-        if(x>0 && terrain[y][x-1] != '1') {
-            int n = explorePath(terrain, x - 1, y);
-            if (n != -1)
-                min = Math.min(n, min);
         }
-        if(x<=terrain[0].length && terrain[y][x+1] != '1') {
-            int s = explorePath(terrain, x + 1, y);
-            if (s != -1)
-                min = Math.min(s, min);
+        box = terrain[y][x + 1];
+        if (x < terrain[0].length && box != 1 && (box >= cpt || box == 0)) {
+            int r = explorePath2(terrain, x + 1, y, cpt + 1);
+            if (r == -1)
+                noPath += 1;
+
         }
-        if(y>0 && terrain[y-1][x] != '1') {
-            int w = explorePath(terrain, x, y-1);
-            if (w != -1)
-                min = Math.min(w, min);
+        box = terrain[y - 1][x];
+        if (y > 0 && box != 1 && (box >= cpt || box == 0)) {
+            int r = explorePath2(terrain, x, y - 1, cpt + 1);
+            if (r == -1)
+                noPath += 1;
         }
-        if(y<=terrain.length && terrain[y+1][x] != '1') {
-            int w = explorePath(terrain, x, y+1);
-            if (w != -1)
-                min = Math.min(w, min);
+        box = terrain[y + 1][x];
+        if (y < terrain.length && box != 1 && (box >= cpt || box == 0)) {
+            int r = explorePath2(terrain, x, y + 1, cpt + 1);
+            if (r == -1)
+                noPath += 1;
         }
 
 
-        if(min == terrain.length*terrain[0].length)
+        if (noPath == 4 && cpt != 2) {
+            terrain[y][x] = 1;
             return -1;
-
-        return min+1;
-    }
-    public static void printTerrain(char[][] terrain, int x, int y)
-    {
-        for(int y1 = 0; y1 < terrain.length; y1++)
-        {
-            for(int x1 = 0; x1 < terrain[0].length; x1++)
-            {
-                System.out.print(terrain[y1][x1]);
-            }
-            System.out.println();
         }
+        Point p = Terrain.getPlayer(terrain);
+
+        if (cpt == 2) {
+            int res = terrain.length * terrain[0].length;
+            if (x > 0 && terrain[p.getY()][p.getX() - 1] != 1 && terrain[p.getY()][p.getX() - 1] != 0)
+                res = Math.min(res, terrain[p.getY()][p.getX() - 1]);
+
+            if (x <= terrain[0].length && terrain[p.getY()][p.getX() + 1] != 1 && terrain[p.getY()][p.getX() + 1] != 0)
+                res = Math.min(res, terrain[p.getY()][p.getX() + 1]);
+
+            if (y > 0 && terrain[p.getY() - 1][p.getX()] != 1 && terrain[p.getY() - 1][p.getX()] != 0)
+                res = Math.min(res, terrain[p.getY() - 1][p.getX()]);
+
+            if (y <= terrain.length && terrain[p.getY() + 1][p.getX()] != 1 && terrain[p.getY() + 1][p.getX()] != 0)
+                res = Math.min(res, terrain[p.getY() + 1][p.getX()]);
+
+            return res;
+        }
+        return 1;
+
     }
-    public static char[][] copy(char[][] terrain, int x, int y) {
 
 
-        /*char[][] copyTerrain = terrain;
-        copyTerrain[x] = new char[terrain[x].length];
+    public static int[][] copy(int[][] terrain) {
 
-        for(int i = 0; i < terrain[x].length;i++){
-            copyTerrain[x][i] = terrain[x][i];
-        }*/
-        char[][] res = new char[terrain.length][terrain[0].length];
-        for(int i=0; i< terrain.length; i++)
-            res[i] = terrain[i];
+        int[][] res = new int[terrain.length][terrain[0].length];
+        for (int i = 0; i < terrain.length; i++) {
+            res[i] = Arrays.copyOf(terrain[i], terrain[i].length);
+        }
 
-        res[y] = new char[terrain[0].length];
-        for(int i=0; i< terrain[0].length; i++)
-            res[y][i] = terrain[y][i];
-
-        res[y][x]='1';
-        //char[][] copyTerrain = terrain.clone();
-        //copyTerrain[x][y] = '1';
         return res;
 
     }
-    public static char[][] fullCopy(char[][] terrain) {
 
+    public static char[][] copy(char[][] terrain) {
 
-        /*char[][] copyTerrain = terrain;
-        copyTerrain[x] = new char[terrain[x].length];
-
-        for(int i = 0; i < terrain[x].length;i++){
-            copyTerrain[x][i] = terrain[x][i];
-        }*/
         char[][] res = new char[terrain.length][terrain[0].length];
-        for(int i=0; i< terrain.length; i++)
-            for(int h = 0;h<terrain[0].length; h++){
-                res[i][h] = terrain[i][h];
-            }
-        //char[][] copyTerrain = terrain.clone();
-        //copyTerrain[x][y] = '1';
+        for (int i = 0; i < terrain.length; i++) {
+            res[i] = Arrays.copyOf(terrain[i], terrain[i].length);
+        }
+
         return res;
 
     }

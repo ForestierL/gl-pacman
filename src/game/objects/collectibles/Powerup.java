@@ -26,6 +26,7 @@ public class Powerup extends GameObject
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
                 pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 5000);
                 System.out.println("POWERUP");
+
                 pacmanWorld.remove(this);
                 return true;
             default:

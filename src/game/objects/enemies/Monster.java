@@ -167,7 +167,6 @@ public abstract class Monster extends GameObject {
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
-
         return true;
     }
 

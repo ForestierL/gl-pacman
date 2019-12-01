@@ -50,7 +50,8 @@ public class Sprite extends Entity
                             spriteTexture.getImage(), coordinates[0], coordinates[1],
                             coordinates[2], coordinates[3],
                             getX(), getY(),
-                            coordinates[2] * graphicsDisplay.getResolutionX(), coordinates[3] * graphicsDisplay.getResolutionY()
+                            coordinates[2] * graphicsDisplay.getResolutionX() * spriteTexture.getCoefZoomX(),
+                            coordinates[3] * graphicsDisplay.getResolutionY() * spriteTexture.getCoefZoomY()
                     );
         }
     }
@@ -100,5 +101,25 @@ public class Sprite extends Entity
     public void setDefaultSubImage(int defaultSubImage)
     {
         this.defaultSubImage = defaultSubImage;
+    }
+
+    public void resizeEntity(float percent) {
+        resizeEntity((int) (getWidth()*percent), (int) (getHeight()*percent));
+    }
+    public void resizeEntity(int width, int height) {
+
+        double tempX = (getWidth() - width) >> 1; //décalage d'un bit à droite pour divier par 2
+        double tempY = (getHeight() - height) >> 1; //décalage d'un bit à droite pour divier par 2
+
+        setX((int) (getX()+tempX));
+        setY((int) (getY()+tempY));
+
+        super.setWidth(width);
+        super.setHeight(height);
+
+        spriteTexture.setZoomX(width);
+        spriteTexture.setZoomY(height);
+
+
     }
 }

@@ -65,6 +65,7 @@ public class PacmanWorld extends GameWorld
                     Pacman player = new Pacman(posX, posY, tileWidth, tileHeight);
                     usedInputs = player.getInputScheme();
                     this.pacman = player;
+                    pacman.resizeEntity(16, 16); //POUR TESTER
                     movers.add(player);
                 }
                 else if(currentChar == 'G')

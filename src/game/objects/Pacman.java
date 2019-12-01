@@ -84,5 +84,4 @@ public class Pacman extends GameObject implements Controllable
         return inputScheme;
     }
 
-
 }

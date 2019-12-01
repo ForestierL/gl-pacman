@@ -6,7 +6,9 @@ import javafx.scene.image.ImageView;
 public class SpriteTexture extends ImageView
 {
     private Image image;
-    private final int cellWidth = 32, cellHeight = 32;
+    private int cellWidth = 32, cellHeight = 32;
+    private float coefZoomX = 1;
+    private float coefZoomY = 1;
 
     /*
     private final int numCells = 4;  // number of images in an animation
@@ -17,12 +19,11 @@ public class SpriteTexture extends ImageView
 
     private final IntegerProperty frameCounter = new SimpleIntegerProperty(0); */
 
-
     public SpriteTexture(Image image)
     {
         this.image = image;
         this.setImage(image);
-/*
+        /*
         for (int i = 0; i < numCells; i++) {
             if(orientation != Orientation.NONE)
                 cellClips[i] = new Rectangle2D(i * width, orientation.ordinal()*height, width, height);
@@ -39,7 +40,8 @@ public class SpriteTexture extends ImageView
                     frameCounter.set((frameCounter.get() + 1) % numCells);
                     setViewport(cellClips[frameCounter.get()]);
                 })
-        ); */
+        );
+        */
     }
 
 
@@ -60,6 +62,32 @@ public class SpriteTexture extends ImageView
     public int getCellWidth() { return cellWidth; }
 
     public int getCellHeight() { return cellHeight; }
+
+    public void setZoomX(int width) {
+        float coef = width/(float) cellWidth;
+        setCoefZoomX(coef);
+    }
+
+    public void setZoomY(int height) {
+        float coef = height/(float) cellHeight;
+        setCoefZoomY(coef);
+    }
+
+    public void setCoefZoomX(float coefZoomX) {
+        this.coefZoomX = coefZoomX;
+    }
+
+    public void setCoefZoomY(float coefZoomY) {
+        this.coefZoomY = coefZoomY;
+    }
+
+    public float getCoefZoomX() {
+        return coefZoomX;
+    }
+
+    public float getCoefZoomY() {
+        return coefZoomY;
+    }
 
     /*
     public void playContinuously() {

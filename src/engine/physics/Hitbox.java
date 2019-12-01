@@ -34,17 +34,6 @@ public class Hitbox extends Rectangle
         return true;
     }
 
-    public void setPos(int x, int y) {
-        setX(x);
-        setY(y);
-    }
-    public void setPosX(int x) {
-        setX(x);
-    }
-    public void setPosY(int y) {
-        setY(y);
-    }
-
     public void resize(float percent) {
         resize(getWidth()*percent, getHeight()*percent);
     }
@@ -53,13 +42,17 @@ public class Hitbox extends Rectangle
         setHeight(height);
     }
 
+    public void resizeCenter(float percent) {
+        resizeCenter((int) (getWidth()*percent), (int) (getHeight()*percent));
+    }
+
     public void resizeCenter(int width, int height)
     {
         double tempX = (getWidth()-width)/2;
         double tempY = (getHeight()-height)/2;
         resize(width, height);
-        setPosX((int) (getX()+tempX));
-        setPosY((int) (getY()+tempY));
+        setX((int) (getX()+tempX));
+        setY((int) (getY()+tempY));
     }
 
 }

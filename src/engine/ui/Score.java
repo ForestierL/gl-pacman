@@ -1,9 +1,17 @@
 package engine.ui;
 
-public class Score {
-    private String name, score;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
-    public Score(String name, String score){
+public class Score {
+    private String name;
+    private int score;
+
+    public Score(String name, int score){
         this.name = name;
         this.score = score;
     }
@@ -12,7 +20,42 @@ public class Score {
         return this.name;
     }
 
-    public String getScore(){
+    public int getScore(){
         return this.score;
+    }
+
+    public void addScore() throws IOException {
+        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/Scores.txt"));
+        String line;
+        String[][] elements = new String[10][];
+        int count=0, pos=0, actual=0;
+        while ((line = text.readLine()) != null && count<10){
+            elements[count] = line.split("/");
+            if(Integer.parseInt(elements[count][1]) < this.getScore() && Integer.parseInt(elements[count][1])> actual){
+                pos = count;
+                actual = Integer.parseInt(elements[count][1]);
+            }
+            count++;
+        }
+
+
+        /*FileWriter fw = new FileWriter("src/game/scores/Scores.txt", true);
+        PrintWriter pw = new PrintWriter(fw);
+        System.out.println(pos);
+        for (int i = 1; i <= pos; i++) {
+            if (i == pos) {
+                pw.println("");
+                pw.println(this.getName()+"/"+this.getScore()+"\n");
+                pw.close();
+            } else {
+            }
+        }*/
+
+        Path path = Paths.get("src/game/scores/Scores.txt");
+        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        lines.set(pos, this.getName()+"/"+this.getScore());
+        Files.write(path, lines, StandardCharsets.UTF_8);
+
+        text.close();
     }
 }

@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.WeakHashMap;
 
 public class ScoresScene extends Scene {
     private int width;
@@ -60,9 +61,6 @@ public class ScoresScene extends Scene {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (int i=0; i< scores.length; i++){
-            System.out.println(scores[i]);
-        }
         for (int column=0; column<3; column++){
             scoreboard[column].setTranslateX(50+((int)((width-170)/2)*column));
             scoreboard[column].setTranslateY(120);
@@ -71,7 +69,7 @@ public class ScoresScene extends Scene {
                     if (column == 1) {
                         scoreboard[column].getChildren().add(new Text(scores[line - 1].getName()));
                     } else if (column == 2) {
-                        scoreboard[column].getChildren().add(new Text(scores[line - 1].getScore()));
+                        scoreboard[column].getChildren().add(new Text(Integer.toString(scores[line - 1].getScore())));
                     }
                 }
             }
@@ -85,18 +83,38 @@ public class ScoresScene extends Scene {
     public Score[] loadFile(Score[] scores) throws IOException {
         BufferedReader text = new BufferedReader(new FileReader("src/game/scores/Scores.txt"));
         String line;
-        String[] elements = new String[2];
-        elements[0]="";
-        elements[1]="";
+        String[][] elements = new String[10][];
+        String name;
+        int score;
         int count = 0;
         while ((line = text.readLine()) != null && count<10){
-            elements = line.split("/");
-            scores[count] = new Score(elements[0], elements[1]);
-            System.out.println(elements[0]);
+            elements[count] = line.split("/");
+            name = elements[count][0];
+            score = Integer.parseInt(elements[count][1]);
+            scores[count] = new Score(name, score);
             count++;
         }
         text.close();
+        scores = sortScores(elements);
         return scores;
+    }
+
+    public Score[] sortScores(String scores[][]){
+        Score sortedScores[] = new Score[10];
+        String maxScore[] = scores[0];
+        int id = 0;
+        for (int count=0; count<10; count++) {
+            for (int n=0; n<scores.length; n++) {
+                if(Integer.parseInt(scores[n][1]) > Integer.parseInt(maxScore[1])){
+                    id = n;
+                    maxScore = scores[n];
+                }
+            }
+            sortedScores[count] = new Score(maxScore[0], Integer.parseInt(maxScore[1]));
+            scores[id][1] = "-1";
+        }
+
+        return sortedScores;
     }
 
     private void returnToMenu(){

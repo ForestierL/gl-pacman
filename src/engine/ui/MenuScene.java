@@ -54,6 +54,9 @@ public class MenuScene extends Scene
             }else if(options[i].equals("Score"))
             {
                 menuItem.setOnActivate(() -> gameWindow.openScores());
+            }else if(options[i].equals("Settings"))
+            {
+                menuItem.setOnActivate(() -> gameWindow.endGame(18000));
             }
             menuBox.getChildren().add(menuItem);
 

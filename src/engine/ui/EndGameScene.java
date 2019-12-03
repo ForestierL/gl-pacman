@@ -75,6 +75,12 @@ public class EndGameScene extends Scene {
     }
 
     private void addScore (String playerName, int score) {
+        Score newScore = new Score(playerName, score);
+        try {
+            newScore.addScore();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gameWindow.openScores();
     }
 

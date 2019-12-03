@@ -67,11 +67,6 @@ public abstract class Monster extends GameObject {
 
 
         PacmanWorld pc = (PacmanWorld)this.getWorld();
-        if(pc.pacman.isInvincible)
-            this.setScared(true);
-
-        else
-            this.setScared(false);
 
         if(this.atIntersection(terrain, x, y)){
             if(!this.scared) {
@@ -219,12 +214,18 @@ public abstract class Monster extends GameObject {
 
     public void setScared(boolean b){
 
-        if(b)
-            this.setSpriteTexture(new SpriteTexture(new Image("monster_angry.png")));
-        else
-            this.setSpriteTexture(new SpriteTexture(new Image("monster_scary.png")));
-
         this.scared = b;
+        if(b) {
+            this.setSpriteTexture(new SpriteTexture(new Image("monster_scary.png")));
+            this.direction = this.forceMove();
+            setOrientation(Orientation.values()[this.direction.ordinal()]);
+            oldX = (getX())/32;
+            oldY = (getY())/32;
+            addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        }
+        else
+            this.setSpriteTexture(new SpriteTexture(new Image("monster_angry.png")));
+
 
 
     }

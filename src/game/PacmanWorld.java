@@ -72,19 +72,19 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'G')
                 {
-                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'C')
                 {
-                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'B')
                 {
-                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
@@ -107,35 +107,7 @@ public class PacmanWorld extends GameWorld
         return playerScore;
     }
 
-    public void getMonsterScared(){
-        for(int i = 0; i<this.getEntities().size(); i ++) {
 
-            if (this.getEntities().get(i).getClass() == Chaser.class) {
-                Chaser tmp = (Chaser) this.getEntities().get(i);
-                tmp.setScared(true);
-            }
-
-            if (this.getEntities().get(i).getClass() == Blocker.class){
-                Blocker tmp = (Blocker) this.getEntities().get(i);
-                tmp.setScared(true);
-            }
-        }
-    }
-
-    public void getMonsterNormal(){
-        for(int i = 0; i<this.getEntities().size(); i ++) {
-
-            if (this.getEntities().get(i).getClass() == Chaser.class) {
-                Chaser tmp = (Chaser) this.getEntities().get(i);
-                tmp.setScared(false);
-            }
-
-            if (this.getEntities().get(i).getClass() == Blocker.class){
-                Blocker tmp = (Blocker) this.getEntities().get(i);
-                tmp.setScared(false);
-            }
-        }
-    }
 
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;

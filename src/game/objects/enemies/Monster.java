@@ -43,8 +43,8 @@ public abstract class Monster extends GameObject {
 
         oldX = getX()/32;
         oldY = getY()/32;
-        this.origX = x;
-        this.origY = y;
+        this.origX = x/32;
+        this.origY = y/32;
         setOrientationDependantDisplay(true);
         addOrientationKey(Orientation.NORTH, 12);
         addOrientationKey(Orientation.NONE, 12);
@@ -70,7 +70,14 @@ public abstract class Monster extends GameObject {
 
         if(this.atIntersection(terrain, x, y)){
             if(!this.scared) {
-                return this.chase(ter, x, y);
+                if(!dead)
+                    return this.chase(ter, x, y);
+                else{
+                    if(this.oldX == x && this.oldY == y){
+                        this.setDead(false);
+                        this.move();}
+                    else
+                        return this.dig(ter, x, y);}
 
             }
             else {
@@ -87,7 +94,10 @@ public abstract class Monster extends GameObject {
         char[][] terrain = getTerrain();
         int [][] ter = Terrain.transformMatrix(terrain);
         if(!this.scared) {
-            return this.chase(ter, x, y);
+            if(!dead)
+                return this.chase(ter, x, y);
+            else{System.out.println("lol");
+                return this.dig(ter, x, y);}
         }
         else {
             return this.flight(ter, x, y);
@@ -160,22 +170,12 @@ public abstract class Monster extends GameObject {
         return d;
     }
 
-    private Direction dig(int x, int y, int origX, int origY){
-        if(x < origX)
-            return Direction.X_POSITIVE;
-        if(y > origY)
-            return Direction.Y_NEGATIVE;
-        if(y < origY)
-            return Direction.Y_POSITIVE;
-        return Direction.X_NEGATIVE;
+    private Direction dig(int [][] terrain, int origX, int origY){
+        return Terrain.getShortestDirection(terrain, origX,origY, this.origX, this.origY);
     }
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
-        if(signal == CollisionSignal.PACMAN && this.scared)
-            this.setDead(true);
-        if(signal == CollisionSignal.PACMAN_INVINCIBLE)
-            this.setDead(true);
 
         switch(signal)
         {
@@ -190,9 +190,11 @@ public abstract class Monster extends GameObject {
                     PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
 
                 }
+                break;
 
             case PACMAN_INVINCIBLE:
                 this.setDead(true);
+                break;
         }
 
         return true;
@@ -204,11 +206,17 @@ public abstract class Monster extends GameObject {
         int y = this.getY()/32;
 
         this.dead = b;
+        this.scared = false;
 
-        if(b)
-            this.dig(x,y,this.origX, this.origY);
-        else
-            this.move();
+        if(b) {
+            this.forceMove();
+            this.direction = this.forceMove();
+            setOrientation(Orientation.values()[this.direction.ordinal()]);
+            oldX = (getX()) / 32;
+            oldY = (getY()) / 32;
+            addMovementIntent(displacementSmoother.getMovementIntent(direction));
+        }
+
 
     }
 

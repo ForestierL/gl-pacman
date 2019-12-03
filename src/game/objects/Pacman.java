@@ -85,6 +85,7 @@ public class Pacman extends GameObject implements Controllable
         oldX = getX()/32;
         oldY = getY()/32;
 
+
         pc.level.terrain[getY()/32][getX()/32] = 'P';
 
         addMovementIntent(displacementSmoother.getMovementIntent(direction));

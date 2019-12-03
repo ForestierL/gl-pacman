@@ -11,7 +11,7 @@ public class MainGame extends GameWindow
 
         PacmanGameScene gameScene = new PacmanGameScene(gameGroup, this);
 
-        String[] menuObjects = {"Play", "Settings"};
+        String[] menuObjects = {"Play", "Settings", "Score"};
 
         MenuScene menuScene = new MenuScene(menuGroup, this);
 

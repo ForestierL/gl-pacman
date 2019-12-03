@@ -17,12 +17,15 @@ public class GameWindow extends Application
 
     private Stage stage;
 
-    private MenuScene menuScene;
-    private GameScene gameScene;
-
     protected Group menuGroup = new Group();
     protected Group gameGroup = new Group();
+    protected Group scoresGroup = new Group();
+    protected Group endGameGroup = new Group();
 
+    private MenuScene menuScene;
+    private GameScene gameScene;
+    private ScoresScene scoresScene = new ScoresScene(scoresGroup, this, width, height);
+    private EndGameScene endGameScene;
 
     public GameWindow(String name, int width, int height)
     {
@@ -62,6 +65,21 @@ public class GameWindow extends Application
         stage.setScene(menuScene);
     }
 
+    public void openScores(){
+        setScoresScene(scoresScene);
+        stage.setScene(scoresScene);
+    }
+
+    public void returnToMenu(){
+        stage.setScene(menuScene);
+    }
+
+    public void endGame(){
+        pause = false;
+        currentGame = false;
+        openScores();
+    }
+
     public void setMenuScene(MenuScene menuScene, String[] options)
     {
         this.menuScene = menuScene;
@@ -80,14 +98,26 @@ public class GameWindow extends Application
         gameGroup.getChildren().add(gameScene.getGraphicsDisplay());
     }
 
+    public void setEndGameScene(EndGameScene endGameScene, int score){
+        this.endGameScene = endGameScene;
+        endGameScene.setRoot(endGameGroup);
+        endGameGroup.getChildren().add(endGameScene.createContent(width, height, score));
+    }
+
+    public void setScoresScene(ScoresScene scoresScene){
+        this.scoresScene = scoresScene;
+        scoresScene.setRoot(scoresGroup);
+        scoresGroup.getChildren().add(scoresScene.createContent(width,height));
+    }
+
     private void initialize()
     {
-        System.out.println("GameWindow : initialize.");
+        System.out.println("TestWindow : initialize.");
     }
 
     private void run()
     {
-        System.out.println("GameWindow : run loop.");
+        System.out.println("TestWindow : run loop.");
         animationTimer = new AnimationTimer()
         {
             private long lastHandle;

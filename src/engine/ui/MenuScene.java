@@ -50,9 +50,10 @@ public class MenuScene extends Scene
             MenuItem menuItem = new MenuItem(options[i]);
             if(options[i].equals("Play"))
             {
-                menuItem.setOnActivate(() -> {
-                    gameWindow.startGame();
-                });
+                menuItem.setOnActivate(() -> gameWindow.startGame());
+            }else if(options[i].equals("Score"))
+            {
+                menuItem.setOnActivate(() -> gameWindow.openScores());
             }
             menuBox.getChildren().add(menuItem);
 

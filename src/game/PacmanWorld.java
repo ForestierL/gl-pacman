@@ -13,6 +13,7 @@ import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
 import game.objects.enemies.Monster;
+import game.objects.modifiers.*;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
@@ -90,10 +91,25 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'u')
                 {
-                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight);
+
+                    AppliableEffect powerupEffect = new MiniEffect();
+
+                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, powerupEffect);
 
                     collectibles.add(powerup);
                 }
+
+                else if(currentChar == 'i')
+                {
+
+                    EffectModifier powerupEffect = new InvincibleEffect(new SimpleEffect());
+
+                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, powerupEffect);
+
+                    collectibles.add(powerup);
+                }
+
+
             }
         }
 

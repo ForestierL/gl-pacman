@@ -13,15 +13,15 @@ import javafx.scene.image.Image;
 public class Powerup extends GameObject
 {
 
-    private static AppliableEffect powerupEffect = new MiniEffect();
-
-    public Powerup(int x, int y, int width, int height)
+    private AppliableEffect powerupEffect;
+    public Powerup(int x, int y, int width, int height, AppliableEffect powerUpEffect)
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         setDefaultSubImage(4);
         setCollisionSignal(CollisionSignal.POWERUP);
         setCollisionState(false);
         resizeHitbox(12, 12);
+        powerupEffect = powerUpEffect;
     }
 
     @Override

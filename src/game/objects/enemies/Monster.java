@@ -209,6 +209,7 @@ public abstract class Monster extends GameObject {
         this.scared = false;
 
         if(b) {
+            this.setSpriteTexture(new SpriteTexture(new Image("monster_dig_down.png")));
             this.forceMove();
             this.direction = this.forceMove();
             setOrientation(Orientation.values()[this.direction.ordinal()]);
@@ -216,6 +217,7 @@ public abstract class Monster extends GameObject {
             oldY = (getY()) / 32;
             addMovementIntent(displacementSmoother.getMovementIntent(direction));
         }
+        else{this.setSpriteTexture(new SpriteTexture(new Image("monster_scary.png")));}
 
 
     }

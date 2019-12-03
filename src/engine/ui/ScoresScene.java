@@ -1,24 +1,20 @@
 package engine.ui;
 
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import javax.swing.text.TabExpander;
-import javax.swing.text.TabableView;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ScoresScene extends Scene {
     private int width;
@@ -58,20 +54,49 @@ public class ScoresScene extends Scene {
             scoreboard[0].getChildren().add(new Text(Integer.toString(place)));
         }
 
+        Score scores[] = new Score[10];
+        try {
+            scores = loadFile(scores);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i=0; i< scores.length; i++){
+            System.out.println(scores[i]);
+        }
         for (int column=0; column<3; column++){
             scoreboard[column].setTranslateX(50+((int)((width-170)/2)*column));
             scoreboard[column].setTranslateY(120);
-
             for (int line=1; line<=10; line++){
-                /*
-                Récupérer les scores et pseudos
-                 */
+                if(scores[line-1] != null) {
+                    if (column == 1) {
+                        scoreboard[column].getChildren().add(new Text(scores[line - 1].getName()));
+                    } else if (column == 2) {
+                        scoreboard[column].getChildren().add(new Text(scores[line - 1].getScore()));
+                    }
+                }
             }
         }
 
         root.getChildren().add(title);
         root.getChildren().addAll(scoreboard);
         return root;
+    }
+
+    public Score[] loadFile(Score[] scores) throws IOException {
+        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/Scores.txt"));
+        String line;
+        String[] elements = new String[2];
+        elements[0]="";
+        elements[1]="";
+        int count = 0;
+        while ((line = text.readLine()) != null && count<10){
+            elements = line.split("/");
+            scores[count] = new Score(elements[0], elements[1]);
+            System.out.println(elements[0]);
+            count++;
+        }
+        text.close();
+        return scores;
     }
 
     private void returnToMenu(){

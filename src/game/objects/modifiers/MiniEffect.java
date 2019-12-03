@@ -4,6 +4,7 @@ import game.objects.GameObject;
 
 public class MiniEffect implements AppliableEffect
 {
+
     @Override
     public void applyModifier(GameObject gameObject, double duration)
     {

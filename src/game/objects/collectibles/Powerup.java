@@ -17,7 +17,10 @@ public class Powerup extends GameObject
     public Powerup(int x, int y, int width, int height, AppliableEffect powerUpEffect)
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
-        setDefaultSubImage(4);
+        if(powerUpEffect.getClass() == MiniEffect.class)
+            setDefaultSubImage(5);
+        if(powerUpEffect.getClass() == InvincibleEffect.class)
+            setDefaultSubImage(4);
         setCollisionSignal(CollisionSignal.POWERUP);
         setCollisionState(false);
         resizeHitbox(12, 12);

@@ -33,7 +33,6 @@ public abstract class Monster extends GameObject {
     {
         super(spriteTexture, x, y, width, height);
 
-        setOrientationDependantDisplay(true);
         this.direction = Direction.Y_NEGATIVE;
         this.scared=false;
         this.dead=false;
@@ -45,11 +44,12 @@ public abstract class Monster extends GameObject {
         oldY = getY()/32;
         this.origX = x;
         this.origY = y;
+        setOrientationDependantDisplay(true);
         addOrientationKey(Orientation.NORTH, 12);
         addOrientationKey(Orientation.NONE, 12);
         addOrientationKey(Orientation.SOUTH, 0);
-        addOrientationKey(Orientation.WEST, 4);
-        addOrientationKey(EAST, 8);
+        addOrientationKey(Orientation.WEST, 8);
+        addOrientationKey(Orientation.EAST, 4);
 
         displacementSmoother = new DisplacementSmoother(this);
     }
@@ -167,6 +167,8 @@ public abstract class Monster extends GameObject {
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
+        if(signal == CollisionSignal.WALL)
+            System.out.println("lol");
         return true;
     }
 
@@ -196,6 +198,7 @@ public abstract class Monster extends GameObject {
     {
         super.update(elapsedTime);
         this.direction = this.move();
+        setOrientation(Orientation.values()[this.direction.ordinal()]);
         oldX = (getX())/32;
         oldY = (getY())/32;
         addMovementIntent(displacementSmoother.getMovementIntent(direction));

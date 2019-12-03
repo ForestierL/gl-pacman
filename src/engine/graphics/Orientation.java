@@ -2,7 +2,8 @@ package engine.graphics;
 
 // /!\ do not change the order !
 // SOUTH, WEST, EAST, NORTH, NONE
+// you can't tell me what to do
 public enum Orientation
 {
-    SOUTH, WEST, EAST, NORTH, NONE
+    NONE, WEST, EAST, SOUTH, NORTH;
 }

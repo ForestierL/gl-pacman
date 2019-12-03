@@ -21,7 +21,7 @@ public class Chaser extends Monster {
             if(d != Direction.NONE)
                 this.direction = d;
             r = Math.random() * (4);
-            if(r*this.difficulty < 3)
+            if(r*this.difficulty < 2.5)
                 this.direction = Terrain.randomDir(terrain, x, y);
 
         return this.direction;

@@ -22,6 +22,7 @@ public abstract class GameObject extends Sprite
     public GameObject(SpriteTexture spriteTexture, int x, int y, int width, int height)
     {
         super(spriteTexture, x, y, width, height);
+
     }
 
     public void setCollisionSignal(CollisionSignal collisionSignal)

@@ -12,6 +12,7 @@ import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
+import game.objects.enemies.Monster;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
@@ -21,6 +22,7 @@ public class PacmanWorld extends GameWorld
 {
     public InputScheme usedInputs = new InputScheme();
     public Pacman pacman;
+    public ArrayList monsters;
     public int playerScore = 0;
     public Level level;
 
@@ -70,19 +72,19 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'G')
                 {
-                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'C')
                 {
-                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'B')
                 {
-                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_scary.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
@@ -98,11 +100,14 @@ public class PacmanWorld extends GameWorld
         addAll(walls);
         addAll(collectibles);
         addAll(movers);
+        this.monsters = movers;
     }
 
     public int getPlayerScore() {
         return playerScore;
     }
+
+
 
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;

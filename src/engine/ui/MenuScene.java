@@ -64,13 +64,10 @@ public class MenuScene extends Scene
         menuBox.setAlignment(Pos.TOP_CENTER);
         menuBox.setTranslateX(200);
         menuBox.setTranslateY(150);
-        Text about = new Text("Test");
-        about.setFill(Color.BLACK);
-        about.setFont(FONT);
 
         getMenuItem(0).setActive(true);
 
-        root.getChildren().addAll(menuBox, about);
+        root.getChildren().addAll(menuBox);
 
         return root;
     }

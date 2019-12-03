@@ -25,7 +25,7 @@ public class GameWindow extends Application
     private MenuScene menuScene;
     private GameScene gameScene;
     private ScoresScene scoresScene = new ScoresScene(scoresGroup, this, width, height);
-    private EndGameScene endGameScene;
+    private EndGameScene endGameScene = new EndGameScene(endGameGroup, this, width, height);
 
     public GameWindow(String name, int width, int height)
     {
@@ -74,10 +74,11 @@ public class GameWindow extends Application
         stage.setScene(menuScene);
     }
 
-    public void endGame(){
+    public void endGame(int score){
         pause = false;
         currentGame = false;
-        openScores();
+        setEndGameScene(endGameScene, score);
+        stage.setScene(endGameScene);
     }
 
     public void setMenuScene(MenuScene menuScene, String[] options)

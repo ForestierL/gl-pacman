@@ -24,6 +24,7 @@ public class EndGameScene extends Scene {
     private int height;
     private GameWindow gameWindow;
     private HBox hb;
+    private Pane root;
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,70);
     private static final Font scoreFont = Font.font("", FontWeight.BOLD,50);
@@ -43,15 +44,15 @@ public class EndGameScene extends Scene {
     }
 
     Node createContent(int width, int height, int score){
-        Pane root = new Pane();
+        root = new Pane();
         root.setPrefSize(width, height);
 
         Text title = new Text(50, 100, "GAME OVER");
         title.setFont(FONT);
-        Text scoreText = new Text(100, 200, "Your score is\n" + Integer.toString(score));
+        Text scoreText = new Text(100, 170, "Your score is\n" + Integer.toString(score));
         scoreText.setTextAlignment(TextAlignment.CENTER);
         scoreText.setFont(scoreFont);
-        Text text = new Text(20, 350,"Enter your name to save your score and press Enter\nElse press Escape");
+        Text text = new Text(20, 300,"Enter your name to save your score and press Enter\nElse press Escape\nYour name must not exceed 8 characters\nor contain special characters");
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(textFont);
         Label label1 = new Label("Name:");
@@ -75,13 +76,17 @@ public class EndGameScene extends Scene {
     }
 
     private void addScore (String playerName, int score) {
-        Score newScore = new Score(playerName, score);
-        try {
-            newScore.addScore();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(playerName.length() <= 8 && playerName.length()>0){
+            if(!playerName.contains("/")){
+                Score newScore = new Score(playerName, score);
+                try {
+                    newScore.addScore();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                gameWindow.openScores();
+            }
         }
-        gameWindow.openScores();
     }
 
     private void endGame(){

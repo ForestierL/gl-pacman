@@ -5,6 +5,7 @@ import game.PacmanWorld;
 import game.objects.GameObject;
 import game.objects.modifiers.AppliableEffect;
 import game.objects.modifiers.InvincibleEffect;
+import game.objects.modifiers.MiniEffect;
 import game.objects.modifiers.SimpleEffect;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ import javafx.scene.image.Image;
 public class Powerup extends GameObject
 {
 
-    private static AppliableEffect powerupEffect = new InvincibleEffect(new SimpleEffect());
+    private static AppliableEffect powerupEffect = new MiniEffect();
 
     public Powerup(int x, int y, int width, int height)
     {

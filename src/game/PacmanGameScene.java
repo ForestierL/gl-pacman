@@ -22,9 +22,7 @@ public class PacmanGameScene extends GameScene
     {
         PacmanWorld world = new PacmanWorld();
         world.setLevel(level);
-
         setOnKeyPressed(world.usedInputs);
-
         return world;
     }
 

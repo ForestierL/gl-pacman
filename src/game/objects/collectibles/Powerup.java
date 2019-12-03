@@ -18,6 +18,7 @@ public class Powerup extends GameObject
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         setDefaultSubImage(4);
+        setCollisionSignal(CollisionSignal.POWERUP);
         setCollisionState(false);
         resizeHitbox(12, 12);
     }
@@ -33,6 +34,7 @@ public class Powerup extends GameObject
                 pacmanWorld.pacman.addEffect(powerupEffect, 7);
 
                 pacmanWorld.remove(this);
+
                 return true;
             default:
                 return true;

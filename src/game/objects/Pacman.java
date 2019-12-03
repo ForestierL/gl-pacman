@@ -18,6 +18,8 @@ public class Pacman extends GameObject implements Controllable
     private DisplacementSmoother displacementSmoother;
     private int oldX;
     private int oldY;
+    public boolean isInvincible;
+
 
     public Pacman(int x, int y, int width, int height)
     {
@@ -26,6 +28,7 @@ public class Pacman extends GameObject implements Controllable
         setCollisionSignal(CollisionSignal.PACMAN);
         this.oldX = getX()/32;
         this.oldY = getY()/32;
+        this.isInvincible = false;
         InputAction moveAction = new InputAction()
         {
             @Override
@@ -56,9 +59,19 @@ public class Pacman extends GameObject implements Controllable
         displacementSmoother = new DisplacementSmoother(this);
     }
 
+
+
     @Override
     public boolean handleCollision(CollisionSignal signal)
     {
+        switch(signal)
+        {
+            case MONSTER:
+
+
+
+
+        }
         return true;
     }
 

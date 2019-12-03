@@ -12,6 +12,7 @@ import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
+import game.objects.enemies.Monster;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
@@ -21,6 +22,7 @@ public class PacmanWorld extends GameWorld
 {
     public InputScheme usedInputs = new InputScheme();
     public Pacman pacman;
+    public ArrayList monsters;
     public int playerScore = 0;
     public Level level;
 
@@ -98,10 +100,41 @@ public class PacmanWorld extends GameWorld
         addAll(walls);
         addAll(collectibles);
         addAll(movers);
+        this.monsters = movers;
     }
 
     public int getPlayerScore() {
         return playerScore;
+    }
+
+    public void getMonsterScared(){
+        for(int i = 0; i<this.getEntities().size(); i ++) {
+
+            if (this.getEntities().get(i).getClass() == Chaser.class) {
+                Chaser tmp = (Chaser) this.getEntities().get(i);
+                tmp.setScared(true);
+            }
+
+            if (this.getEntities().get(i).getClass() == Blocker.class){
+                Blocker tmp = (Blocker) this.getEntities().get(i);
+                tmp.setScared(true);
+            }
+        }
+    }
+
+    public void getMonsterNormal(){
+        for(int i = 0; i<this.getEntities().size(); i ++) {
+
+            if (this.getEntities().get(i).getClass() == Chaser.class) {
+                Chaser tmp = (Chaser) this.getEntities().get(i);
+                tmp.setScared(false);
+            }
+
+            if (this.getEntities().get(i).getClass() == Blocker.class){
+                Blocker tmp = (Blocker) this.getEntities().get(i);
+                tmp.setScared(false);
+            }
+        }
     }
 
     public void setPlayerScore(int playerScore) {

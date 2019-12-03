@@ -10,6 +10,7 @@ import game.PacmanWorld;
 import game.objects.GameObject;
 import game.objects.Pacman;
 import game.utils.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import static engine.graphics.Orientation.*;
@@ -63,6 +64,15 @@ public abstract class Monster extends GameObject {
         int y = this.getY()/32;
         char[][] terrain = getTerrain();
         int [][] ter = Terrain.transformMatrix(terrain);
+
+
+        PacmanWorld pc = (PacmanWorld)this.getWorld();
+        if(pc.pacman.isInvincible)
+            this.setScared(true);
+
+        else
+            this.setScared(false);
+
         if(this.atIntersection(terrain, x, y)){
             if(!this.scared) {
                 return this.chase(ter, x, y);
@@ -167,8 +177,29 @@ public abstract class Monster extends GameObject {
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
-        if(signal == CollisionSignal.WALL)
-            System.out.println("lol");
+        if(signal == CollisionSignal.PACMAN && this.scared)
+            this.setDead(true);
+        if(signal == CollisionSignal.PACMAN_INVINCIBLE)
+            this.setDead(true);
+
+        switch(signal)
+        {
+
+            case PACMAN:
+                if(this.scared) {
+                    this.setDead(true);
+                    PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
+
+                }
+                else{
+                    PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
+
+                }
+
+            case PACMAN_INVINCIBLE:
+                this.setDead(true);
+        }
+
         return true;
     }
 
@@ -188,8 +219,13 @@ public abstract class Monster extends GameObject {
 
     public void setScared(boolean b){
 
+        if(b)
+            this.setSpriteTexture(new SpriteTexture(new Image("monster_angry.png")));
+        else
+            this.setSpriteTexture(new SpriteTexture(new Image("monster_scary.png")));
+
         this.scared = b;
-        this.forceMove();
+
 
     }
 

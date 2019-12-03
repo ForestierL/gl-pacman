@@ -1,6 +1,7 @@
 package engine.graphics;
 
 import engine.physics.Entity;
+import org.junit.Test;
 
 import java.util.Hashtable;
 
@@ -119,7 +120,29 @@ public class Sprite extends Entity
 
         spriteTexture.setZoomX(width);
         spriteTexture.setZoomY(height);
+    }
+    public void setOnTheGrid() {
+        int currentX = getX();
+        int currentY = getY();
+        int currentWidth = getWidth();
+        int currentHeight = getHeight();
+        //si je fixe pas il se peut qu'on ai pas la même valeur et qu'on se fasse tp dans le mur
+        int centerX = currentX+currentWidth >> 1;
+        int centerY = currentY+currentHeight >> 1;
 
+        // divisé par 32 puis multiplié par 32
+        int a = currentX >> 5 << 5;
+        int a2 = currentX-a;
+        if(a2 > currentWidth << 1)
+            setX(a);
+        else
+            setX(a+32);
 
+        int b = currentY >> 5 << 5;
+        int b2 = currentY-b;
+        if(b2 > currentHeight << 1)
+            setY(b);
+        else
+            setY(b-32);
     }
 }

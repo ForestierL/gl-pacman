@@ -15,12 +15,12 @@ import javafx.scene.text.Text;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.WeakHashMap;
 
 public class ScoresScene extends Scene {
     private int width;
     private int height;
     private GameWindow gameWindow;
+    VBox scoreboard[];
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,40);
     private static final Font label = Font.font("", FontWeight.BOLD,20);
@@ -45,8 +45,12 @@ public class ScoresScene extends Scene {
 
         Text title = new Text(180, 70, "Scores");
         title.setFont(FONT);
-
-        VBox scoreboard[] = {new VBox(10),new VBox(10), new VBox(10)};
+        if (this.scoreboard != null){
+            this.scoreboard[0].getChildren().clear();
+            this.scoreboard[1].getChildren().clear();
+            this.scoreboard[2].getChildren().clear();
+        }
+        scoreboard = new VBox[]{new VBox(10), new VBox(10), new VBox(10)};
 
         scoreboard[0].getChildren().add(new Label("Place"));
         scoreboard[1].getChildren().add(new Label("Name"));

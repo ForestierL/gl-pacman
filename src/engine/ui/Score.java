@@ -38,19 +38,6 @@ public class Score {
             count++;
         }
 
-
-        /*FileWriter fw = new FileWriter("src/game/scores/Scores.txt", true);
-        PrintWriter pw = new PrintWriter(fw);
-        System.out.println(pos);
-        for (int i = 1; i <= pos; i++) {
-            if (i == pos) {
-                pw.println("");
-                pw.println(this.getName()+"/"+this.getScore()+"\n");
-                pw.close();
-            } else {
-            }
-        }*/
-
         Path path = Paths.get("src/game/scores/Scores.txt");
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         lines.set(pos, this.getName()+"/"+this.getScore());

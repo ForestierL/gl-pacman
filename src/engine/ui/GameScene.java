@@ -4,15 +4,10 @@ import engine.graphics.BackgroundDisplay;
 import engine.graphics.GraphicsDisplay;
 import engine.graphics.GridLayer;
 import engine.physics.GameWorld;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 

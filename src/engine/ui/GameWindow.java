@@ -165,7 +165,7 @@ public class GameWindow extends Application implements Observer
 
 
         SimpleIntegerProperty scoreValue = new SimpleIntegerProperty(0);
-        Label scoreText = new Label("Score : " + );
+        Label scoreText = new Label("Score : " + updatedScore );
         scoreText.setTextFill(Color.CRIMSON);
         scoreText.setFont( new Font(16) );
 

@@ -25,6 +25,8 @@ public abstract class Monster extends GameObject {
     private int origX;
     private int origY;
     public int difficulty;
+    private int ite;
+    private int cpt;
 
     private DisplacementSmoother displacementSmoother;
 
@@ -43,6 +45,7 @@ public abstract class Monster extends GameObject {
         oldY = getY()/32;
         this.origX = x/32;
         this.origY = y/32;
+
         setOrientationDependantDisplay(true);
         addOrientationKey(Orientation.NORTH, 12);
         addOrientationKey(Orientation.NONE, 12);
@@ -151,6 +154,8 @@ public abstract class Monster extends GameObject {
 
     private Direction flight(int[][] terrain, int x, int y){
 
+
+
         Direction d = Terrain.getShortestDirection2(terrain, x, y);
 
         if(d != Direction.X_NEGATIVE && x>0 && terrain[y][x-1] != 1){
@@ -198,6 +203,11 @@ public abstract class Monster extends GameObject {
         return true;
     }
 
+    public void holdInPlace(int ite){
+        this.cpt = 0;
+        this.ite = ite;
+    }
+
     public void setDead(boolean b){
 
         int x = this.getX()/32;
@@ -205,6 +215,7 @@ public abstract class Monster extends GameObject {
 
         this.dead = b;
         this.scared = false;
+
 
         if(b) {
             this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_down.png"), new Image("monster_underground.png")));
@@ -215,7 +226,9 @@ public abstract class Monster extends GameObject {
             oldY = (getY()) / 32;
             addMovementIntent(displacementSmoother.getMovementIntent(direction));
         }
-        else{this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_up.png"),new Image("monster_angry.png")));}
+        else{
+            this.setSpeed(0.0002);
+        this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_up.png"),new Image("monster_angry.png")));}
 
 
     }
@@ -224,6 +237,7 @@ public abstract class Monster extends GameObject {
 
         this.scared = b;
         if(b && !this.dead) {
+            this.setSpeed(0.020);
             this.setSpriteTexture(new MovingSpriteTexture(new Image("monster_scary.png")));
             this.direction = this.forceMove();
             setOrientation(Orientation.values()[this.direction.ordinal()]);
@@ -232,8 +246,9 @@ public abstract class Monster extends GameObject {
             addMovementIntent(displacementSmoother.getMovementIntent(direction));
         }
         else
-            if(!this.dead)
+            if(!this.dead){
                 this.setSpriteTexture(new MovingSpriteTexture(new Image("monster_angry.png")));
+                this.setSpeed(0.0015);}
 
 
 

@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,19 +15,28 @@ import javafx.scene.text.Text;
 
 public class SettingsScene extends Scene {
     private GameWindow gameWindow;
-    private boolean first = false;
+    private Scene origin;
 
-    public SettingsScene(Parent root, GameWindow gameWindow){
+    public SettingsScene(Parent root, GameWindow gameWindow, Scene origin){
         super(root);
         this.gameWindow = gameWindow;
+        this.origin = origin;
     }
 
-    private VBox menuBox;
+    private Pane root;
     private int currentItem = 0;
+    private boolean firstTime = true;
+    private HBox soundBox;
 
+    public  boolean getFirstTime(){
+        return firstTime;
+    }
     private static final Font FONT = Font.font("", FontWeight.BOLD,30);
     private static final Font titleFont = Font.font("", FontWeight.BOLD,60);
 
+    public void setOrigin(Scene newOrigin){
+        this.origin=newOrigin;
+    }
     private int getCurrentItem(){
         return currentItem;
     }
@@ -37,83 +47,73 @@ public class SettingsScene extends Scene {
 
     Node createContent(int width, int height)
     {
-        Pane root = new Pane();
-        root.setPrefSize(width, height);
-
-        String options[] = {"Return","Sound"};
-
-        Text title = new Text(160, 90, "Settings");
-        title.setFont(titleFont);
-
-        if (menuBox != null){
-            this.menuBox.getChildren().clear();
-            currentItem=0;
-        }else {
+        if (firstTime) {
+            root = new Pane();
+            root.setPrefSize(width, height);
             this.addEvents();
-        }
 
-        menuBox = new VBox(20);
+            Text title = new Text(140, 90, "Settings");
+            title.setFont(titleFont);
 
-        for(int i = 0; i < options.length; i++)
-        {
-            PauseScene.MenuItem menuItem = new PauseScene.MenuItem(options[i]);
-            if(options[i].equals("Return"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.startGame());
+            soundBox = new HBox(10);
+
+            Text sound = new Text(200,220,"Volume");
+            sound.setFont(FONT);
+
+            for (int i=0; i<=5; i++){
+                MenuItem value = new MenuItem(Integer.toString(i*20));
+                value.setActive(false);
+                soundBox.getChildren().add(value);
             }
-            menuBox.getChildren().add(menuItem);
 
-            getMenuItem(i).setActive(false);
+            soundBox.setTranslateY(240);
+            soundBox.setTranslateX(120);
+            getMenuItem(0).setActive(true);
+
+            root.getChildren().addAll(title, sound, soundBox);
+            firstTime = false;
         }
-        menuBox.setAlignment(Pos.TOP_CENTER);
-        menuBox.setTranslateX(200);
-        menuBox.setTranslateY(150);
-
-        getMenuItem(0).setActive(true);
-
-        root.getChildren().addAll(menuBox, title);
-
         return root;
     }
 
-    private PauseScene.MenuItem getMenuItem(int index) {
-        return (PauseScene.MenuItem)menuBox.getChildren().get(index);
+    private SettingsScene.MenuItem getMenuItem(int index) {
+        return (SettingsScene.MenuItem)soundBox.getChildren().get(index);
     }
 
     void addEvents()
     {
         addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
-                case DOWN:
-                    if (getCurrentItem() < menuBox.getChildren().size() - 1){
+                case RIGHT:
+                    if (getCurrentItem() < soundBox.getChildren().size() - 1){
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(1);
                         getMenuItem(getCurrentItem()).setActive(true);
+                        gameWindow.setVolume(Integer.parseInt(getMenuItem(getCurrentItem()).getText().getText()));
                     }
                     break;
-                case UP:
+                case LEFT:
                     if (getCurrentItem() > 0){
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(-1);
                         getMenuItem(getCurrentItem()).setActive(true);
+                        gameWindow.setVolume(Integer.parseInt(getMenuItem(getCurrentItem()).getText().getText()));
                     }
                     break;
-                case ENTER:
-                    getMenuItem(getCurrentItem()).activate();
+                case ESCAPE:
+                    gameWindow.changeScene(origin);
                     break;
             }
         });
     }
 
-    public static class MenuItem extends VBox
+    public static class MenuItem extends HBox
     {
         private Text text;
-        private Runnable script;
 
         MenuItem(String name)
         {
             super(15);
-            setAlignment(Pos.CENTER);
 
             text = new Text(name);
             text.setFont(FONT);
@@ -121,18 +121,12 @@ public class SettingsScene extends Scene {
             getChildren().add(text);
         }
 
+        Text getText(){
+            return this.text;
+        }
+
         void setActive(boolean b){
             text.setFill(b ? Color.BLACK : Color.GREY);
-        }
-
-        void setOnActivate(Runnable r){
-            script = r;
-        }
-
-        void activate()
-        {
-            if(script != null)
-                script.run();
         }
     }
 }

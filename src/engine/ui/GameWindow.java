@@ -3,6 +3,7 @@ package engine.ui;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
@@ -29,7 +30,7 @@ public class GameWindow extends Application
     private ScoresScene scoresScene = new ScoresScene(scoresGroup, this, width, height);
     private EndGameScene endGameScene = new EndGameScene(endGameGroup, this, width, height);
     private PauseScene pauseScene = new PauseScene(pauseGroup, this);
-    private SettingsScene settingsScene = new SettingsScene(settingsGroup, this);
+    private SettingsScene settingsScene = new SettingsScene(settingsGroup, this, menuScene);
 
     public GameWindow(String name, int width, int height)
     {
@@ -64,10 +65,22 @@ public class GameWindow extends Application
     }
 
     public void pauseGame(){
-        this.pause = true;
-        animationTimer.stop();
+        if (!pause) {
+            this.pause = true;
+            animationTimer.stop();
+        }
         setPauseScene(pauseScene);
         stage.setScene(pauseScene);
+    }
+
+    public  void openSettings(Scene origin){
+        settingsScene.setOrigin(origin);
+        setSettingsScene(settingsScene);
+        stage.setScene(settingsScene);
+    }
+
+    public void changeScene(Scene scene){
+        stage.setScene(scene);
     }
 
     public void openScores(){
@@ -101,8 +114,10 @@ public class GameWindow extends Application
         pauseGroup.getChildren().add(pauseScene.createContent(width,height));
     }
 
-    public void setPauseScene(){
-
+    public void setSettingsScene(SettingsScene settingsScene){
+        this.settingsScene = settingsScene;
+        settingsScene.setRoot(settingsGroup);
+        if (settingsScene.getFirstTime()) settingsGroup.getChildren().add(settingsScene.createContent(width,height));
     }
 
     public void setGameScene(GameScene gameScene)
@@ -125,6 +140,10 @@ public class GameWindow extends Application
         this.scoresScene = scoresScene;
         scoresScene.setRoot(scoresGroup);
         scoresGroup.getChildren().add(scoresScene.createContent(width,height));
+    }
+
+    public void setVolume(int volume){
+        System.out.println("Le volume est de " + volume);
     }
 
     private void initialize()

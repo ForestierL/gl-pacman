@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 
 public class PauseScene extends Scene {
     private GameWindow gameWindow;
-    private boolean first = false;
 
     public PauseScene(Parent root, GameWindow gameWindow){
         super(root);
@@ -62,7 +61,7 @@ public class PauseScene extends Scene {
                 menuItem.setOnActivate(() -> gameWindow.startGame());
             }else if(options[i].equals("Settings"))
             {
-                menuItem.setOnActivate(() -> gameWindow.endGame(18000));
+                menuItem.setOnActivate(() -> gameWindow.openSettings(this));
             }else if(options[i].equals("Menu")) {
                     menuItem.setOnActivate(() -> gameWindow.returnToMenu());
             }

@@ -12,12 +12,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class MenuScene extends Scene
-{
-
+public class SettingsScene extends Scene {
     private GameWindow gameWindow;
+    private boolean first = false;
 
-    public MenuScene(Parent root, GameWindow gameWindow){
+    public SettingsScene(Parent root, GameWindow gameWindow){
         super(root);
         this.gameWindow = gameWindow;
     }
@@ -36,51 +35,49 @@ public class MenuScene extends Scene
         currentItem = currentItem + number;
     }
 
-    Node createContent(int width, int height, String options[])
+    Node createContent(int width, int height)
     {
         Pane root = new Pane();
         root.setPrefSize(width, height);
 
-        Text title = new Text(90, 80, "Game Name");
+        String options[] = {"Return","Sound"};
+
+        Text title = new Text(160, 90, "Settings");
         title.setFont(titleFont);
 
-        MenuItem itemExit = new MenuItem("Exit");
-        itemExit.setOnActivate(() -> System.exit(0));
+        if (menuBox != null){
+            this.menuBox.getChildren().clear();
+            currentItem=0;
+        }else {
+            this.addEvents();
+        }
 
         menuBox = new VBox(20);
 
         for(int i = 0; i < options.length; i++)
         {
-            MenuItem menuItem = new MenuItem(options[i]);
-            if(options[i].equals("Play"))
+            PauseScene.MenuItem menuItem = new PauseScene.MenuItem(options[i]);
+            if(options[i].equals("Return"))
             {
                 menuItem.setOnActivate(() -> gameWindow.startGame());
-            }else if(options[i].equals("Score"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.openScores());
-            }else if(options[i].equals("Settings"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.endGame(18000));
             }
             menuBox.getChildren().add(menuItem);
 
             getMenuItem(i).setActive(false);
         }
-        menuBox.getChildren().add(itemExit);
-        getMenuItem(options.length).setActive(false);
         menuBox.setAlignment(Pos.TOP_CENTER);
         menuBox.setTranslateX(200);
         menuBox.setTranslateY(150);
 
         getMenuItem(0).setActive(true);
 
-        root.getChildren().addAll(menuBox,title);
+        root.getChildren().addAll(menuBox, title);
 
         return root;
     }
 
-    private MenuItem getMenuItem(int index) {
-        return (MenuItem)menuBox.getChildren().get(index);
+    private PauseScene.MenuItem getMenuItem(int index) {
+        return (PauseScene.MenuItem)menuBox.getChildren().get(index);
     }
 
     void addEvents()

@@ -72,7 +72,6 @@ public abstract class GameScene extends Scene
     }
 
     void pushEscape(){
-        System.out.println("Pause");
         gameWindow.pauseGame();
     }
 }

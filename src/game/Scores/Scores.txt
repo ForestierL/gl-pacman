@@ -5,6 +5,6 @@ Yugurt/89000
 Seybis/80000
 Hibou/75000
 RagnaRock/72000
-555/18000
-DarkSasuke/11235
+Test/11235
+Jean/4723
 Jegou/1

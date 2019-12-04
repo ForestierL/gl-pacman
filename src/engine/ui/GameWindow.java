@@ -21,11 +21,15 @@ public class GameWindow extends Application
     protected Group gameGroup = new Group();
     protected Group scoresGroup = new Group();
     protected Group endGameGroup = new Group();
+    protected Group pauseGroup = new Group();
+    protected Group settingsGroup = new Group();
 
     private MenuScene menuScene;
     private GameScene gameScene;
     private ScoresScene scoresScene = new ScoresScene(scoresGroup, this, width, height);
     private EndGameScene endGameScene = new EndGameScene(endGameGroup, this, width, height);
+    private PauseScene pauseScene = new PauseScene(pauseGroup, this);
+    private SettingsScene settingsScene = new SettingsScene(settingsGroup, this);
 
     public GameWindow(String name, int width, int height)
     {
@@ -54,15 +58,16 @@ public class GameWindow extends Application
             initialize();
             run();
         }else {
-            pause = false;
+            this.pause = false;
             animationTimer.start();
         }
     }
 
     public void pauseGame(){
-        pause = true;
+        this.pause = true;
         animationTimer.stop();
-        stage.setScene(menuScene);
+        setPauseScene(pauseScene);
+        stage.setScene(pauseScene);
     }
 
     public void openScores(){
@@ -71,6 +76,7 @@ public class GameWindow extends Application
     }
 
     public void returnToMenu(){
+        pause = false;
         stage.setScene(menuScene);
     }
 
@@ -87,6 +93,16 @@ public class GameWindow extends Application
         menuScene.setRoot(menuGroup);
         menuGroup.getChildren().add(menuScene.createContent(width, height, options));
         menuScene.addEvents();
+    }
+
+    public void setPauseScene(PauseScene pauseScene){
+        this.pauseScene = pauseScene;
+        pauseScene.setRoot(pauseGroup);
+        pauseGroup.getChildren().add(pauseScene.createContent(width,height));
+    }
+
+    public void setPauseScene(){
+
     }
 
     public void setGameScene(GameScene gameScene)

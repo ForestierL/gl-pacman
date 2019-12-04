@@ -1,12 +1,9 @@
 package game;
 
 import engine.graphics.MovingSpriteTexture;
-import engine.graphics.Orientation;
-import engine.graphics.SpriteTexture;
 import engine.input.InputScheme;
 import engine.physics.Entity;
 import engine.physics.GameWorld;
-import game.objects.GameObject;
 import game.objects.collectibles.Gem;
 import game.objects.Pacman;
 import game.objects.Wall;
@@ -14,9 +11,7 @@ import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
-import game.objects.enemies.Monster;
 import game.objects.modifiers.*;
-import game.utils.Direction;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
@@ -40,6 +35,9 @@ public class PacmanWorld extends GameWorld
     {
         int tileWidth = level.tileWidth;
         int tileHeight = level.tileHeight;
+
+        AppliableEffect miniEffect = new MiniEffect(new TimedEffect());
+        AppliableEffect invincibleEffect = new InvincibleEffect(new TimedEffect());
 
         ArrayList<Entity> walls = new ArrayList<>();
         ArrayList<Entity> collectibles = new ArrayList<>();
@@ -95,9 +93,9 @@ public class PacmanWorld extends GameWorld
                 else if(currentChar == 'u')
                 {
 
-                    AppliableEffect powerupEffect = new MiniEffect();
 
-                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, powerupEffect);
+
+                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, miniEffect);
 
                     collectibles.add(powerup);
                 }
@@ -105,9 +103,9 @@ public class PacmanWorld extends GameWorld
                 else if(currentChar == 'i')
                 {
 
-                    EffectModifier powerupEffect = new InvincibleEffect(new SimpleEffect());
 
-                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, powerupEffect);
+
+                    Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, invincibleEffect);
 
                     collectibles.add(powerup);
                 }

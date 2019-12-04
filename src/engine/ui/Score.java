@@ -25,7 +25,7 @@ public class Score {
     }
 
     public void addScore() throws IOException {
-        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/Scores.txt"));
+        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/scores.txt"));
         String line;
         String[][] elements = new String[10][];
         int count=0, pos=0, actual=0;
@@ -38,7 +38,7 @@ public class Score {
             count++;
         }
 
-        Path path = Paths.get("src/game/scores/Scores.txt");
+        Path path = Paths.get("src/game/scores/scores.txt");
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         lines.set(pos, this.getName()+"/"+this.getScore());
         Files.write(path, lines, StandardCharsets.UTF_8);

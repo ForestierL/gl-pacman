@@ -2,8 +2,12 @@ package game.objects.modifiers;
 
 import game.objects.GameObject;
 
-public class MiniEffect implements AppliableEffect
+public class MiniEffect extends EffectModifier
 {
+    public MiniEffect(AppliableEffect appliableEffect)
+    {
+        super(appliableEffect);
+    }
 
     @Override
     public void applyModifier(GameObject gameObject, double duration)

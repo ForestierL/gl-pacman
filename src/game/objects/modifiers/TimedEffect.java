@@ -2,7 +2,7 @@ package game.objects.modifiers;
 
 import game.objects.GameObject;
 
-public class SimpleEffect implements AppliableEffect
+public class TimedEffect implements AppliableEffect
 {
     @Override
     public void applyModifier(GameObject gameObject, double duration)

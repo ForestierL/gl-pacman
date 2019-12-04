@@ -32,7 +32,7 @@ public class Gem extends GameObject
         {
             case PACMAN : case PACMAN_INVINCIBLE:
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
-                pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 100);
+                pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 10);
                 System.out.println(pacmanWorld.getPlayerScore());
                 pacmanWorld.remove(this);
                 return true;

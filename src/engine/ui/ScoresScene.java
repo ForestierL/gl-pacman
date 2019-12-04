@@ -43,7 +43,7 @@ public class ScoresScene extends Scene {
         Pane root = new Pane();
         root.setPrefSize(width, height);
 
-        Text title = new Text(180, 70, "Scores");
+        Text title = new Text(180, 70, "scores");
         title.setFont(FONT);
         if (this.scoreboard != null){
             this.scoreboard[0].getChildren().clear();
@@ -85,7 +85,7 @@ public class ScoresScene extends Scene {
     }
 
     public Score[] loadFile(Score[] scores) throws IOException {
-        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/Scores.txt"));
+        BufferedReader text = new BufferedReader(new FileReader("src/game/scores/scores.txt"));
         String line;
         String[][] elements = new String[10][];
         String name;

@@ -50,7 +50,6 @@ public abstract class GameObject extends Sprite
             }
             else
             {
-                System.out.println("removed : " + effect.toString());
                 effect.removeModifier(this);
                 appliedEffects.remove(effect);
             }
@@ -60,7 +59,6 @@ public abstract class GameObject extends Sprite
 
     public void addEffect(AppliableEffect appliableEffect, double duration)
     {
-        System.out.println("added : " + appliableEffect.toString());
         appliableEffect.applyModifier(this, duration);
         appliedEffects.put(appliableEffect, duration);
     }

@@ -11,13 +11,15 @@ import game.objects.enemies.Crazy;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
-public class InvincibleEffect extends EffectModifier {
+public class InvincibleEffect extends EffectModifier
+{
     public InvincibleEffect(AppliableEffect appliableEffect) {
         super(appliableEffect);
     }
 
     @Override
-    public void applyModifier(GameObject gameObject, double duration) {
+    public void applyModifier(GameObject gameObject, double duration)
+    {
         PacmanWorld pc = (PacmanWorld) gameObject.getWorld();
         pc.pacman.isInvincible = true;
         for (int i = 0; i < pc.getEntities().size(); i++) {

@@ -1,17 +1,17 @@
 package game.objects.collectibles;
 
+import engine.audios.SoundManager;
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
 import game.objects.GameObject;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.Random;
 
 public class Gem extends GameObject
-{
-
-    public Gem(int x, int y, int width, int height)
+{    public Gem(int x, int y, int width, int height)
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         Random randomGenerator = new Random();

@@ -1,11 +1,10 @@
 package engine.ui;
 
+import engine.audios.MusicManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -22,7 +21,7 @@ public class GameWindow extends Application implements Observer
     private boolean pause = false;
     AnimationTimer animationTimer;
 
-    public SoundManager soundManager = new SoundManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
+    public MusicManager musicManager = new MusicManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
 
     private Stage stage;
 
@@ -52,7 +51,7 @@ public class GameWindow extends Application implements Observer
     {
         this.stage = stage;
 
-        soundManager.playMusic();
+        musicManager.playMusic();
 
         stage.setResizable(false);
         stage.setTitle(name);
@@ -177,7 +176,6 @@ public class GameWindow extends Application implements Observer
                 long elapsed = currentNanoTime - lastHandle;
                 gameScene.getWorld().udpate(elapsed);
                 gameScene.getGraphicsDisplay().render();
-                gameScene.getGraphicsDisplay().getGraphicsContext2D().strokeText("Score", 50,480);
 
                 lastHandle = currentNanoTime;
             }

@@ -1,16 +1,17 @@
-package engine.ui;
+package engine.audios;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class SoundManager {
+public class MusicManager {
     MediaPlayer mediaPlayer;
     String source;
 
-    public SoundManager(String source, double Volume){
+    public MusicManager(String source, double Volume){
         this.source = source;
         this.mediaPlayer = new MediaPlayer(new Media(source));
-        this.mediaPlayer.play();
+        this.mediaPlayer.setAutoPlay(true);
+        this.mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
 
     public MediaPlayer getMediaPlayer(){

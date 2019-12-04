@@ -89,7 +89,7 @@ public class SettingsScene extends Scene {
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(1);
                         getMenuItem(getCurrentItem()).setActive(true);
-                        gameWindow.soundManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
+                        gameWindow.musicManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
                     }
                     break;
                 case LEFT:
@@ -97,7 +97,7 @@ public class SettingsScene extends Scene {
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(-1);
                         getMenuItem(getCurrentItem()).setActive(true);
-                        gameWindow.soundManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
+                        gameWindow.musicManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
                     }
                     break;
                 case ESCAPE:

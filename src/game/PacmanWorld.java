@@ -1,5 +1,6 @@
 package game;
 
+import engine.audios.SoundManager;
 import engine.graphics.MovingSpriteTexture;
 import engine.input.InputScheme;
 import engine.physics.Entity;
@@ -16,6 +17,7 @@ import game.objects.modifiers.*;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -32,6 +34,7 @@ public class PacmanWorld extends GameWorld
     public Level level;
     private Observer observer;
 
+
     public void setLevel(Level level)
     {
         this.level = level;
@@ -40,6 +43,8 @@ public class PacmanWorld extends GameWorld
 
     private void levelToEntities()
     {
+        SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/get_gem1.mp3").toURI().toString(),1.0);
+
         int tileWidth = level.tileWidth;
         int tileHeight = level.tileHeight;
 
@@ -68,7 +73,7 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == '0')
                 {
-                    Gem gem = new Gem(posX, posY, tileWidth, tileHeight);
+                    Gem gem = new Gem(posX, posY, tileWidth, tileHeight, soundManager);
                     gemCount++;
                     collectibles.add(gem);
                 }

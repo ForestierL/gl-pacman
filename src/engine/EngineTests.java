@@ -4,7 +4,7 @@ import engine.physics.Hitbox;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class engineTests {
+public class EngineTests {
     @Test
     public void hitbox_Intersects() {
         Hitbox hitbox1 = new Hitbox(0, 0, 20, 20);

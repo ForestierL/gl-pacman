@@ -6,5 +6,5 @@ Seybis/80000
 Hibou/75000
 RagnaRock/72000
 Test/11235
-Bonjour/730
-HBOXMERD/930
+Hermano/7860
+revocation/3200

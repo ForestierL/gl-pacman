@@ -3,14 +3,21 @@ package engine.ui;
 import engine.audios.MusicManager;
 import engine.audios.SoundManager;
 import game.PacmanGameScene;
+import game.PacmanWorld;
+import game.objects.Pacman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,6 +50,8 @@ public class GameWindow extends Application implements Observer
     private PauseScene pauseScene = new PauseScene(pauseGroup, this);
     private SettingsScene settingsScene = new SettingsScene(settingsGroup, this, menuScene);
 
+    private int updatedScore, updatedLives;
+
     public GameWindow(String name, int width, int height)
     {
         this.name = name;
@@ -66,7 +75,7 @@ public class GameWindow extends Application implements Observer
 
     public void startGame()
     {
-
+        stage.setScene(gameScene);
         if (!currentGame){
             System.out.println("test1");
             gameScene.setRoot(new Group());
@@ -84,7 +93,6 @@ public class GameWindow extends Application implements Observer
                 this.pause = false;
                 animationTimer.start();
             }
-
 
     }
 
@@ -154,6 +162,26 @@ public class GameWindow extends Application implements Observer
 
         gameGroup.getChildren().addAll(gameScene.getBackgroundDisplay().getGridLayers());
         gameGroup.getChildren().add(gameScene.getGraphicsDisplay());
+
+
+        SimpleIntegerProperty scoreValue = new SimpleIntegerProperty(0);
+        Label scoreText = new Label("Score : " + );
+        scoreText.setTextFill(Color.CRIMSON);
+        scoreText.setFont( new Font(16) );
+
+        Label hpText = new Label("Lives left : " /*+ Pacman.getLives()*/);
+        hpText.setTextFill(Color.CRIMSON);
+        hpText.setFont( new Font(16) );
+
+
+        HBox hudPane = new HBox();
+        hudPane.setSpacing(20);
+        hudPane.getChildren().addAll(scoreText, hpText);
+
+        gameGroup.getChildren().add(hudPane);
+        gameGroup.getChildren().get(2).setLayoutY(this.height - 30);
+        gameGroup.getChildren().get(2).setLayoutX(this.width / 3);
+
     }
 
     public void setEndGameScene(EndGameScene endGameScene, int score){
@@ -203,6 +231,12 @@ public class GameWindow extends Application implements Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        this.endGame((int)arg);
+        if (arg.getClass() == int.class)
+            this.endGame((int) arg);
+        else {
+            PacmanWorld pc = (PacmanWorld) arg;
+            int lives = pc.pacman.lives;
+            int score = pc.playerScore;
+        }
     }
 }

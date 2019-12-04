@@ -5,6 +5,7 @@ import engine.physics.GameWorld;
 import engine.physics.Hitbox;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class GraphicsDisplay extends Canvas
@@ -29,6 +30,7 @@ public class GraphicsDisplay extends Canvas
     {
         this.gameWorld = gameWorld;
     }
+
 
     public void render()
     {

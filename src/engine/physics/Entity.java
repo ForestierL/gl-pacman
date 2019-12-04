@@ -7,7 +7,7 @@ public abstract class Entity
     private Hitbox hitbox;
     private GameWorld world;
     private int collisionSignal;
-    private boolean hasCollision = true, visible = true;
+    private boolean hasCollision = true;
     private int x, y, width, height, priority = 0;
     private double speed = 1.0;
     double timeSinceLastUpdate = 0;
@@ -137,14 +137,6 @@ public abstract class Entity
             this.speed = 0;
         else
             this.speed = speed;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
     }
 
     public int getPriority() {

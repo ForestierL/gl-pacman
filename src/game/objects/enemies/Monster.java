@@ -44,8 +44,9 @@ public abstract class Monster extends GameObject {
 
         oldX = getX() / 32;
         oldY = getY() / 32;
-        this.origX = x / 32;
-        this.origY = y / 32;
+
+        this.origX = getX() / 32;
+        this.origY = getY() / 32;
 
         setOrientationDependantDisplay(true);
         addOrientationKey(Orientation.NORTH, 12);
@@ -197,6 +198,9 @@ public abstract class Monster extends GameObject {
     }
 
     private Direction goHome(int[][] terrain, int origX, int origY) {
+        System.out.println("xx = " + origX +", y = " + origY);
+
+        System.out.println("x = " + this.origX +", y = " + this.origY);
         return Terrain.getShortestDirection(terrain, origX, origY, this.origX, this.origY);
     }
 
@@ -205,21 +209,25 @@ public abstract class Monster extends GameObject {
     public boolean handleCollision(CollisionSignal signal) {
 
         switch (signal) {
+            case MONSTER:
+                break;
 
             case PACMAN:
                 if (this.scared) {
+
                     this.setDead(true);
-                    PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
 
                 } else {
                     PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
+
                     pacmanWorld.pacman.die();
                 }
-                break;
+                return true;
 
             case PACMAN_INVINCIBLE:
+
                 this.setDead(true);
-                break;
+                return true;
         }
 
         return true;

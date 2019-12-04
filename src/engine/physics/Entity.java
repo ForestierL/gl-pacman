@@ -6,7 +6,7 @@ public abstract class Entity
 {
     private Hitbox hitbox;
     private GameWorld world;
-    private int collisionSignal = 0;
+    private int collisionSignal;
     private boolean hasCollision = true, visible = true;
     private int x, y, width, height, priority = 0;
     private double speed = 1.0;

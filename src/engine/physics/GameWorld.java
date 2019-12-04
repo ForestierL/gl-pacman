@@ -18,9 +18,14 @@ public class GameWorld extends Observable
         double elapsedSeconds = elapsedTime / 1_000_000_000.0;
         for(Entity entity : entities)
         {
-            entity.timeSinceLastUpdate = 0;
-            entity.update(elapsedSeconds);
-            manageMovementIntents(entity);
+            entity.timeSinceLastUpdate += elapsedSeconds;
+
+            if(entity.timeSinceLastUpdate > entity.getSpeed())
+            {
+                entity.timeSinceLastUpdate = 0;
+                entity.update(elapsedSeconds);
+                manageMovementIntents(entity);
+            }
         }
     }
 

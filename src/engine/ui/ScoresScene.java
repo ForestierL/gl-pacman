@@ -43,7 +43,7 @@ public class ScoresScene extends Scene {
         Pane root = new Pane();
         root.setPrefSize(width, height);
 
-        Text title = new Text(180, 70, "scores");
+        Text title = new Text(180, 70, "Scores");
         title.setFont(FONT);
         if (this.scoreboard != null){
             this.scoreboard[0].getChildren().clear();

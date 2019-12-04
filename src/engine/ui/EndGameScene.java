@@ -76,7 +76,7 @@ public class EndGameScene extends Scene {
     }
 
     private void addScore (String playerName, int score) {
-        if(playerName.length() <= 8 && playerName.length()>0){
+        if(playerName.length() <= 16 && playerName.length()>0){
             if(!playerName.contains("/")){
                 Score newScore = new Score(playerName, score);
                 try {

@@ -28,21 +28,20 @@ public class Score {
         BufferedReader text = new BufferedReader(new FileReader("src/game/scores/scores.txt"));
         String line;
         String[][] elements = new String[10][];
-        int count=0, pos=0, actual=0;
+        int count=0, pos=0;
         while ((line = text.readLine()) != null && count<10){
             elements[count] = line.split("/");
-            if(Integer.parseInt(elements[count][1]) < this.getScore() && Integer.parseInt(elements[count][1])> actual){
+            if(Integer.parseInt(elements[count][1]) < Integer.parseInt(elements[pos][1])) {
                 pos = count;
-                actual = Integer.parseInt(elements[count][1]);
             }
             count++;
         }
-
-        Path path = Paths.get("src/game/scores/scores.txt");
-        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-        lines.set(pos, this.getName()+"/"+this.getScore());
-        Files.write(path, lines, StandardCharsets.UTF_8);
-
+        if (Integer.parseInt(elements[pos][1]) < this.getScore()) {
+            Path path = Paths.get("src/game/scores/scores.txt");
+            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            lines.set(pos, this.getName() + "/" + this.getScore());
+            Files.write(path, lines, StandardCharsets.UTF_8);
+        }
         text.close();
     }
 }

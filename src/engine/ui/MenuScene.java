@@ -41,7 +41,7 @@ public class MenuScene extends Scene
         Pane root = new Pane();
         root.setPrefSize(width, height);
 
-        Text title = new Text(90, 80, "Game Name");
+        Text title = new Text(15, 80, "Diamond Crystal");
         title.setFont(titleFont);
 
         MenuItem itemExit = new MenuItem("Exit");

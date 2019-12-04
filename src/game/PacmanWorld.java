@@ -79,6 +79,10 @@ public class PacmanWorld extends GameWorld
                     this.pacman = player;
                     pacman.resizeEntity(1); //POUR TESTER
                     movers.add(player);
+
+                    largeGem = new LargeGem(posX, posY, 32, 32);
+
+                    collectibles.add(largeGem);
                 }
                 else if(currentChar == 'G')
                 {
@@ -110,13 +114,6 @@ public class PacmanWorld extends GameWorld
                     Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, invincibleEffect);
 
                     collectibles.add(powerup);
-                }
-
-                else if(currentChar == 'L')
-                {
-                    largeGem = new LargeGem(posX, posY, 32, 32);
-
-                    add(largeGem);
                 }
             }
         }

@@ -7,11 +7,12 @@ public class MusicManager {
     MediaPlayer mediaPlayer;
     String source;
 
-    public MusicManager(String source, double Volume){
+    public MusicManager(String source, double volume){
         this.source = source;
         this.mediaPlayer = new MediaPlayer(new Media(source));
         this.mediaPlayer.setAutoPlay(true);
         this.mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        this.mediaPlayer.setVolume(volume);
     }
 
     public MediaPlayer getMediaPlayer(){
@@ -32,3 +33,4 @@ public class MusicManager {
         this.getMediaPlayer().setVolume(volume);
     }
 }
+

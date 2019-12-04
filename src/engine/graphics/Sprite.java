@@ -127,22 +127,26 @@ public class Sprite extends Entity
         int currentWidth = getWidth();
         int currentHeight = getHeight();
         //si je fixe pas il se peut qu'on ai pas la même valeur et qu'on se fasse tp dans le mur
-        int centerX = currentX+currentWidth >> 1;
-        int centerY = currentY+currentHeight >> 1;
+        int centerX = currentX+(currentWidth >> 1);
+        int centerY = currentY+(currentHeight >> 1);
 
         // divisé par 32 puis multiplié par 32
-        int a = currentX >> 5 << 5;
+        int a = centerX >> 5 << 5;
+        setX(a);
+        /*
         int a2 = currentX-a;
         if(a2 > currentWidth << 1)
             setX(a);
         else
-            setX(a+32);
+            setX(a+32);*/
 
-        int b = currentY >> 5 << 5;
+        int b = centerY >> 5 << 5;
+        setY(b);
+        /*
         int b2 = currentY-b;
         if(b2 > currentHeight << 1)
             setY(b);
         else
-            setY(b-32);
+            setY(b-32);*/
     }
 }

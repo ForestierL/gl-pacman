@@ -12,13 +12,14 @@ public class MiniEffect extends EffectModifier
     @Override
     public void applyModifier(GameObject gameObject, double duration)
     {
-        gameObject.resizeEntity(0.5);
+        super.applyModifier(gameObject, duration);
+        gameObject.resizeEntity(16, 16);
     }
 
     @Override
     public void removeModifier(GameObject gameObject)
     {
-        gameObject.resizeEntity(2);
+        gameObject.resizeEntity(32, 32);
         gameObject.setOnTheGrid();
     }
 

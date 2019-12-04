@@ -8,6 +8,8 @@ import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import game.PacmanWorld;
+import game.objects.collectibles.Gem;
+import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
@@ -16,6 +18,8 @@ import game.utils.Direction;
 import game.utils.DisplacementSmoother;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+
+import static game.utils.CollisionSignal.POWERUP;
 
 public class Pacman extends GameObject implements Controllable {
     private InputScheme inputScheme;
@@ -117,6 +121,27 @@ public class Pacman extends GameObject implements Controllable {
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
+
+        switch (signal) {
+            case GEM:
+            case POWERUP:
+                PacmanWorld pc = (PacmanWorld) this.getWorld();
+                int cpt1 = 0;
+                for (int i = 0; i < pc.getEntities().size(); i++) {
+
+                    if (pc.getEntities().get(i).getClass() == Gem.class) {
+                        cpt1++;
+                    }
+                    if (pc.getEntities().get(i).getClass() == Powerup.class) {
+                        cpt1++;
+
+                    }
+                }
+                if(cpt1<=1)
+                    this.getWorld().notifyObservers();
+
+
+        }
         return true;
     }
 
@@ -196,7 +221,7 @@ public class Pacman extends GameObject implements Controllable {
                 }
                 this.block(false);
                 this.setDead(false);
-                this.cpt =0;
+                this.cpt = 0;
 
 
             }

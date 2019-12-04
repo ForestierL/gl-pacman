@@ -198,9 +198,6 @@ public abstract class Monster extends GameObject {
     }
 
     private Direction goHome(int[][] terrain, int origX, int origY) {
-        System.out.println("xx = " + origX +", y = " + origY);
-
-        System.out.println("x = " + this.origX +", y = " + this.origY);
         return Terrain.getShortestDirection(terrain, origX, origY, this.origX, this.origY);
     }
 
@@ -219,8 +216,8 @@ public abstract class Monster extends GameObject {
 
                 } else {
                     PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
-
-                    pacmanWorld.pacman.die();
+                    if(!this.dead)
+                        pacmanWorld.pacman.die();
                 }
                 return true;
 

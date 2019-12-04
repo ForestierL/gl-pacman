@@ -22,6 +22,7 @@ public class SoundManager {
     }
 
     public void playMusic(){
+        this.stopMusic();
         this.getMediaPlayer().play();
     }
     public void stopMusic(){

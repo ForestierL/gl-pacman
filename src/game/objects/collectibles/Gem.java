@@ -11,7 +11,11 @@ import java.io.File;
 import java.util.Random;
 
 public class Gem extends GameObject
-{    public Gem(int x, int y, int width, int height)
+
+
+{
+    private SoundManager sm;
+    public Gem(int x, int y, int width, int height, SoundManager sm)
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         Random randomGenerator = new Random();
@@ -20,6 +24,7 @@ public class Gem extends GameObject
         setCollisionSignal(CollisionSignal.GEM);
         setCollisionState(false);
         resizeHitbox(8, 8);
+        this.sm = sm;
     }
 
     @Override
@@ -33,6 +38,7 @@ public class Gem extends GameObject
                 pacmanWorld.decreaseGemCount(1);
                 System.out.println(pacmanWorld.getPlayerScore());
                 pacmanWorld.remove(this);
+                sm.playMusic();
                 return true;
             default:
                 return true;

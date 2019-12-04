@@ -9,14 +9,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class EndGameScene extends Scene {
@@ -25,6 +22,7 @@ public class EndGameScene extends Scene {
     private GameWindow gameWindow;
     private HBox hb;
     private Pane root;
+    private VBox vb;
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,70);
     private static final Font scoreFont = Font.font("", FontWeight.BOLD,50);
@@ -47,14 +45,19 @@ public class EndGameScene extends Scene {
         root = new Pane();
         root.setPrefSize(width, height);
 
+        this.root.getChildren().clear();
+        System.out.println(this.vb);
+        if (this.vb != null) this.vb.getChildren().clear();
+        vb = new VBox();
         Text title = new Text(50, 100, "GAME OVER");
         title.setFont(FONT);
         Text scoreText = new Text(100, 170, "Your score is\n" + Integer.toString(score));
         scoreText.setTextAlignment(TextAlignment.CENTER);
         scoreText.setFont(scoreFont);
-        Text text = new Text(20, 300,"Enter your name to save your score and press Enter\nElse press Escape\nYour name must not exceed 8 characters\nor contain special characters");
+        Text text = new Text(20, 300,"Enter your name to save your score and press Enter\nElse press Escape\nYour name must not exceed 16 characters\nor contain special characters");
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(textFont);
+        vb.getChildren().addAll(title,scoreText,text);
         Label label1 = new Label("Name:");
         TextField textField = new TextField ();
         hb = new HBox();
@@ -71,7 +74,7 @@ public class EndGameScene extends Scene {
             }
         });
 
-        root.getChildren().addAll(hb, title, scoreText, text);
+        root.getChildren().addAll(hb, vb);
         return root;
     }
 

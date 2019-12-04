@@ -1,5 +1,6 @@
 package game.objects.modifiers;
 
+import engine.audios.SoundManager;
 import engine.graphics.MovingSpriteTexture;
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
@@ -11,8 +12,11 @@ import game.objects.enemies.Crazy;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;
 
+import java.io.File;
+
 public class InvincibleEffect extends EffectModifier
 {
+    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/power_start.mp3").toURI().toString(),1.0);
     public InvincibleEffect(AppliableEffect appliableEffect) {
         super(appliableEffect);
     }
@@ -37,6 +41,7 @@ public class InvincibleEffect extends EffectModifier
                 tmp.setScared(true);
             }
         }
+        soundManager.playMusic();
         super.applyModifier(gameObject, duration);
         gameObject.setCollisionSignal(CollisionSignal.PACMAN_INVINCIBLE);
         gameObject.setSpriteTexture(new MovingSpriteTexture(new Image("player_powered.png")));

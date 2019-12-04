@@ -3,6 +3,8 @@ package game;
 import engine.ui.GameWindow;
 import engine.ui.MenuScene;
 
+import java.util.Observer;
+
 public class MainGame extends GameWindow
 {
     public MainGame()
@@ -19,6 +21,8 @@ public class MainGame extends GameWindow
         setMenuScene(menuScene, menuObjects);
 
     }
+
+
 
     public static void main(String[] args)
     {

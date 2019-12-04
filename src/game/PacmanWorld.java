@@ -132,6 +132,7 @@ public class PacmanWorld extends GameWorld
 
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;
+        notifyObservers(this);
     }
 
 

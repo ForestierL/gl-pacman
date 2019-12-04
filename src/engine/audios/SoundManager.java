@@ -10,7 +10,6 @@ public class SoundManager {
     public SoundManager(String source, double volume){
         this.source = source;
         this.mediaPlayer = new MediaPlayer(new Media(source));
-        this.mediaPlayer.play();
         this.mediaPlayer.setVolume(volume);
     }
 

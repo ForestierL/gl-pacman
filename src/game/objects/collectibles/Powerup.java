@@ -39,6 +39,7 @@ public class Powerup extends GameObject
                 pacmanWorld.remove(this);
 
                 return true;
+
             default:
                 return true;
         }

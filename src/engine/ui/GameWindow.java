@@ -1,10 +1,14 @@
 package engine.ui;
 
 import engine.audios.MusicManager;
+import engine.audios.SoundManager;
+import game.PacmanGameScene;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -62,15 +66,26 @@ public class GameWindow extends Application implements Observer
 
     public void startGame()
     {
-        stage.setScene(gameScene);
+
         if (!currentGame){
+            System.out.println("test1");
+            gameScene.setRoot(new Group());
+            PacmanGameScene scene = new PacmanGameScene(gameGroup, this);
+            setGameScene(scene);
+            stage.setScene(scene);
             currentGame = true;
             initialize();
             run();
-        }else {
-            this.pause = false;
-            animationTimer.start();
+            stage.show();
         }
+            else{
+            System.out.println("test2");
+                stage.setScene(gameScene);
+                this.pause = false;
+                animationTimer.start();
+            }
+
+
     }
 
     public void pauseGame(){
@@ -99,12 +114,14 @@ public class GameWindow extends Application implements Observer
 
     public void returnToMenu(){
         pause = false;
+        currentGame = false;
         stage.setScene(menuScene);
     }
 
     public void endGame(int score){
         pause = false;
         currentGame = false;
+        animationTimer.stop();
         setEndGameScene(endGameScene, score);
         stage.setScene(endGameScene);
     }
@@ -176,6 +193,7 @@ public class GameWindow extends Application implements Observer
                 long elapsed = currentNanoTime - lastHandle;
                 gameScene.getWorld().udpate(elapsed);
                 gameScene.getGraphicsDisplay().render();
+                gameScene.getGraphicsDisplay().getGraphicsContext2D().strokeText("Score", 50,480);
 
                 lastHandle = currentNanoTime;
             }

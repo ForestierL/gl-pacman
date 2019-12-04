@@ -1,5 +1,6 @@
 package engine.ui;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
 import java.io.IOException;
 
 public class EndGameScene extends Scene {
@@ -49,6 +51,8 @@ public class EndGameScene extends Scene {
         System.out.println(this.vb);
         if (this.vb != null) this.vb.getChildren().clear();
         vb = new VBox();
+        vb.setAlignment(Pos.CENTER);
+        vb.setTranslateX(20);
         Text title = new Text(50, 100, "GAME OVER");
         title.setFont(FONT);
         Text scoreText = new Text(100, 170, "Your score is\n" + Integer.toString(score));

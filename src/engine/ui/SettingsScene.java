@@ -24,7 +24,7 @@ public class SettingsScene extends Scene {
     }
 
     private Pane root;
-    private int currentItem = 0;
+    private int currentItem = 3;
     private boolean firstTime = true;
     private HBox soundBox;
 
@@ -68,7 +68,7 @@ public class SettingsScene extends Scene {
 
             soundBox.setTranslateY(240);
             soundBox.setTranslateX(120);
-            getMenuItem(0).setActive(true);
+            getMenuItem(3).setActive(true);
 
             root.getChildren().addAll(title, sound, soundBox);
             firstTime = false;
@@ -89,7 +89,7 @@ public class SettingsScene extends Scene {
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(1);
                         getMenuItem(getCurrentItem()).setActive(true);
-                        gameWindow.setVolume(Integer.parseInt(getMenuItem(getCurrentItem()).getText().getText()));
+                        gameWindow.soundManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
                     }
                     break;
                 case LEFT:
@@ -97,7 +97,7 @@ public class SettingsScene extends Scene {
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(-1);
                         getMenuItem(getCurrentItem()).setActive(true);
-                        gameWindow.setVolume(Integer.parseInt(getMenuItem(getCurrentItem()).getText().getText()));
+                        gameWindow.soundManager.setVolume(Double.parseDouble(getMenuItem(getCurrentItem()).getText().getText())/100);
                     }
                     break;
                 case ESCAPE:

@@ -4,7 +4,11 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 
 public class GameWindow extends Application
@@ -15,6 +19,8 @@ public class GameWindow extends Application
     private boolean currentGame = false;
     private boolean pause = false;
     AnimationTimer animationTimer;
+
+    public SoundManager soundManager = new SoundManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
 
     private Stage stage;
 
@@ -43,6 +49,8 @@ public class GameWindow extends Application
     public void start(Stage stage)
     {
         this.stage = stage;
+
+        soundManager.playMusic();
 
         stage.setResizable(false);
         stage.setTitle(name);
@@ -142,10 +150,6 @@ public class GameWindow extends Application
         scoresGroup.getChildren().add(scoresScene.createContent(width,height));
     }
 
-    public void setVolume(int volume){
-        System.out.println("Le volume est de " + volume);
-    }
-
     private void initialize()
     {
         System.out.println("TestWindow : initialize.");
@@ -171,6 +175,7 @@ public class GameWindow extends Application
                 long elapsed = currentNanoTime - lastHandle;
                 gameScene.getWorld().udpate(elapsed);
                 gameScene.getGraphicsDisplay().render();
+                gameScene.getGraphicsDisplay().getGraphicsContext2D().strokeText("Score", 50,480);
 
                 lastHandle = currentNanoTime;
             }

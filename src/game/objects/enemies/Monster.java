@@ -191,7 +191,7 @@ public abstract class Monster extends GameObject {
                 }
                 else{
                     PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
-
+                    pacmanWorld.pacman.die();
                 }
                 break;
 

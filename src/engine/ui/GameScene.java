@@ -42,6 +42,7 @@ public abstract class GameScene extends Scene
 
     protected void setGameWorld(GameWorld world)
     {
+        world.addObserver(this.gameWindow);
         this.world = world;
         graphicsDisplay.setGameWorld(this.world);
     }

@@ -16,6 +16,8 @@ import game.utils.Level;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 public class PacmanWorld extends GameWorld
 {
@@ -24,6 +26,7 @@ public class PacmanWorld extends GameWorld
     public ArrayList monsters;
     public int playerScore = 0;
     public Level level;
+    public Observer observer;
 
     public void setLevel(Level level)
     {
@@ -42,6 +45,7 @@ public class PacmanWorld extends GameWorld
         ArrayList<Entity> walls = new ArrayList<>();
         ArrayList<Entity> collectibles = new ArrayList<>();
         ArrayList<Entity> movers = new ArrayList<>();
+
 
         for(int y = 0; y < level.getHeight(); y++)
         {
@@ -66,7 +70,7 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'P')
                 {
-                    Pacman player = new Pacman(posX, posY, tileWidth, tileHeight);
+                    Pacman player = new Pacman(posX, posY, tileWidth, tileHeight, 3);
                     usedInputs = player.getInputScheme();
                     this.pacman = player;
                     pacman.resizeEntity(1); //POUR TESTER
@@ -129,4 +133,14 @@ public class PacmanWorld extends GameWorld
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;
     }
+
+
+    public void addObserver(Observer observer) {
+        this.observer = observer;
+    }
+    public void notifyObservers(){
+        this.observer.update(this, this.getPlayerScore());
+    }
+
+
 }

@@ -1,9 +1,12 @@
 package engine.physics;
 
+import com.sun.javafx.collections.ObservableSequentialListWrapper;
+
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class GameWorld
+public class GameWorld extends Observable
 {
     private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
 

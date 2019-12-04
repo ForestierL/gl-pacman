@@ -6,8 +6,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Observable;
+import java.util.Observer;
 
-public class GameWindow extends Application
+
+public class GameWindow extends Application implements Observer
 {
     private String name;
     private int width, height;
@@ -176,5 +179,10 @@ public class GameWindow extends Application
             }
         };
         animationTimer.start();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.endGame((int)arg);
     }
 }

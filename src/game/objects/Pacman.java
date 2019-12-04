@@ -20,9 +20,10 @@ public class Pacman extends GameObject implements Controllable
     private int oldX;
     private int oldY;
     public boolean isInvincible;
+    public int lives;
 
 
-    public Pacman(int x, int y, int width, int height)
+    public Pacman(int x, int y, int width, int height, int lives)
     {
         super(new MovingSpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
@@ -57,7 +58,19 @@ public class Pacman extends GameObject implements Controllable
         addOrientationKey(Orientation.WEST, 4);
         addOrientationKey(Orientation.EAST, 8);
 
+        this.lives = lives;
+
         displacementSmoother = new DisplacementSmoother(this);
+    }
+
+    public void die(){
+        this.lives -= 1;
+        if(this.lives == 0){
+            this.getWorld().notifyObservers();
+
+        }
+
+
     }
 
 

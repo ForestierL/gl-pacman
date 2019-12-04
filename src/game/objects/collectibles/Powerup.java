@@ -17,7 +17,7 @@ public class Powerup extends GameObject
     {
         super(new SpriteTexture(new Image("points.png")), x, y, width, height);
         if(powerUpEffect.getClass() == MiniEffect.class)
-            setDefaultSubImage(5);
+            setDefaultSubImage(6);
         if(powerUpEffect.getClass() == InvincibleEffect.class)
             setDefaultSubImage(4);
         setCollisionSignal(CollisionSignal.POWERUP);

@@ -11,6 +11,7 @@ public class Wall extends GameObject
     {
         super(new SpriteTexture(new Image("mapTileset.png")), x, y, width, height);
         setDefaultSubImage(textureId);
+        this.setCollisionSignal(CollisionSignal.WALL);
     }
 
     public  Wall(int x, int y, int width, int height) {

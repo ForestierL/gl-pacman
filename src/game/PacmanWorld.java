@@ -1,5 +1,6 @@
 package game;
 
+import engine.audios.SoundManager;
 import engine.graphics.MovingSpriteTexture;
 import engine.input.InputScheme;
 import engine.physics.Entity;
@@ -7,6 +8,7 @@ import engine.physics.GameWorld;
 import game.objects.collectibles.Gem;
 import game.objects.Pacman;
 import game.objects.Wall;
+import game.objects.collectibles.LargeGem;
 import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
@@ -15,18 +17,23 @@ import game.objects.modifiers.*;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class PacmanWorld extends GameWorld
 {
-    public InputScheme usedInputs = new InputScheme();
+    InputScheme usedInputs = new InputScheme();
     public Pacman pacman;
-    public ArrayList monsters;
-    public int playerScore = 0;
+    public LargeGem largeGem;
+    private ArrayList monsters;
+    private int playerScore = 0;
+    private int gemCount = 0;
+    public boolean largeGemSpawned = false;
     public Level level;
-    public Observer observer;
+    private Observer observer;
+
 
     public void setLevel(Level level)
     {
@@ -36,6 +43,8 @@ public class PacmanWorld extends GameWorld
 
     private void levelToEntities()
     {
+        SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/get_gem1.mp3").toURI().toString(),1.0);
+
         int tileWidth = level.tileWidth;
         int tileHeight = level.tileHeight;
 
@@ -64,8 +73,8 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == '0')
                 {
-                    Gem gem = new Gem(posX, posY, tileWidth, tileHeight);
-
+                    Gem gem = new Gem(posX, posY, tileWidth, tileHeight, soundManager);
+                    gemCount++;
                     collectibles.add(gem);
                 }
                 else if(currentChar == 'P')
@@ -75,6 +84,10 @@ public class PacmanWorld extends GameWorld
                     this.pacman = player;
                     pacman.resizeEntity(1); //POUR TESTER
                     movers.add(player);
+
+                    largeGem = new LargeGem(posX, posY, 32, 32);
+
+                    collectibles.add(largeGem);
                 }
                 else if(currentChar == 'G')
                 {
@@ -96,9 +109,6 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'u')
                 {
-
-
-
                     Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, miniEffect);
 
                     collectibles.add(powerup);
@@ -106,15 +116,10 @@ public class PacmanWorld extends GameWorld
 
                 else if(currentChar == 'i')
                 {
-
-
-
                     Powerup powerup = new Powerup(posX, posY, tileWidth, tileHeight, invincibleEffect);
 
                     collectibles.add(powerup);
                 }
-
-
             }
         }
 
@@ -124,17 +129,27 @@ public class PacmanWorld extends GameWorld
         this.monsters = movers;
     }
 
+    public void decreaseGemCount(int amount)
+    {
+        gemCount -= amount;
+        if(gemCount == 0)
+            System.out.println("Go to next level");
+    }
+
     public int getPlayerScore() {
         return playerScore;
     }
 
-
-
-    public void setPlayerScore(int playerScore) {
+    public void setPlayerScore(int playerScore)
+    {
         this.playerScore = playerScore;
+        if(playerScore > 1000 && !largeGemSpawned)
+        {
+            largeGemSpawned = true;
+            largeGem.setVisible(true);
+        }
         notifyObservers(this);
     }
-
 
     public void addObserver(Observer observer) {
         this.observer = observer;

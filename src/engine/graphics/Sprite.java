@@ -11,6 +11,7 @@ public class Sprite extends Entity
     private Orientation orientation = Orientation.NONE;
     private SpriteTexture spriteTexture;
     private int defaultSubImage;
+    private boolean visible = true;
 
     private Hashtable<Orientation, Integer> orientationMap = new Hashtable<>();
 
@@ -148,5 +149,14 @@ public class Sprite extends Entity
             setY(b);
         else
             setY(b-32);*/
+    }
+
+    public boolean isVisible()
+    {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

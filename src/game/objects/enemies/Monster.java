@@ -1,5 +1,6 @@
 package game.objects.enemies;
 
+import engine.audios.SoundManager;
 import engine.graphics.*;
 import engine.input.InputAction;
 import engine.input.InputScheme;
@@ -11,10 +12,14 @@ import game.utils.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+import java.io.File;
+
 import static engine.graphics.Orientation.*;
 
 public abstract class Monster extends GameObject {
 
+    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/monster_hit_you.mp3").toURI().toString(),1.0);
+    SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/monster_take_downt.mp3").toURI().toString(),1.0);
     private Orientation orientation;
 
     private boolean scared;
@@ -44,8 +49,9 @@ public abstract class Monster extends GameObject {
 
         oldX = getX() / 32;
         oldY = getY() / 32;
-        this.origX = x / 32;
-        this.origY = y / 32;
+
+        this.origX = getX() / 32;
+        this.origY = getY() / 32;
 
         setOrientationDependantDisplay(true);
         addOrientationKey(Orientation.NORTH, 12);
@@ -205,21 +211,27 @@ public abstract class Monster extends GameObject {
     public boolean handleCollision(CollisionSignal signal) {
 
         switch (signal) {
+            case MONSTER:
+                break;
 
             case PACMAN:
                 if (this.scared) {
+
                     this.setDead(true);
-                    PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
 
                 } else {
                     PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
-                    pacmanWorld.pacman.die();
+                    if(!this.dead){
+                        soundManager2.playMusic();
+                        pacmanWorld.pacman.die();
+                    }
                 }
-                break;
+                return true;
 
             case PACMAN_INVINCIBLE:
+
                 this.setDead(true);
-                break;
+                return true;
         }
 
         return true;
@@ -240,6 +252,7 @@ public abstract class Monster extends GameObject {
 
 
         if (b) {
+            soundManager.playMusic();
             this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_down.png"), new Image("monster_underground.png")));
             this.forceMove();
             this.direction = this.forceMove();

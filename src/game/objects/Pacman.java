@@ -8,6 +8,8 @@ import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import game.PacmanWorld;
+import game.objects.collectibles.Gem;
+import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
@@ -16,6 +18,8 @@ import game.utils.Direction;
 import game.utils.DisplacementSmoother;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+
+import static game.utils.CollisionSignal.POWERUP;
 
 public class Pacman extends GameObject implements Controllable {
     private InputScheme inputScheme;
@@ -82,9 +86,9 @@ public class Pacman extends GameObject implements Controllable {
                 this.lives -= 1;
                 this.setDead(true);
                 this.block(true);
-                this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("player_dead.png"),new Image("entity_null.png")));
+                this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("player_dead.png"), new Image("entity_null.png")));
             }
-            PacmanWorld pc = (PacmanWorld)this.getWorld();
+            PacmanWorld pc = (PacmanWorld) this.getWorld();
             for (int i = 0; i < pc.getEntities().size(); i++) {
 
                 if (pc.getEntities().get(i).getClass() == Chaser.class) {
@@ -117,8 +121,24 @@ public class Pacman extends GameObject implements Controllable {
 
     @Override
     public boolean handleCollision(CollisionSignal signal) {
+
         switch (signal) {
-            case MONSTER:
+            case GEM:
+            case POWERUP:
+                PacmanWorld pc = (PacmanWorld) this.getWorld();
+                int cpt1 = 0;
+                for (int i = 0; i < pc.getEntities().size(); i++) {
+
+                    if (pc.getEntities().get(i).getClass() == Gem.class) {
+                        cpt1++;
+                    }
+                    if (pc.getEntities().get(i).getClass() == Powerup.class) {
+                        cpt1++;
+
+                    }
+                }
+                if(cpt1<=1)
+                    this.getWorld().notifyObservers();
 
 
         }
@@ -139,10 +159,10 @@ public class Pacman extends GameObject implements Controllable {
             pc.level.terrain[getY() / 32][getX() / 32] = 'P';
 
             addMovementIntent(displacementSmoother.getMovementIntent(direction));
-        }
-        else{
-            if(this.origX != this.getX() || this.origY != this.getY()) {
-                PacmanWorld pc = (PacmanWorld) this.getWorld();
+        } else {
+            PacmanWorld pc = (PacmanWorld) this.getWorld();
+            if (this.origX != this.getX() || this.origY != this.getY()) {
+
                 int cptBlocked = 0;
                 int cptTotal = 0;
                 for (int i = 0; i < pc.getEntities().size(); i++) {
@@ -172,33 +192,37 @@ public class Pacman extends GameObject implements Controllable {
                     this.setX(this.origX);
                     this.setY(this.origY);
                     this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("player_appear.png"), new Image("player_normal.png")));
-
-                    try{
-                        Thread.sleep(2000);}
-                    catch(Exception e){}
-
-
-                    for (int i = 0; i < pc.getEntities().size(); i++) {
-
-
-                        if (pc.getEntities().get(i).getClass() == Chaser.class) {
-                            Chaser tmp = (Chaser) pc.getEntities().get(i);
-                            tmp.block(false);
-
-                        }
-                        if (pc.getEntities().get(i).getClass() == Blocker.class) {
-                            Blocker tmp = (Blocker) pc.getEntities().get(i);
-                            tmp.block(false);
-
-                        }
-                        if (pc.getEntities().get(i).getClass() == Crazy.class) {
-                            Crazy tmp = (Crazy) pc.getEntities().get(i);
-                            tmp.block(false);
-
-                        }}
-                    this.block(false);
-                    this.setDead(false);
+                    cpt++;
                 }
+            }
+            if (cpt != 0)
+                cpt++;
+
+
+            if (cpt == 50) {
+                for (int i = 0; i < pc.getEntities().size(); i++) {
+
+
+                    if (pc.getEntities().get(i).getClass() == Chaser.class) {
+                        Chaser tmp = (Chaser) pc.getEntities().get(i);
+                        tmp.block(false);
+
+                    }
+                    if (pc.getEntities().get(i).getClass() == Blocker.class) {
+                        Blocker tmp = (Blocker) pc.getEntities().get(i);
+                        tmp.block(false);
+
+                    }
+                    if (pc.getEntities().get(i).getClass() == Crazy.class) {
+                        Crazy tmp = (Crazy) pc.getEntities().get(i);
+                        tmp.block(false);
+
+                    }
+                }
+                this.block(false);
+                this.setDead(false);
+                this.cpt = 0;
+
 
             }
 

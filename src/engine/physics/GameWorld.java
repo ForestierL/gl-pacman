@@ -1,6 +1,9 @@
 package engine.physics;
 
 import com.sun.javafx.collections.ObservableSequentialListWrapper;
+import game.objects.Pacman;
+import game.objects.collectibles.LargeGem;
+import game.objects.enemies.Crazy;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -23,7 +26,6 @@ public class GameWorld extends Observable
                 entity.update(elapsedSeconds);
                 manageMovementIntents(entity);
             }
-
         }
     }
 
@@ -39,8 +41,6 @@ public class GameWorld extends Observable
                 Hitbox otherHitbox = otherEntity.getHitbox();
                 if (transformedHitbox.intersects(otherHitbox) && (transformedHitbox != otherHitbox))
                 {
-                    // System.out.println("other entity : " + otherEntity.toString());
-
                     boolean valid = entity.handleCollision(otherEntity.getCollisionSignal()) && otherEntity.handleCollision(entity.getCollisionSignal());
 
                     if(valid)

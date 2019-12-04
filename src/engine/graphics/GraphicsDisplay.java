@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 public class GraphicsDisplay extends Canvas
 {
-    boolean displayHitbox = true;
+    boolean displayHitbox = false;
     private int tileWidth, tileHeight;
     private double resolutionX, resolutionY; // Tile resolutions on screen.
     private GameWorld gameWorld;

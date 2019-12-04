@@ -1,5 +1,6 @@
 package engine.ui;
 
+import engine.audios.SoundManager;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -11,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.io.File;
 
 public class MenuScene extends Scene
 {
@@ -27,7 +30,8 @@ public class MenuScene extends Scene
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,30);
     private static final Font titleFont = Font.font("", FontWeight.BOLD,60);
-
+    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/ui_tic.mp3").toURI().toString(),1.0);
+    SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/ui_validation.mp3").toURI().toString(),1.0);
     private int getCurrentItem(){
         return currentItem;
     }
@@ -87,7 +91,7 @@ public class MenuScene extends Scene
     {
         addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
-                case DOWN:
+                case DOWN:soundManager.playMusic();
                     if (getCurrentItem() < menuBox.getChildren().size() - 1){
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(1);
@@ -95,6 +99,7 @@ public class MenuScene extends Scene
                     }
                     break;
                 case UP:
+                    soundManager.playMusic();
                     if (getCurrentItem() > 0){
                         getMenuItem(getCurrentItem()).setActive(false);
                         setCurrentItem(-1);
@@ -102,6 +107,7 @@ public class MenuScene extends Scene
                     }
                     break;
                 case ENTER:
+                    soundManager2.playMusic();
                     getMenuItem(getCurrentItem()).activate();
                     break;
             }

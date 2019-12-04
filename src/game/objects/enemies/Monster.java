@@ -97,7 +97,7 @@ public abstract class Monster extends GameObject {
         if(!this.scared) {
             if(!dead)
                 return this.chase(ter, x, y);
-            else{System.out.println("lol");
+            else{
                 return this.dig(ter, x, y);}
         }
         else {

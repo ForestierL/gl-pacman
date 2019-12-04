@@ -1,9 +1,6 @@
 package game.objects.enemies;
 
-import engine.graphics.MovingSpriteTexture;
-import engine.graphics.Orientation;
-import engine.graphics.Sprite;
-import engine.graphics.SpriteTexture;
+import engine.graphics.*;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import engine.physics.MovementIntent;
@@ -78,8 +75,6 @@ public abstract class Monster extends GameObject {
                         this.setDead(false);
                         this.move();}
                     else{
-                        if(this.oldY != x || this.oldY != y)
-                            this.setSpriteTexture(new MovingSpriteTexture(new Image("monster_underground.png")));
                         return this.dig(ter, x, y);}}
 
             }
@@ -212,7 +207,7 @@ public abstract class Monster extends GameObject {
         this.scared = false;
 
         if(b) {
-            this.setSpriteTexture(new MovingSpriteTexture(new Image("monster_dig_down.png")));
+            this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_down.png"), new Image("monster_underground.png")));
             this.forceMove();
             this.direction = this.forceMove();
             setOrientation(Orientation.values()[this.direction.ordinal()]);
@@ -220,7 +215,7 @@ public abstract class Monster extends GameObject {
             oldY = (getY()) / 32;
             addMovementIntent(displacementSmoother.getMovementIntent(direction));
         }
-        else{this.setSpriteTexture(new MovingSpriteTexture(new Image("monster_dig_up.png")));}
+        else{this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_up.png"),new Image("monster_angry.png")));}
 
 
     }

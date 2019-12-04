@@ -1,5 +1,7 @@
 package game;
 
+import engine.graphics.MovingSpriteTexture;
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import engine.input.InputScheme;
 import engine.physics.Entity;
@@ -14,6 +16,7 @@ import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
 import game.objects.enemies.Monster;
 import game.objects.modifiers.*;
+import game.utils.Direction;
 import game.utils.Level;
 import javafx.scene.image.Image;
 
@@ -73,19 +76,19 @@ public class PacmanWorld extends GameWorld
                 }
                 else if(currentChar == 'G')
                 {
-                    Chaser monster = new Chaser(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Chaser monster = new Chaser(new MovingSpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'C')
                 {
-                    Crazy monster = new Crazy(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Crazy monster = new Crazy(new MovingSpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }
                 else if(currentChar == 'B')
                 {
-                    Blocker monster = new Blocker(new SpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
+                    Blocker monster = new Blocker(new MovingSpriteTexture(new Image("monster_angry.png")), posX, posY, tileWidth, tileHeight, 3);
 
                     movers.add(monster);
                 }

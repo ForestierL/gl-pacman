@@ -1,9 +1,12 @@
 package game.objects.collectibles;
 
+import engine.graphics.MovingSpriteTexture;
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
 import game.objects.GameObject;
 import game.utils.CollisionSignal;
+import game.utils.Direction;
 import javafx.scene.image.Image;
 
 import java.util.Random;

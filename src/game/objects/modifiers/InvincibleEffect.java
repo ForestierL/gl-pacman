@@ -1,5 +1,7 @@
 package game.objects.modifiers;
 
+import engine.graphics.MovingSpriteTexture;
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
 import game.objects.GameObject;
@@ -35,7 +37,7 @@ public class InvincibleEffect extends EffectModifier {
         }
         super.applyModifier(gameObject, duration);
         gameObject.setCollisionSignal(CollisionSignal.PACMAN_INVINCIBLE);
-        gameObject.setSpriteTexture(new SpriteTexture(new Image("player_powered.png")));
+        gameObject.setSpriteTexture(new MovingSpriteTexture(new Image("player_powered.png")));
     }
 
     @Override
@@ -60,6 +62,6 @@ public class InvincibleEffect extends EffectModifier {
                 tmp.setScared(false);
             }
         }
-        gameObject.setSpriteTexture(new SpriteTexture(new Image("player_normal.png")));
+        gameObject.setSpriteTexture(new MovingSpriteTexture(new Image("player_normal.png")));
     }
 }

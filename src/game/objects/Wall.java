@@ -1,5 +1,6 @@
 package game.objects;
 
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import game.utils.CollisionSignal;
 import javafx.scene.image.Image;

@@ -56,7 +56,7 @@ public class Blocker extends Monster {
             this.direction = d;
         double r;
         r = Math.random() * (4);
-        if (r * this.difficulty < 1)
+        if (r * this.difficulty < 0.5)
             this.direction = Terrain.randomDir(terrain, x, y);
 
         return this.direction;

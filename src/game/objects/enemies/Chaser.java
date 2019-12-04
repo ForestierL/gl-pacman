@@ -3,11 +3,13 @@ package game.objects.enemies;
 import engine.graphics.SpriteTexture;
 import game.utils.Direction;
 import game.utils.Terrain;
+import javafx.scene.image.Image;
 
 public class Chaser extends Monster {
 
 
     public Chaser(SpriteTexture spriteTexture, int x, int y, int width, int height, int difficulty) {
+
         super(spriteTexture, x, y, width, height, difficulty);
 
     }
@@ -21,7 +23,7 @@ public class Chaser extends Monster {
             if(d != Direction.NONE)
                 this.direction = d;
             r = Math.random() * (4);
-            if(r*this.difficulty < 1)
+            if(r*this.difficulty < 0.5)
                 this.direction = Terrain.randomDir(terrain, x, y);
 
         return this.direction;

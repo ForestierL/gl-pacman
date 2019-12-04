@@ -1,7 +1,9 @@
 package game.utils.tiledutils;
 
+import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import engine.graphics.GridLayer;
+import game.utils.Direction;
 import javafx.geometry.Rectangle2D;
 
 public class MapLayer {

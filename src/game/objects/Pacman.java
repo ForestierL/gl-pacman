@@ -1,5 +1,6 @@
 package game.objects;
 
+import engine.graphics.MovingSpriteTexture;
 import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
@@ -23,7 +24,7 @@ public class Pacman extends GameObject implements Controllable
 
     public Pacman(int x, int y, int width, int height)
     {
-        super(new SpriteTexture(new Image("player_normal.png")), x, y, width, height);
+        super(new MovingSpriteTexture(new Image("player_normal.png")), x, y, width, height);
 
         setCollisionSignal(CollisionSignal.PACMAN);
         this.oldX = getX()/32;

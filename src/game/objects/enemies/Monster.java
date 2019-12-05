@@ -18,8 +18,8 @@ import static engine.graphics.Orientation.*;
 
 public abstract class Monster extends GameObject {
 
-    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/monster_hit_you.mp3").toURI().toString(),1.0);
-    SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/monster_take_downt.mp3").toURI().toString(),1.0);
+    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/monster_hit_you.mp3").toURI().toString(), 1.0);
+    SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/monster_take_downt.mp3").toURI().toString(), 1.0);
     private Orientation orientation;
 
     private boolean scared;
@@ -221,7 +221,7 @@ public abstract class Monster extends GameObject {
 
                 } else {
                     PacmanWorld pacmanWorld = (PacmanWorld) getWorld();
-                    if(!this.dead){
+                    if (!this.dead) {
                         soundManager2.playMusic();
                         pacmanWorld.pacman.die();
                     }
@@ -247,20 +247,25 @@ public abstract class Monster extends GameObject {
         int x = this.getX() / 32;
         int y = this.getY() / 32;
 
-        this.dead = b;
-        this.scared = false;
-
 
         if (b) {
-            soundManager.playMusic();
-            this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_down.png"), new Image("monster_underground.png")));
-            this.forceMove();
-            this.direction = this.forceMove();
-            setOrientation(Orientation.values()[this.direction.ordinal()]);
-            oldX = (getX()) / 32;
-            oldY = (getY()) / 32;
-            addMovementIntent(displacementSmoother.getMovementIntent(direction));
+            if (this.dead == false) {
+                PacmanWorld pc = (PacmanWorld)this.getWorld();
+                pc.setPlayerScore(200+pc.getPlayerScore());
+                this.getWorld().notifyObservers();
+                this.dead = b;
+                this.scared = false;
+                soundManager.playMusic();
+                this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_down.png"), new Image("monster_underground.png")));
+                this.forceMove();
+                this.direction = this.forceMove();
+                setOrientation(Orientation.values()[this.direction.ordinal()]);
+                oldX = (getX()) / 32;
+                oldY = (getY()) / 32;
+                addMovementIntent(displacementSmoother.getMovementIntent(direction));
+            }
         } else {
+            this.dead = b;
             this.setSpeed(0.0002);
             this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("monster_dig_up.png"), new Image("monster_angry.png")));
         }

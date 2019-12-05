@@ -9,7 +9,7 @@ public class MainGame extends GameWindow
 {
     public MainGame()
     {
-        super("Diamond Crystal", 500, 500);
+        super("Diamond Crystal", 500, 450);
 
         PacmanGameScene gameScene = new PacmanGameScene(gameGroup, this);
 

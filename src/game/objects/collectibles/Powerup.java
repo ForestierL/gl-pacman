@@ -34,6 +34,7 @@ public class Powerup extends GameObject
             case PACMAN: case PACMAN_INVINCIBLE:
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
                 pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 700);
+                this.getWorld().notifyObservers();
                 pacmanWorld.pacman.addEffect(powerupEffect, 7);
 
                 pacmanWorld.remove(this);

@@ -35,6 +35,8 @@ public class GameWindow extends Application implements Observer
     public MusicManager musicManager = new MusicManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
 
     private Stage stage;
+    Label hpText;
+    Label scoreText;
 
     protected Group menuGroup = new Group();
     protected Group gameGroup = new Group();
@@ -165,11 +167,11 @@ public class GameWindow extends Application implements Observer
 
 
         SimpleIntegerProperty scoreValue = new SimpleIntegerProperty(0);
-        Label scoreText = new Label("Score : " + updatedScore );
+        scoreText = new Label("Score : 0");
         scoreText.setTextFill(Color.CRIMSON);
         scoreText.setFont( new Font(16) );
 
-        Label hpText = new Label("Lives left : " /*+ Pacman.getLives()*/);
+        hpText = new Label("Lives left : 3");
         hpText.setTextFill(Color.CRIMSON);
         hpText.setFont( new Font(16) );
 
@@ -221,8 +223,6 @@ public class GameWindow extends Application implements Observer
                 long elapsed = currentNanoTime - lastHandle;
                 gameScene.getWorld().udpate(elapsed);
                 gameScene.getGraphicsDisplay().render();
-                gameScene.getGraphicsDisplay().getGraphicsContext2D().strokeText("Score", 50,480);
-
                 lastHandle = currentNanoTime;
             }
         };
@@ -231,12 +231,12 @@ public class GameWindow extends Application implements Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.getClass() == int.class)
+        if (arg.getClass() != PacmanWorld.class)
             this.endGame((int) arg);
         else {
             PacmanWorld pc = (PacmanWorld) arg;
-            int lives = pc.pacman.lives;
-            int score = pc.playerScore;
+            scoreText.setText("Score : "+pc.getPlayerScore());
+            hpText.setText("Lives left : "+pc.pacman.lives);
         }
     }
 }

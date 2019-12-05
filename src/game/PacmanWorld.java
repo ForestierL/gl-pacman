@@ -154,9 +154,24 @@ public class PacmanWorld extends GameWorld
     public void addObserver(Observer observer) {
         this.observer = observer;
     }
-    public void notifyObservers(){
-        this.observer.update(this, this.getPlayerScore());
-    }
+    public void notifyObservers() {
 
 
-}
+        this.observer.update(this, this);
+        int cpt1 = 0;
+        for (int i = 0; i < this.getEntities().size(); i++) {
+
+            if (this.getEntities().get(i).getClass() == Gem.class) {
+                cpt1++;
+            }
+            if (this.getEntities().get(i).getClass() == Powerup.class) {
+                cpt1++;
+
+            }
+        }
+        if(cpt1<=1)
+            this.observer.update(this, this.getPlayerScore());
+
+
+
+    }}

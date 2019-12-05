@@ -124,21 +124,16 @@ public class Pacman extends GameObject implements Controllable {
 
         switch (signal) {
             case GEM:
+                this.getWorld().notifyObservers();
+                break;
             case POWERUP:
-                PacmanWorld pc = (PacmanWorld) this.getWorld();
-                int cpt1 = 0;
-                for (int i = 0; i < pc.getEntities().size(); i++) {
+                this.getWorld().notifyObservers();
+                break;
+            case MONSTER:
 
-                    if (pc.getEntities().get(i).getClass() == Gem.class) {
-                        cpt1++;
-                    }
-                    if (pc.getEntities().get(i).getClass() == Powerup.class) {
-                        cpt1++;
+                this.getWorld().notifyObservers();
+                break;
 
-                    }
-                }
-                if(cpt1<=1)
-                    this.getWorld().notifyObservers();
 
 
         }

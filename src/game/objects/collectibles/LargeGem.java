@@ -33,6 +33,7 @@ public class LargeGem extends GameObject
                 {
                     soundManager.playMusic();
                     pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 200);
+                    this.getWorld().notifyObservers();
                     System.out.println(pacmanWorld.getPlayerScore());
                     pacmanWorld.remove(this);
                 }

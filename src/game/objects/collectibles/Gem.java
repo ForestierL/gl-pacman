@@ -35,6 +35,7 @@ public class Gem extends GameObject
             case PACMAN : case PACMAN_INVINCIBLE:
                 PacmanWorld pacmanWorld = (PacmanWorld)getWorld();
                 pacmanWorld.setPlayerScore(pacmanWorld.getPlayerScore() + 10);
+            this.getWorld().notifyObservers();
                 pacmanWorld.decreaseGemCount(1);
                 System.out.println(pacmanWorld.getPlayerScore());
                 pacmanWorld.remove(this);

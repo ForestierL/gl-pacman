@@ -15,7 +15,7 @@ public class PacmanGameScene extends GameScene
 {
     public PacmanGameScene(Parent root, GameWindow gameWindow)
     {
-        super(root, gameWindow, 500, 500, 32, 32, 100);
+        super(root, gameWindow, 500, 500, 32, 32);
     }
 
     private PacmanWorld initWorld(Level level)
@@ -49,7 +49,7 @@ public class PacmanGameScene extends GameScene
     private void initGraphics(PacmanWorld world)
     {
         getGraphicsDisplay().setWidth(world.level.getWidth() * 32);
-        getGraphicsDisplay().setHeight(world.level.getHeight() * 32 + this.getUiMargin());
+        getGraphicsDisplay().setHeight(world.level.getHeight() * 32);
     }
 
     @Override

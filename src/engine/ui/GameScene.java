@@ -19,15 +19,13 @@ public abstract class GameScene extends Scene
     private GameWindow gameWindow;
 
     private int width, height;
-    private int uiMargin;
 
-    public GameScene(Parent root, GameWindow gameWindow, int width, int height, int tileWidth, int tileHeight, int uiMargin)
+    public GameScene(Parent root, GameWindow gameWindow, int width, int height, int tileWidth, int tileHeight)
     {
         super(root);
 
         this.width = width;
         this.height = height;
-        this.uiMargin = uiMargin;
 
         addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.ESCAPE) pushEscape();
@@ -36,7 +34,7 @@ public abstract class GameScene extends Scene
         this.gameWindow = gameWindow;
         world = new GameWorld();
         backgroundDisplay = new BackgroundDisplay(tileWidth, tileHeight);
-        graphicsDisplay = new GraphicsDisplay(world, width, height - uiMargin, tileWidth, tileHeight);
+        graphicsDisplay = new GraphicsDisplay(world, width, height, tileWidth, tileHeight);
 
     }
 
@@ -75,8 +73,6 @@ public abstract class GameScene extends Scene
     public void setBackgroundDisplay(BackgroundDisplay backgroundDisplay) {
         this.backgroundDisplay = backgroundDisplay;
     }
-
-    public int getUiMargin() { return uiMargin; }
 
     void pushEscape(){
         gameWindow.pauseGame();

@@ -30,29 +30,29 @@ public class GameWindow extends Application implements Observer
 
     private boolean currentGame = false;
     private boolean pause = false;
-    AnimationTimer animationTimer;
+    private AnimationTimer animationTimer;
 
-    public MusicManager musicManager = new MusicManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
+    MusicManager musicManager = new MusicManager(new File("resources/audio/musics/music1.mp3").toURI().toString(), 0.6);
 
     private Stage stage;
-    Label hpText;
-    Label scoreText;
+    private Label hpText;
+    private Label scoreText;
+
+    //Initialisation des scènes
 
     protected Group menuGroup = new Group();
     protected Group gameGroup = new Group();
-    protected Group scoresGroup = new Group();
-    protected Group endGameGroup = new Group();
-    protected Group pauseGroup = new Group();
-    protected Group settingsGroup = new Group();
+    private Group scoresGroup = new Group();
+    private Group endGameGroup = new Group();
+    private Group pauseGroup = new Group();
+    private Group settingsGroup = new Group();
 
     private MenuScene menuScene;
     private GameScene gameScene;
-    private ScoresScene scoresScene = new ScoresScene(scoresGroup, this, width, height);
-    private EndGameScene endGameScene = new EndGameScene(endGameGroup, this, width, height);
+    private ScoresScene scoresScene = new ScoresScene(scoresGroup, this);
+    private EndGameScene endGameScene = new EndGameScene(endGameGroup, this);
     private PauseScene pauseScene = new PauseScene(pauseGroup, this);
     private SettingsScene settingsScene = new SettingsScene(settingsGroup, this, menuScene);
-
-    private int updatedScore, updatedLives;
 
     public GameWindow(String name, int width, int height)
     {
@@ -61,6 +61,7 @@ public class GameWindow extends Application implements Observer
         this.height = height;
     }
 
+    //lancement de l'application sur l'écran de menu
     @Override
     public void start(Stage stage)
     {
@@ -75,11 +76,11 @@ public class GameWindow extends Application implements Observer
         stage.show();
     }
 
-    public void startGame()
+    //Initialisation, réinitialisation et lancement du jeu
+    void startGame()
     {
         stage.setScene(gameScene);
         if (!currentGame){
-            System.out.println("test1");
             gameScene.setRoot(new Group());
             PacmanGameScene scene = new PacmanGameScene(gameGroup, this);
             setGameScene(scene);
@@ -90,7 +91,6 @@ public class GameWindow extends Application implements Observer
             stage.show();
         }
             else{
-            System.out.println("test2");
                 stage.setScene(gameScene);
                 this.pause = false;
                 animationTimer.start();
@@ -98,7 +98,10 @@ public class GameWindow extends Application implements Observer
 
     }
 
-    public void pauseGame(){
+
+    //Lancement des différents écrans
+
+    void pauseGame(){
         if (!pause) {
             this.pause = true;
             animationTimer.stop();
@@ -107,28 +110,28 @@ public class GameWindow extends Application implements Observer
         stage.setScene(pauseScene);
     }
 
-    public  void openSettings(Scene origin){
+    void openSettings(Scene origin){
         settingsScene.setOrigin(origin);
         setSettingsScene(settingsScene);
         stage.setScene(settingsScene);
     }
 
-    public void changeScene(Scene scene){
+    void changeScene(Scene scene){
         stage.setScene(scene);
     }
 
-    public void openScores(){
+    void openScores(){
         setScoresScene(scoresScene);
         stage.setScene(scoresScene);
     }
 
-    public void returnToMenu(){
+    void returnToMenu(){
         pause = false;
         currentGame = false;
         stage.setScene(menuScene);
     }
 
-    public void endGame(int score){
+    private void endGame(int score){
         pause = false;
         currentGame = false;
         animationTimer.stop();
@@ -136,7 +139,10 @@ public class GameWindow extends Application implements Observer
         stage.setScene(endGameScene);
     }
 
-    public void setMenuScene(MenuScene menuScene, String[] options)
+
+    //Initialisation des écrans
+
+    protected void setMenuScene(MenuScene menuScene, String[] options)
     {
         this.menuScene = menuScene;
         menuScene.setRoot(menuGroup);
@@ -144,19 +150,19 @@ public class GameWindow extends Application implements Observer
         menuScene.addEvents();
     }
 
-    public void setPauseScene(PauseScene pauseScene){
+    private void setPauseScene(PauseScene pauseScene){
         this.pauseScene = pauseScene;
         pauseScene.setRoot(pauseGroup);
         pauseGroup.getChildren().add(pauseScene.createContent(width,height));
     }
 
-    public void setSettingsScene(SettingsScene settingsScene){
+    private void setSettingsScene(SettingsScene settingsScene){
         this.settingsScene = settingsScene;
         settingsScene.setRoot(settingsGroup);
         if (settingsScene.getFirstTime()) settingsGroup.getChildren().add(settingsScene.createContent(width,height));
     }
 
-    public void setGameScene(GameScene gameScene)
+    protected void setGameScene(GameScene gameScene)
     {
         this.gameScene = gameScene;
         gameScene.setRoot(gameGroup);
@@ -166,7 +172,6 @@ public class GameWindow extends Application implements Observer
         gameGroup.getChildren().add(gameScene.getGraphicsDisplay());
 
 
-        SimpleIntegerProperty scoreValue = new SimpleIntegerProperty(0);
         scoreText = new Label("Score : 0");
         scoreText.setTextFill(Color.CRIMSON);
         scoreText.setFont( new Font(16) );
@@ -186,13 +191,13 @@ public class GameWindow extends Application implements Observer
 
     }
 
-    public void setEndGameScene(EndGameScene endGameScene, int score){
+    private void setEndGameScene(EndGameScene endGameScene, int score){
         this.endGameScene = endGameScene;
         endGameScene.setRoot(endGameGroup);
         endGameGroup.getChildren().add(endGameScene.createContent(width, height, score));
     }
 
-    public void setScoresScene(ScoresScene scoresScene){
+    private void setScoresScene(ScoresScene scoresScene){
         this.scoresScene = scoresScene;
         scoresScene.setRoot(scoresGroup);
         scoresGroup.getChildren().add(scoresScene.createContent(width,height));
@@ -202,6 +207,8 @@ public class GameWindow extends Application implements Observer
     {
         System.out.println("TestWindow : initialize.");
     }
+
+    //Boucle de jeu
 
     private void run()
     {

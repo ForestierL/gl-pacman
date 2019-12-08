@@ -12,10 +12,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class PauseScene extends Scene {
+class PauseScene extends Scene {
+
+    //Fenêtre de pause permettant de reprendre le jeu, je régler le son et de retourner au menu principal
+
     private GameWindow gameWindow;
 
-    public PauseScene(Parent root, GameWindow gameWindow){
+    PauseScene(Parent root, GameWindow gameWindow){
         super(root);
         this.gameWindow = gameWindow;
     }
@@ -34,6 +37,7 @@ public class PauseScene extends Scene {
         currentItem = currentItem + number;
     }
 
+    //Création du contenu
     Node createContent(int width, int height)
     {
         Pane root = new Pane();
@@ -56,14 +60,16 @@ public class PauseScene extends Scene {
         for(int i = 0; i < options.length; i++)
         {
             PauseScene.MenuItem menuItem = new PauseScene.MenuItem(options[i]);
-            if(options[i].equals("Play"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.startGame());
-            }else if(options[i].equals("Settings"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.openSettings(this));
-            }else if(options[i].equals("Menu")) {
+            switch (options[i]) {
+                case "Play":
+                    menuItem.setOnActivate(() -> gameWindow.startGame());
+                    break;
+                case "Settings":
+                    menuItem.setOnActivate(() -> gameWindow.openSettings(this));
+                    break;
+                case "Menu":
                     menuItem.setOnActivate(() -> gameWindow.returnToMenu());
+                    break;
             }
             menuBox.getChildren().add(menuItem);
 
@@ -84,7 +90,8 @@ public class PauseScene extends Scene {
         return (PauseScene.MenuItem)menuBox.getChildren().get(index);
     }
 
-    void addEvents()
+    //Ajout des controles
+    private void addEvents()
     {
         addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {

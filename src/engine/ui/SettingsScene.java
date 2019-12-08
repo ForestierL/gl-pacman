@@ -1,23 +1,24 @@
 package engine.ui;
 
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class SettingsScene extends Scene {
+class SettingsScene extends Scene {
+
+    // Création d'une fenêtre de réglages du volume général du jeu
+
     private GameWindow gameWindow;
     private Scene origin;
 
-    public SettingsScene(Parent root, GameWindow gameWindow, Scene origin){
+    SettingsScene(Parent root, GameWindow gameWindow, Scene origin){
         super(root);
         this.gameWindow = gameWindow;
         this.origin = origin;
@@ -28,13 +29,13 @@ public class SettingsScene extends Scene {
     private boolean firstTime = true;
     private HBox soundBox;
 
-    public  boolean getFirstTime(){
+    boolean getFirstTime(){
         return firstTime;
     }
     private static final Font FONT = Font.font("", FontWeight.BOLD,30);
     private static final Font titleFont = Font.font("", FontWeight.BOLD,60);
 
-    public void setOrigin(Scene newOrigin){
+    void setOrigin(Scene newOrigin){
         this.origin=newOrigin;
     }
     private int getCurrentItem(){
@@ -80,7 +81,8 @@ public class SettingsScene extends Scene {
         return (SettingsScene.MenuItem)soundBox.getChildren().get(index);
     }
 
-    void addEvents()
+    //Ajout de l'enssemble des événements clavier liés à cette fenêtre
+    private void addEvents()
     {
         addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {

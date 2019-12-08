@@ -16,22 +16,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ScoresScene extends Scene {
-    private int width;
-    private int height;
+class ScoresScene extends Scene {
+
+    //Création d'une fenêtre contenant un tableau des 10 meilleurs scores
+
     private GameWindow gameWindow;
-    VBox scoreboard[];
+    private VBox[] scoreboard;
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,40);
-    private static final Font label = Font.font("", FontWeight.BOLD,20);
-    private static final Font scoreBoard = Font.font("", FontWeight.MEDIUM,15);
 
-    public ScoresScene(Parent root, GameWindow gameWindow, int width, int height)
+    ScoresScene(Parent root, GameWindow gameWindow)
     {
         super(root);
 
-        this.width = width;
-        this.height = height;
         this.gameWindow = gameWindow;
 
         addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
@@ -39,6 +36,7 @@ public class ScoresScene extends Scene {
         });
     }
 
+    //Génération du tableau
     Node createContent(int width, int height){
         Pane root = new Pane();
         root.setPrefSize(width, height);
@@ -59,12 +57,15 @@ public class ScoresScene extends Scene {
             scoreboard[0].getChildren().add(new Text(Integer.toString(place)));
         }
 
+        //Création d'un tableau d'objets Score
         Score scores[] = new Score[10];
+        //Chargement du fichier txt contenant les scores
         try {
             scores = loadFile(scores);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //ajout des scores dans le tableau
         for (int column=0; column<3; column++){
             scoreboard[column].setTranslateX(50+((int)((width-170)/2)*column));
             scoreboard[column].setTranslateY(120);
@@ -78,13 +79,14 @@ public class ScoresScene extends Scene {
                 }
             }
         }
-
+        //Ajout de tout les éléments à la fenêtre
         root.getChildren().add(title);
         root.getChildren().addAll(scoreboard);
         return root;
     }
 
-    public Score[] loadFile(Score[] scores) throws IOException {
+    //Récupération des score du fichier
+    private Score[] loadFile(Score[] scores) throws IOException {
         BufferedReader text = new BufferedReader(new FileReader("src/game/scores/scores.txt"));
         String line;
         String[][] elements = new String[10][];
@@ -103,7 +105,8 @@ public class ScoresScene extends Scene {
         return scores;
     }
 
-    public Score[] sortScores(String scores[][]){
+    //Tri des scores
+    private Score[] sortScores(String scores[][]){
         Score sortedScores[] = new Score[10];
         String maxScore[] = scores[0];
         int id = 0;

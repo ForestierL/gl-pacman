@@ -18,37 +18,33 @@ import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 
-public class EndGameScene extends Scene {
-    private int width;
-    private int height;
+class EndGameScene extends Scene {
+
+    //Ecran de fin présentant le score du joueur et proposant son enregistrement
+
     private GameWindow gameWindow;
-    private HBox hb;
-    private Pane root;
     private VBox vb;
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,70);
     private static final Font scoreFont = Font.font("", FontWeight.BOLD,50);
     private static final Font textFont = Font.font("", FontWeight.MEDIUM,20);
 
-    public EndGameScene(Parent root, GameWindow gameWindow, int width, int height)
+    EndGameScene(Parent root, GameWindow gameWindow)
     {
         super(root);
 
-        this.width = width;
-        this.height = height;
         this.gameWindow = gameWindow;
-
         addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.ESCAPE) endGame();
         });
     }
 
+    //création du contenu
     Node createContent(int width, int height, int score){
-        root = new Pane();
+        Pane root = new Pane();
         root.setPrefSize(width, height);
 
-        this.root.getChildren().clear();
-        System.out.println(this.vb);
+        root.getChildren().clear();
         if (this.vb != null) this.vb.getChildren().clear();
         vb = new VBox();
         vb.setAlignment(Pos.CENTER);
@@ -64,7 +60,7 @@ public class EndGameScene extends Scene {
         vb.getChildren().addAll(title,scoreText,text);
         Label label1 = new Label("Name:");
         TextField textField = new TextField ();
-        hb = new HBox();
+        HBox hb = new HBox();
         hb.getChildren().addAll(label1, textField);
         hb.setSpacing(10);
         hb.setTranslateX((int)(width/4));
@@ -82,8 +78,10 @@ public class EndGameScene extends Scene {
         return root;
     }
 
+    //Ajout du score si les conditions sont respetées
     private void addScore (String playerName, int score) {
         if(playerName.length() <= 16 && playerName.length()>0){
+            //Le pseudo dois faire 16 caractères max et ne doit pas contenir de / car il servent de délimiteur dans le fichier de stockage des scores
             if(!playerName.contains("/")){
                 Score newScore = new Score(playerName, score);
                 try {

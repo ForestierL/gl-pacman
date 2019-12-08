@@ -17,6 +17,8 @@ import java.io.File;
 
 public class MenuScene extends Scene
 {
+    //Ecrant de menu de jeu classique
+    //Accès aux réglages, au jeu, aux score et permet de sortir du jeu
 
     private GameWindow gameWindow;
 
@@ -30,8 +32,8 @@ public class MenuScene extends Scene
 
     private static final Font FONT = Font.font("", FontWeight.BOLD,30);
     private static final Font titleFont = Font.font("", FontWeight.BOLD,60);
-    SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/ui_tic.mp3").toURI().toString(),1.0);
-    SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/ui_validation.mp3").toURI().toString(),1.0);
+    private SoundManager soundManager = new SoundManager(new File("resources/audio/sounds/ui_tic.mp3").toURI().toString(),1.0);
+    private SoundManager soundManager2 = new SoundManager(new File("resources/audio/sounds/ui_validation.mp3").toURI().toString(),1.0);
     private int getCurrentItem(){
         return currentItem;
     }
@@ -40,6 +42,7 @@ public class MenuScene extends Scene
         currentItem = currentItem + number;
     }
 
+    //Création du contenu
     Node createContent(int width, int height, String options[])
     {
         Pane root = new Pane();
@@ -56,15 +59,16 @@ public class MenuScene extends Scene
         for(int i = 0; i < options.length; i++)
         {
             MenuItem menuItem = new MenuItem(options[i]);
-            if(options[i].equals("Play"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.startGame());
-            }else if(options[i].equals("Score"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.openScores());
-            }else if(options[i].equals("Settings"))
-            {
-                menuItem.setOnActivate(() -> gameWindow.openSettings(this));
+            switch (options[i]) {
+                case "Play":
+                    menuItem.setOnActivate(() -> gameWindow.startGame());
+                    break;
+                case "Score":
+                    menuItem.setOnActivate(() -> gameWindow.openScores());
+                    break;
+                case "Settings":
+                    menuItem.setOnActivate(() -> gameWindow.openSettings(this));
+                    break;
             }
             menuBox.getChildren().add(menuItem);
 
@@ -87,6 +91,7 @@ public class MenuScene extends Scene
         return (MenuItem)menuBox.getChildren().get(index);
     }
 
+    //Ajout des controls
     void addEvents()
     {
         addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {

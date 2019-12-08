@@ -1,23 +1,18 @@
 package engine.ui;
 
 import engine.audios.MusicManager;
-import engine.audios.SoundManager;
 import game.PacmanGameScene;
 import game.PacmanWorld;
-import game.objects.Pacman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;

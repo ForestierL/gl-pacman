@@ -39,7 +39,7 @@ public class Gem extends GameObject
                 pacmanWorld.decreaseGemCount(1);
                 System.out.println(pacmanWorld.getPlayerScore());
                 pacmanWorld.remove(this);
-                sm.playMusic();
+                //sm.playMusic();
                 return true;
             default:
                 return true;

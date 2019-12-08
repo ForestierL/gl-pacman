@@ -11,6 +11,7 @@ public class Score {
     private String name;
     private int score;
 
+    //Création d'un score avec le nom du joueur
     public Score(String name, int score){
         this.name = name;
         this.score = score;
@@ -19,11 +20,11 @@ public class Score {
     public String getName(){
         return this.name;
     }
-
     public int getScore(){
         return this.score;
     }
 
+    //Vérification des scores présents dans le tableau. Ne garde que les 10 meilleurs.
     public void addScore() throws IOException {
         BufferedReader text = new BufferedReader(new FileReader("src/game/scores/scores.txt"));
         String line;

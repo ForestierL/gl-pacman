@@ -1,15 +1,10 @@
 package game.objects.enemies;
 
-import engine.graphics.Orientation;
 import engine.graphics.SpriteTexture;
 import game.PacmanWorld;
-import game.objects.enemies.Monster;
 import game.utils.Direction;
 import game.utils.Point;
 import game.utils.Terrain;
-
-import static engine.graphics.Orientation.*;
-import static engine.graphics.Orientation.EAST;
 
 public class Blocker extends Monster {
 
@@ -19,13 +14,13 @@ public class Blocker extends Monster {
     }
 
     @Override
-    public Direction chase(int[][] terrain, int x, int y) {
+    protected Direction chase() {
 
-        Point p = Terrain.getPlayer(terrain);
+        Point p = Terrain.getPlayer(this.getTerrain());
         PacmanWorld pc = (PacmanWorld) this.getWorld();
         Direction pacmanDir = pc.pacman.direction;
 
-        int[][] terrain2 = Terrain.copy(terrain);
+        int[][] terrain2 = Terrain.copy(this.getTerrain());
 
         if (pacmanDir == Direction.Y_NEGATIVE) {
             terrain2[p.getY()][p.getX() + 1] = 1;
@@ -49,15 +44,15 @@ public class Blocker extends Monster {
         }
 
         Direction d;
-        d = Terrain.getShortestDirection2(terrain2, x, y);
+        d = Terrain.getShortestDirection2(terrain2, this.getX2(), this.getY2());
         if (d == Direction.NONE)
-            d = Terrain.getShortestDirection2(terrain, x, y);
+            d = Terrain.getShortestDirection2(this.getTerrain(), this.getX2(), this.getY2());
         if (d != Direction.NONE)
             this.direction = d;
         double r;
         r = Math.random() * (4);
-        if (r * this.difficulty < 0.5)
-            this.direction = Terrain.randomDir(terrain, x, y);
+        if (r * this.getDifficulty() < 0.5)
+            this.direction = Terrain.randomDir(this.getTerrain(), this.getX2(), this.getY2());
 
         return this.direction;
 

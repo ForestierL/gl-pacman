@@ -169,7 +169,7 @@ public class PacmanWorld extends GameWorld
 
             }
         }
-        if(cpt1<=1)
+        if(cpt1<=1 || this.pacman.getLives() == 0)
             this.observer.update(this, this.getPlayerScore());
 
 

@@ -3,10 +3,8 @@ package game.objects.enemies;
 import engine.graphics.SpriteTexture;
 import game.utils.Direction;
 import game.utils.Terrain;
-import javafx.scene.image.Image;
 
 public class Chaser extends Monster {
-
 
     public Chaser(SpriteTexture spriteTexture, int x, int y, int width, int height, int difficulty) {
 
@@ -15,16 +13,16 @@ public class Chaser extends Monster {
     }
 
     @Override
-    public Direction chase(int[][] terrain, int x, int y) {
+    protected Direction chase() {
 
-            Direction d = Terrain.getShortestDirection2(terrain, x, y);
-            double r;
+        Direction d = Terrain.getShortestDirection2(getTerrain(), getX2(), getY2());
 
-            if(d != Direction.NONE)
-                this.direction = d;
-            r = Math.random() * (4);
-            if(r*this.difficulty < 0.5)
-                this.direction = Terrain.randomDir(terrain, x, y);
+        double r;
+        if (d != Direction.NONE)
+            this.direction = d;
+        r = Math.random() * (4);
+        if (r * this.getDifficulty() < 0.5)
+            this.direction = Terrain.randomDir(getTerrain(), getX2(), getY2());
 
         return this.direction;
     }

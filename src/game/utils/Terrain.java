@@ -1,7 +1,5 @@
 package game.utils;
 
-import engine.graphics.Orientation;
-
 import java.util.Arrays;
 
 public class Terrain {
@@ -284,17 +282,6 @@ public class Terrain {
     public static int[][] copy(int[][] terrain) {
 
         int[][] res = new int[terrain.length][terrain[0].length];
-        for (int i = 0; i < terrain.length; i++) {
-            res[i] = Arrays.copyOf(terrain[i], terrain[i].length);
-        }
-
-        return res;
-
-    }
-
-    public static char[][] copy(char[][] terrain) {
-
-        char[][] res = new char[terrain.length][terrain[0].length];
         for (int i = 0; i < terrain.length; i++) {
             res[i] = Arrays.copyOf(terrain[i], terrain[i].length);
         }

@@ -3,13 +3,10 @@ package game.objects;
 import engine.graphics.ChangingMovingSpriteTexture;
 import engine.graphics.MovingSpriteTexture;
 import engine.graphics.Orientation;
-import engine.graphics.SpriteTexture;
 import engine.input.Controllable;
 import engine.input.InputAction;
 import engine.input.InputScheme;
 import game.PacmanWorld;
-import game.objects.collectibles.Gem;
-import game.objects.collectibles.Powerup;
 import game.objects.enemies.Blocker;
 import game.objects.enemies.Chaser;
 import game.objects.enemies.Crazy;
@@ -19,7 +16,6 @@ import game.utils.DisplacementSmoother;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-import static game.utils.CollisionSignal.POWERUP;
 
 public class Pacman extends GameObject implements Controllable {
     private InputScheme inputScheme;
@@ -84,6 +80,7 @@ public class Pacman extends GameObject implements Controllable {
             } else {
 
                 this.lives -= 1;
+                this.getWorld().notifyObservers();
                 this.setDead(true);
                 this.block(true);
                 this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("player_dead.png"), new Image("entity_null.png")));
@@ -93,15 +90,15 @@ public class Pacman extends GameObject implements Controllable {
 
                 if (pc.getEntities().get(i).getClass() == Chaser.class) {
                     Chaser tmp = (Chaser) pc.getEntities().get(i);
-                    tmp.setGoingHome(true);
+                    tmp.setState("goingHome");
                 }
                 if (pc.getEntities().get(i).getClass() == Blocker.class) {
                     Blocker tmp = (Blocker) pc.getEntities().get(i);
-                    tmp.setGoingHome(true);
+                    tmp.setState("goingHome");
                 }
                 if (pc.getEntities().get(i).getClass() == Crazy.class) {
                     Crazy tmp = (Crazy) pc.getEntities().get(i);
-                    tmp.setGoingHome(true);
+                    tmp.setState("goingHome");
                 }
             }
         }
@@ -130,12 +127,8 @@ public class Pacman extends GameObject implements Controllable {
                 this.getWorld().notifyObservers();
                 break;
             case MONSTER:
-
                 this.getWorld().notifyObservers();
                 break;
-
-
-
         }
         return true;
     }
@@ -166,24 +159,27 @@ public class Pacman extends GameObject implements Controllable {
                     if (pc.getEntities().get(i).getClass() == Chaser.class) {
                         Chaser tmp = (Chaser) pc.getEntities().get(i);
                         cptTotal++;
-                        if (tmp.isBlocked)
+                        if (tmp.isBlocked())
                             cptBlocked++;
                     }
                     if (pc.getEntities().get(i).getClass() == Blocker.class) {
                         Blocker tmp = (Blocker) pc.getEntities().get(i);
                         cptTotal++;
-                        if (tmp.isBlocked)
+                        if (tmp.isBlocked());
                             cptBlocked++;
                     }
                     if (pc.getEntities().get(i).getClass() == Crazy.class) {
                         Crazy tmp = (Crazy) pc.getEntities().get(i);
                         cptTotal++;
-                        if (tmp.isBlocked)
+
+                        if (tmp.isBlocked())
                             cptBlocked++;
                     }
 
                 }
+
                 if (cptTotal == cptBlocked) {
+
                     this.setX(this.origX);
                     this.setY(this.origY);
                     this.setSpriteTexture(new ChangingMovingSpriteTexture(new Image("player_appear.png"), new Image("player_normal.png")));
